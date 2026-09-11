@@ -9,20 +9,43 @@ const TRANSLATION_LABEL = 'traduction-ia';
 
 export type GovernanceLevel = 'contributor' | 'moderator' | 'admin';
 
+export const GOVERNANCE_PATH = 'public/governance.json';
+
+/** Fallback used before the file is fetched, and if the fetch ever fails. */
+const SEED: Record<string, GovernanceLevel> = { thomasjulie: 'admin' };
+
+let levels: Record<string, GovernanceLevel> = SEED;
+
+export function governanceLevels(): Record<string, GovernanceLevel> {
+  return levels;
+}
+
 /**
- * Levels are versioned in the repository, so changing them goes through a pull
- * request instead of a client-side setting anyone could edit.
+ * Levels live in a JSON file rather than in the source, so the console can edit
+ * them through the GitHub API without anyone touching code.
  */
-export const GOVERNANCE: Record<string, GovernanceLevel> = {
-  thomasjulie: 'admin',
-};
+export async function loadGovernance(): Promise<Record<string, GovernanceLevel>> {
+  try {
+    const response = await fetch(`${import.meta.env.BASE_URL}governance.json`, { cache: 'no-store' });
+    if (response.ok) levels = (await response.json()) as Record<string, GovernanceLevel>;
+  } catch {
+    // Keep the seed: the console stays usable for the default administrator.
+  }
+  return levels;
+}
 
 export function levelOf(identity: MicrosoftIdentity | null): GovernanceLevel | null {
   if (!identity) return null;
-  return GOVERNANCE[identity.alias] ?? 'contributor';
+  return levels[identity.alias] ?? 'contributor';
 }
 
-export const GOVERNANCE_FILE_URL = `https://github.com/${REPO}/edit/main/src/data/governance.ts`;
+/** Labels carrying the decision, so a status change is a traceable GitHub event. */
+export const STATUS_LABELS = {
+  rejected: 'refuse',
+  acceptedWithChanges: 'accepte-avec-modification',
+} as const;
+
+export const REQUEST_LABEL_NAME = 'demande-processus';
 
 export type RequestStatus = 'pending' | 'accepted' | 'acceptedWithChanges' | 'rejected';
 
@@ -30,6 +53,7 @@ export interface ProcessRequest {
   number: number;
   title: string;
   url: string;
+  body: string;
   alias: string | null;
   status: RequestStatus;
   createdAt: string;
@@ -136,6 +160,7 @@ export async function fetchRequests(force = false): Promise<RequestsResult> {
         number: issue.number,
         title: issue.title,
         url: issue.html_url,
+        body: issue.body ?? '',
         alias: aliasOf(issue.body),
         status: statusOf(issue),
         createdAt: issue.created_at,
