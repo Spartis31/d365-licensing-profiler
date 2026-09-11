@@ -132,6 +132,11 @@ export const sv: Translation = {
     totalDevices: 'Totalt antal enheter',
     fullUsers: 'Fullständiga användare (base)',
     attachTotal: 'Attach-licenser',
+    caveatTitle: 'Varning – detta verktyg hjälper till att uppskatta, det avgör inte.',
+    caveatGuide:
+      'Microsoft Dynamics 365 Licensing Guide, som uppdateras varje månad, gäller alltid före.',
+    caveatProduction:
+      'I produktion följer det som dina användare faktiskt kommer åt av deras säkerhetsroller och de licenser de tilldelats. Den konfigurationen är den enda referensen.',
     showZeros: 'Visa licenser med noll',
   },
   licences: {

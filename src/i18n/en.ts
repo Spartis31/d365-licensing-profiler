@@ -129,6 +129,11 @@ export const en = {
     totalDevices: 'Total devices',
     fullUsers: 'Full users (base)',
     attachTotal: 'Attach licences',
+    caveatTitle: 'Warning — this tool helps you estimate, it does not decide.',
+    caveatGuide:
+      'The Microsoft Dynamics 365 Licensing Guide, updated every month, always prevails.',
+    caveatProduction:
+      'In production, what your users may actually access is set by their security roles and the licences assigned to them. That setup is the only reference.',
     showZeros: 'Show licences at zero',
   },
   licences: {

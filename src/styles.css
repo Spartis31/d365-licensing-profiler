@@ -1257,6 +1257,48 @@ button.button-link:disabled {
   border: 1px solid #f0dcb4;
 }
 
+.notice {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  padding: 14px 18px;
+  border-radius: var(--r-sm);
+  margin-bottom: 18px;
+}
+
+.notice.warn {
+  background: var(--amber-bg);
+  color: var(--amber);
+  border: 1px solid #f0dcb4;
+}
+
+.notice-icon {
+  width: 30px;
+  height: 30px;
+  flex: none;
+}
+
+/* The rule stops short of the box edges, so it reads as a separator, not a border. */
+.notice-body {
+  border-left: 1px solid #e5c98f;
+  padding-left: 16px;
+  margin: 4px 0;
+}
+
+.notice strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.notice ol {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.notice li + li {
+  margin-top: 4px;
+}
+
 /* Le bouton suit le bas de la zone de texte, y compris quand l'utilisateur la
    redimensionne. */
 .compose-row {

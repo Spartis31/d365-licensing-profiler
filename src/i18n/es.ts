@@ -132,6 +132,11 @@ export const es: Translation = {
     totalDevices: 'Total de dispositivos',
     fullUsers: 'Usuarios completos (Base)',
     attachTotal: 'Licencias Attach',
+    caveatTitle: 'Advertencia: esta herramienta ayuda a estimar, no decide.',
+    caveatGuide:
+      'La Microsoft Dynamics 365 Licensing Guide, actualizada cada mes, prevalece siempre.',
+    caveatProduction:
+      'En producción, aquello a lo que sus usuarios acceden realmente depende de sus roles de seguridad y de las licencias que se les asignan. Esa configuración es la única referencia.',
     showZeros: 'Mostrar las licencias a cero',
   },
   licences: {

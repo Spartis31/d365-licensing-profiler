@@ -132,6 +132,11 @@ export const nl: Translation = {
     totalDevices: 'Totaal apparaten',
     fullUsers: 'Volledige gebruikers (Base)',
     attachTotal: 'Attach-licenties',
+    caveatTitle: 'Waarschuwing — dit hulpmiddel helpt ramen, het beslist niet.',
+    caveatGuide:
+      'De Microsoft Dynamics 365 Licensing Guide, elke maand bijgewerkt, heeft altijd voorrang.',
+    caveatProduction:
+      'In productie volgt wat uw gebruikers werkelijk mogen uit hun beveiligingsrollen en de licenties die aan hen zijn toegekend. Die configuratie is de enige referentie.',
     showZeros: 'Licenties met waarde nul weergeven',
   },
   licences: {

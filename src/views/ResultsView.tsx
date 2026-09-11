@@ -4,6 +4,7 @@ import type { BaseLicence, Project } from '../types';
 import { BASE_LICENCES } from '../types';
 import { computeProject } from '../engine/licensing';
 import type { LicenceTotals, ProfileResult } from '../engine/licensing';
+import { IconWarning } from '../components/icons';
 import { LicenceTag } from '../components/LicenceTag';
 
 const ADDITIONAL = ['activity', 'teamMembers', 'device'] as const;
@@ -132,6 +133,17 @@ export function ResultsView({ project }: { project: Project }) {
       <header>
         <h2>{t('results.heading')}</h2>
       </header>
+
+      <div className="notice warn" role="note">
+        <IconWarning />
+        <div className="notice-body">
+          <strong>{t('results.caveatTitle')}</strong>
+          <ol>
+            <li>{t('results.caveatGuide')}</li>
+            <li>{t('results.caveatProduction')}</li>
+          </ol>
+        </div>
+      </div>
 
       <div className="kpi-row" data-tour="results-summary">
         <div className="kpi accent">
