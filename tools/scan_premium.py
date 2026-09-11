@@ -1,4 +1,4 @@
-"""Reperage des sections Premium dans le Licensing Guide."""
+"""Locate the Premium sections in the Licensing Guide."""
 import re
 
 TEXT = open("tools/ref/guide.txt", encoding="utf-8").read()

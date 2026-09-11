@@ -75,6 +75,7 @@ export const en = {
   },
   matrix: {
     heading: 'Business processes by profile',
+    customDomain: 'Custom',
     intro:
       'For each profile, tick the business processes the profile must perform. Domain rows are headings and cannot be ticked.',
     process: 'Responsibilities',

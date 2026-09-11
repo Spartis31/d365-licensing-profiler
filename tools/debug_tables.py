@@ -1,4 +1,4 @@
-"""Diagnostic : ce que pdfplumber voit sur les pages de roles Finance."""
+"""Diagnostic: what pdfplumber actually sees on the Finance role pages."""
 import sys
 import pdfplumber
 
@@ -11,6 +11,6 @@ with pdfplumber.open(SRC) as pdf:
         tables = page.extract_tables()
         print(f"\n===== p{page_number} : {len(tables)} table(s)")
         for index, table in enumerate(tables):
-            print(f"  table {index}: {len(table)} lignes x {len(table[0]) if table else 0} colonnes")
+            print(f"  table {index}: {len(table)} rows x {len(table[0]) if table else 0} columns")
             for row in table[:6]:
                 print("   ", [(c or "").replace("\n", "\\n")[:38] for c in row])

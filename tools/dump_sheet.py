@@ -1,4 +1,4 @@
-"""Dump complet d'une feuille: valeurs + formules."""
+"""Full dump of a sheet: values + formulas."""
 import sys
 import openpyxl
 from openpyxl.utils import get_column_letter
@@ -25,7 +25,7 @@ def dump(sheet, r1, r2, c1, c2, out):
                 lines.append(f"{ref}\tVALUE\t{f!r}")
     with open(out, "w", encoding="utf-8") as fh:
         fh.write("\n".join(lines))
-    print(f"{len(lines)} cellules -> {out}")
+    print(f"{len(lines)} cells -> {out}")
 
 
 if __name__ == "__main__":

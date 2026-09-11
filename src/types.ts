@@ -59,7 +59,7 @@ export interface ProcessDefinition {
   label: Localized;
   licence: LicenceRequirement;
   note?: Localized;
-  /** Reference dans le Licensing Guide, pour tracabilite. */
+  /** Reference in the Licensing Guide, for traceability. */
   source?: string;
 }
 

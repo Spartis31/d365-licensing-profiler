@@ -1,4 +1,4 @@
-"""Ecrit des pages du guide dans un fichier UTF-8 (evite l'UTF-16 de PowerShell)."""
+"""Write guide pages to a UTF-8 file (avoids PowerShell's UTF-16 output)."""
 import re
 import sys
 

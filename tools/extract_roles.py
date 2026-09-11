@@ -1,8 +1,8 @@
-"""Extraction des matrices "security roles" du Licensing Guide.
+"""Extraction of the "security roles" matrices from the Licensing Guide.
 
-Les entitlements etant cumulatifs (une licence superieure couvre les droits des
-licences inferieures), les pastilles d'une ligne sont contigues et alignees a
-droite : N pastilles sur C colonnes => la licence minimale est la colonne C-N.
+Because entitlements are cumulative (a higher licence covers the rights of the
+lower ones), the dots on a row are contiguous and right-aligned: N dots across C
+columns means the minimum licence is column C-N.
 """
 import json
 import re
@@ -21,7 +21,7 @@ def clean(line: str) -> str:
 
 
 def parse_columns(raw: str, following: list[str]) -> list[str]:
-    """Le libelle des colonnes deborde souvent sur les lignes suivantes."""
+    """Column labels often spill over onto the following lines."""
     tokens = clean(raw)
     for line in following:
         candidate = clean(line)
@@ -58,7 +58,7 @@ def main():
                 continue
             if DOT not in stripped:
                 text = clean(stripped)
-                # Les intitules courts sans pastille sont des sous-titres de groupe.
+                # Short entries without a dot are group subheadings.
                 if text and len(text) < 45 and not text.endswith(".") and text[0].isupper():
                     group = text
                 continue
@@ -75,7 +75,7 @@ def main():
     for app, data in result.items():
         if app == "__end__":
             continue
-        print(f"\n########## {app} — {len(data['roles'])} lignes")
+        print(f"\n########## {app} — {len(data['roles'])} rows")
         for h in data["headers"][:2]:
             print("  HEADER:", h[:150])
         for role in data["roles"][:8]:

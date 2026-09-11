@@ -1,4 +1,4 @@
-"""Extraction brute du classeur Excel source pour retro-engineering."""
+"""Raw dump of the source Excel workbook for reverse engineering."""
 import sys
 import json
 import openpyxl

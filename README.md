@@ -1,94 +1,139 @@
 # Dynamics 365 F&O Licensing Profiler
 
-Outil web de profilage des licences Dynamics 365 Finance & Operations par processus métier.
-Réplique et remplace le classeur Excel `Microsoft_profiling_licencesDyn365_Sample.xlsx`
-(feuilles `Disclaimer` et `Profiling_By_Business Process`).
+Web tool for profiling Dynamics 365 Finance & Operations licences by business process.
+Replicates and replaces the Excel workbook `Microsoft_profiling_licencesDyn365_Sample.xlsx`
+(sheets `Disclaimer` and `Profiling_By_Business Process`).
 
-## Ce que fait l'outil
+## What the tool does
 
-1. **Paramétrage** — nom du projet, client, entités légales à démarrer.
-2. **Profils utilisateurs** — service, nom du profil, nombre d'utilisateurs par entité légale.
-3. **Processus métier** — matrice processus × profils, cochage des responsabilités.
-4. **Résultats** — licences Base, Attach et additionnelles, par profil et par entité légale.
+1. **Setup** — project name, customer, legal entities, and the profiling method.
+2. **User profiles** — department, profile name, headcount per legal entity.
+3. **Business processes** *or* **Standard roles** — tick responsibilities for each profile.
+4. **Results** — Base, Attach and cross-application licences, per profile and per legal entity.
+5. **Administration console** — review and decide requests to extend the standard catalog.
 
-Interface bilingue **FR / EN**, commutable à chaud.
+The interface is bilingual **EN / FR** and switches instantly. Source code, comments, commit
+messages and GitHub labels are English; French exists only as UI translations in
+[src/i18n](src/i18n) and in the label dictionaries of the catalog.
 
-## Confidentialité
+## Profiling methods are exclusive
 
-Aucune donnée ne quitte le navigateur.
+A project is profiled either **by business process** or **by standard role**, never both.
+The choice is made in Setup; only the matching step is shown and only that dataset feeds the
+results. Switching method never deletes the hidden dataset, so the previous totals come back
+unchanged if you switch back.
 
-- Sauvegarde automatique dans le `localStorage` du navigateur.
-- Partage via un fichier `.d365lic` (JSON) exporté/importé manuellement.
-- Export Excel généré côté client.
-- Pas de backend, pas de télémétrie, pas de cookies.
+## Privacy
 
-## Moteur de calcul
+No project data leaves the browser.
 
-Le moteur ([src/engine/licensing.ts](src/engine/licensing.ts)) reproduit exactement les
-formules du classeur de référence (lignes 158 à 182) :
+- Autosaved to the browser `localStorage`.
+- Shared through a `.d365lic` (JSON) file, exported and imported manually.
+- Excel export generated client-side.
+- No backend, no telemetry, no cookies.
 
-| Étape | Règle |
+## Calculation engine
+
+The engine ([src/engine/licensing.ts](src/engine/licensing.ts)) reproduces the formulas of
+the reference workbook (rows 158 to 182):
+
+| Step | Rule |
 | --- | --- |
-| Familles Base | Une famille (Finance, SCM, Commerce, Project Operations, HR, cross-app) est activée dès qu'un processus coché l'exige. |
-| Base | `utilisateurs × 1` si au moins une famille est activée. |
-| Add-on | `utilisateurs × (nombre de familles − 1)`. |
-| Activity | `utilisateurs` si aucune licence Base et au moins un processus « Activity ». |
-| Team Members | `utilisateurs` si ni Base ni Activity et au moins un processus « Team Members ». |
-| Device | `utilisateurs` si aucune licence Base et au moins un processus « Device ». |
-| Base par produit | La famille la plus chère prend la Base. Prix catalogue (guide sept. 2026) : SCM Premium 300 $, Finance Premium 300 $, SCM 210 $, Commerce 210 $, Finance 210 $, Project Operations 135 $, HR 135 $. |
-| Attach par produit | Chaque famille restante devient une licence Attach. |
+| Base families | A family (Finance, SCM, Commerce, Project Operations, HR, cross-app) is activated as soon as a ticked process requires it. |
+| Base | `users × 1` if at least one family is activated. |
+| Add-on | `users × (number of families − 1)`. |
+| Activity | `users` if no Base licence and at least one "Activity" process. |
+| Team Members | `users` if neither Base nor Activity and at least one "Team Members" process. |
+| Device | `users` if no Base licence and at least one "Device" process. |
+| Base per product | The most expensive family takes the Base. List prices (September 2026 guide): SCM Premium $300, Finance Premium $300, SCM $210, Commerce $210, Finance $210, Project Operations $135, HR $135. |
+| Attach per product | Every remaining family becomes an Attach licence. |
 
-L'ordre entre familles de même prix est arbitraire mais sans incidence sur le coût
-de la Base. Les tarifs Attach ne sont pas publiés dans le guide, les égalités ne
-peuvent donc pas être départagées davantage.
+The order between families of equal price is arbitrary but cost-neutral for the Base. Attach
+prices are not published in the guide, so ties cannot be broken any further.
 
-Les tests de non-régression ([src/engine/licensing.test.ts](src/engine/licensing.test.ts))
-rejouent le jeu de données du classeur d'origine et vérifient les totaux :
-Base 29, Add-on 4, Activity 65, Team Members 8, Device 90,
-Base Finance 17, Base SCM 12, Attach Finance 2, Attach Project Operations 2.
+Regression tests ([src/engine/licensing.test.ts](src/engine/licensing.test.ts)) replay the
+dataset of the original workbook and check the totals: Base 29, Add-on 4, Activity 65,
+Team Members 8, Device 90, Base Finance 17, Base SCM 12, Attach Finance 2,
+Attach Project Operations 2.
 
-## Mettre à jour le catalogue
+## Updating the business-process catalog
 
-Le Licensing Guide est publié tous les mois. Pour l'aligner :
+The Licensing Guide is published monthly. To align the catalog:
 
-1. Modifier [src/data/catalog.ts](src/data/catalog.ts) (libellés, licence minimale, nouveaux processus).
-2. Incrémenter `CATALOG_VERSION` (`2026-09` → `2026-10`).
-3. `npm test` pour vérifier qu'aucune règle de calcul n'a été cassée.
+1. Edit [src/data/catalog.ts](src/data/catalog.ts) (labels, minimum licence, new processes).
+2. Bump `CATALOG_VERSION` (`2026-09` → `2026-10`).
+3. Run `npm test` to confirm no calculation rule was broken.
 
-Les règles de priorité Base/Attach vivent dans le moteur, pas dans le catalogue.
+Base/Attach priority rules live in the engine, not in the catalog.
 
-## Export Excel
+## Updating the standard roles
 
-Le classeur généré reproduit la mise en page d'origine **avec des formules vivantes**
-(`COUNTIFS`, blocs de calcul, tableau récapitulatif). Le client peut donc continuer à
-travailler dans Excel après export. Les plages sont recalculées dynamiquement en fonction
-du nombre d'entités légales et de profils.
+[src/data/standardRoles.ts](src/data/standardRoles.ts) is **generated** — never edit it by
+hand. The [update-roles](.github/workflows/update-roles.yml) workflow downloads the current
+guide from the Microsoft permalink, derives the edition from the PDF file name, re-extracts
+the security-role matrices, runs a quality gate and the test suite, then opens a pull request
+only when the catalog actually changed. It runs monthly and can also be started from the
+application by a signed-in Microsoft employee.
 
-## Développement
+Locally:
+
+```powershell
+python tools/fetch_guide.py
+python tools/extract_roles_plumber.py
+python tools/generate_roles_ts.py
+python tools/check_generated.py
+```
+
+## Catalog extension requests
+
+Signed-in Microsoft employees can add **custom processes**, which stay in their own project
+and travel with the `.d365lic` file. They can also submit them as a request to extend the
+shared catalog: the application opens a prefilled GitHub issue labelled `process-request`,
+carrying the author's alias.
+
+Moderators handle those requests inside the application, in the administration console —
+reading, commenting and deciding without leaving the tool. Levels (`contributor`,
+`moderator`, `admin`) live in [public/governance.json](public/governance.json), so they are
+data rather than code and can be edited from the console.
+
+Adding the `ai-translation` label triggers the
+[translate-request](.github/workflows/translate-request.yml) workflow, which proposes FR/EN
+translations of the submitted labels. It calls any OpenAI-compatible endpoint configured
+through the `TRANSLATION_ENDPOINT` and `TRANSLATION_API_KEY` secrets; when unconfigured it
+posts a comment asking a moderator to translate manually, so the flow never breaks.
+
+## Excel export
+
+The generated workbook is built for sharing with an executive who did not enter the data: a
+summary first, then profiles, then the per-legal-entity split, then what was selected, then
+the calculation detail. Headcounts stay editable and every total is a **live formula**, so
+the reader can simulate. Licence decisions themselves are frozen.
+
+## Development
 
 ```powershell
 npm install
 npm run dev      # http://localhost:5173
-npm test         # tests du moteur et de l'export
-npm run build    # build de production dans dist/
+npm test         # engine and export tests
+npm run build    # production build in dist/
 ```
 
-## Déploiement GitHub Pages
+## GitHub Pages deployment
 
-1. Pousser le dépôt sur GitHub.
-2. Settings → Pages → Source : **GitHub Actions**.
-3. Le workflow [.github/workflows/deploy.yml](.github/workflows/deploy.yml) construit et
-   publie à chaque push sur `main`. `BASE_PATH` est déduit du nom du dépôt.
+1. Push the repository to GitHub.
+2. Settings → Pages → Source: **GitHub Actions**.
+3. The [deploy](.github/workflows/deploy.yml) workflow builds and publishes on every push to
+   `main`. `BASE_PATH` is derived from the repository name. Tests run first: if one fails,
+   nothing is published.
 
-## Écarts assumés vis-à-vis du classeur d'origine
+## Deliberate differences from the original workbook
 
-- Deux lignes dupliquées ont été renommées : `Taxes` (2e occurrence) → `Tax reporting`,
-  `Forecasting/Budget` (2e occurrence) → `Project invoicing`.
-- La coquille `Auality inspection` est corrigée en `Quality inspection`.
-- Une répartition par entité légale a été ajoutée (indicative : les licences s'achètent au
-  niveau du tenant).
+- Two duplicated rows were renamed: `Taxes` (2nd occurrence) → `Tax reporting`,
+  `Forecasting/Budget` (2nd occurrence) → `Project invoicing`.
+- The typo `Auality inspection` is corrected to `Quality inspection`.
+- A per-legal-entity split was added (indicative: licences are purchased at tenant level).
 
-## Avertissement
+## Disclaimer
 
-Cet outil est une aide à l'estimation. Le Microsoft Dynamics 365 Licensing Guide,
-mis à jour mensuellement, prévaut toujours.
+This tool is an estimation aid. The Microsoft Dynamics 365 Licensing Guide, updated monthly,
+always prevails.

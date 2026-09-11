@@ -1,13 +1,12 @@
-"""Extraction des roles de securite standards du Dynamics 365 Licensing Guide.
+"""Extraction of the standard security roles from the Dynamics 365 Licensing Guide.
 
-Structure reelle des tables (pdfplumber, 6 colonnes) :
+Actual table layout (pdfplumber, 6 columns):
     [Role, Security Role Description, <licence 1>, <licence 2>, ...]
-L'en-tete tient sur 3 lignes physiques et un role peut deborder sur plusieurs
-lignes : on fusionne toute ligne dont la colonne "Role" est vide avec la
-precedente.
+The header spans 3 physical lines and a role may overflow onto several lines: any
+row whose "Role" column is empty is merged into the previous one.
 
-Les entitlements sont cumulatifs, donc la licence minimale d'un role est la
-premiere colonne cochee.
+Entitlements are cumulative, so the minimum licence for a role is the first
+ticked column.
 """
 import json
 import re
@@ -48,7 +47,7 @@ def classify(header):
 
 
 def build_headers(rows, width):
-    """L'en-tete est reparti sur les premieres lignes physiques."""
+    """The header is spread across the first physical rows."""
     parts = ["" for _ in range(width)]
     used = 0
     for row in rows[:4]:
@@ -108,7 +107,7 @@ def main():
                         continue
                     marked = [(i, l, p) for i, l, p in columns if entry["dots"][i] and l]
                     if not marked:
-                        # Ligne sans pastille ni description : intitule de groupe.
+                        # Row with no dot and no description: group heading.
                         if not entry["desc"]:
                             group = entry["role"]
                         continue
@@ -132,11 +131,11 @@ def main():
     with open("tools/ref/standard_roles.json", "w", encoding="utf-8") as fh:
         json.dump(roles, fh, ensure_ascii=False, indent=2)
 
-    print(f"roles extraits: {len(roles)}")
+    print(f"roles extracted: {len(roles)}")
     counts = {}
     for role in roles:
         counts[role["licence"]] = counts.get(role["licence"], 0) + 1
-    print("repartition:", counts)
+    print("breakdown:", counts)
     for role in roles[:25]:
         flag = " [PREMIUM]" if role["premiumOnly"] else ""
         print(f"  p{role['page']:>3} {role['licence']:<16}{flag} {role['group']} / {role['name']}")

@@ -3,9 +3,9 @@ import type { MicrosoftIdentity } from '../auth/identity';
 export const REPO = 'Spartis31/d365-licensing-profiler';
 
 /** Marker written in every issue body so requests can be attributed to an alias. */
-const ALIAS_MARKER = 'Alias Microsoft :';
-const REQUEST_LABEL = 'demande-processus';
-const TRANSLATION_LABEL = 'traduction-ia';
+const ALIAS_MARKER = 'Microsoft alias:';
+const REQUEST_LABEL = 'process-request';
+const TRANSLATION_LABEL = 'ai-translation';
 
 export type GovernanceLevel = 'contributor' | 'moderator' | 'admin';
 
@@ -47,11 +47,11 @@ export function levelOf(identity: MicrosoftIdentity | null): GovernanceLevel | n
 
 /** Labels carrying the decision, so a status change is a traceable GitHub event. */
 export const STATUS_LABELS = {
-  rejected: 'refuse',
-  acceptedWithChanges: 'accepte-avec-modification',
+  rejected: 'rejected',
+  acceptedWithChanges: 'accepted-with-changes',
 } as const;
 
-export const REQUEST_LABEL_NAME = 'demande-processus';
+export const REQUEST_LABEL_NAME = REQUEST_LABEL;
 
 export type RequestStatus = 'pending' | 'accepted' | 'acceptedWithChanges' | 'rejected';
 
@@ -79,8 +79,8 @@ interface RawIssue {
 
 function statusOf(issue: RawIssue): RequestStatus {
   const labels = issue.labels.map((l) => l.name.toLowerCase());
-  if (labels.includes('refuse')) return 'rejected';
-  if (labels.includes('accepte-avec-modification')) return 'acceptedWithChanges';
+  if (labels.includes(STATUS_LABELS.rejected)) return 'rejected';
+  if (labels.includes(STATUS_LABELS.acceptedWithChanges)) return 'acceptedWithChanges';
   if (issue.state === 'closed') return 'accepted';
   return 'pending';
 }
@@ -102,22 +102,22 @@ export function newRequestUrl(options: {
   const lines = [
     `${ALIAS_MARKER} \`${identity.alias}\``,
     '',
-    processes.length > 0 ? '## Processus proposés' : '',
-    ...processes.map((p) => `- **${p.label}** — domaine : ${p.domain} — licence minimale : ${p.licence}`),
+    processes.length > 0 ? '## Proposed processes' : '',
+    ...processes.map((p) => `- **${p.label}** — domain: ${p.domain} — minimum licence: ${p.licence}`),
     '',
-    freeText.trim() ? `## Commentaire\n\n${freeText.trim()}` : '',
+    freeText.trim() ? `## Comment\n\n${freeText.trim()}` : '',
     '',
-    wantsTranslation ? '> Traduction FR/EN par IA demandée.' : '',
+    wantsTranslation ? '> AI translation requested (FR/EN).' : '',
   ].filter((line) => line !== '');
 
   const title =
     processes.length === 1
-      ? `Processus standard : ${processes[0].label}`
-      : `Demande d'ajout de ${processes.length} processus standard`;
+      ? `Standard process: ${processes[0].label}`
+      : `Request to add ${processes.length} standard processes`;
 
   const labels = [REQUEST_LABEL, ...(wantsTranslation ? [TRANSLATION_LABEL] : [])];
   const params = new URLSearchParams({
-    title: processes.length === 0 ? 'Demande libre' : title,
+    title: processes.length === 0 ? 'Open request' : title,
     body: lines.join('\n'),
     labels: labels.join(','),
   });
@@ -177,7 +177,7 @@ export async function fetchRequests(force = false): Promise<RequestsResult> {
         createdAt: issue.created_at,
         needsTranslation:
           issue.labels.some((l) => l.name.toLowerCase() === TRANSLATION_LABEL) ||
-          (issue.body ?? '').includes('Traduction FR/EN par IA'),
+          (issue.body ?? '').includes('AI translation requested'),
       }));
 
     localStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), requests }));

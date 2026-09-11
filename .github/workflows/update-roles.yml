@@ -1,12 +1,12 @@
 name: Update standard roles
 
-# Declenche depuis l'application (bouton "Mise a jour des roles standards") ou
-# automatiquement le 3 de chaque mois, le guide etant publie mensuellement.
+# Triggered from the application ("Update standard roles" button) or automatically
+# on the 3rd of each month, the guide being published monthly.
 on:
   workflow_dispatch:
     inputs:
       force:
-        description: "Regenerer meme si l'edition n'a pas change"
+        description: "Regenerate even if the edition has not changed"
         type: boolean
         default: false
   schedule:
@@ -31,27 +31,27 @@ jobs:
           python-version: "3.12"
       - run: pip install pdfplumber
 
-      - name: Telecharger le Licensing Guide
+      - name: Download the Licensing Guide
         id: guide
         run: python tools/fetch_guide.py
 
-      - name: Comparer avec l'edition embarquee
+      - name: Compare with the bundled edition
         id: compare
         env:
           NEW_EDITION: ${{ steps.guide.outputs.edition }}
           FORCE: ${{ inputs.force }}
         run: |
           CURRENT=$(grep -oP "ROLES_GUIDE_EDITION = '\K[^']+" src/data/standardRoles.ts)
-          echo "embarquee : $CURRENT"
-          echo "publiee   : $NEW_EDITION"
+          echo "bundled   : $CURRENT"
+          echo "published : $NEW_EDITION"
           if [ "$CURRENT" = "$NEW_EDITION" ] && [ "$FORCE" != "true" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
-            echo "::notice::Catalogue deja a jour ($CURRENT)."
+            echo "::notice::Catalog already up to date ($CURRENT)."
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Extraire et regenerer
+      - name: Extract and regenerate
         if: steps.compare.outputs.changed == 'true'
         env:
           GUIDE_EDITION: ${{ steps.guide.outputs.edition }}
@@ -59,8 +59,8 @@ jobs:
           python tools/extract_roles_plumber.py
           python tools/generate_roles_ts.py
 
-      # Barriere qualite : une extraction degradee ne doit jamais ouvrir de PR.
-      - name: Controle qualite
+      # Quality gate: a degraded extraction must never open a PR.
+      - name: Quality check
         if: steps.compare.outputs.changed == 'true'
         run: python tools/check_generated.py
 
@@ -69,20 +69,20 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - name: Tests de non-regression
+      - name: Regression tests
         if: steps.compare.outputs.changed == 'true'
         run: |
           npm ci
           npm test
 
-      - name: Ouvrir la pull request
+      - name: Open the pull request
         if: steps.compare.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NEW_EDITION: ${{ steps.guide.outputs.edition }}
         run: |
           if git diff --quiet -- src/data/standardRoles.ts; then
-            echo "::notice::Aucun changement dans le catalogue de roles."
+            echo "::notice::No change in the role catalog."
             exit 0
           fi
           BRANCH="roles/${NEW_EDITION// /-}"
@@ -90,16 +90,16 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
           git add src/data/standardRoles.ts
-          git commit -m "Roles standards: edition $NEW_EDITION"
+          git commit -m "Standard roles: edition $NEW_EDITION"
           git push -u origin "$BRANCH" --force
           gh pr create \
-            --title "Roles standards : edition $NEW_EDITION" \
-            --body "Regenere automatiquement depuis le Licensing Guide publie.
+            --title "Standard roles: edition $NEW_EDITION" \
+            --body "Regenerated automatically from the published Licensing Guide.
 
-          - Edition : **$NEW_EDITION**
-          - Source : permalien \`go.microsoft.com/fwlink/?LinkId=866544\`
-          - Controle qualite et tests de non-regression passes
+          - Edition: **$NEW_EDITION**
+          - Source: permalink \`go.microsoft.com/fwlink/?LinkId=866544\`
+          - Quality check and regression tests passed
 
-          Relire le diff de \`src/data/standardRoles.ts\` avant de fusionner : un changement
-          de mise en page du PDF peut decaler l'extraction sans declencher d'erreur." \
-            --base main --head "$BRANCH" || echo "::notice::PR deja ouverte pour $BRANCH"
+          Review the diff of \`src/data/standardRoles.ts\` before merging: a layout change
+          in the PDF can shift the extraction without raising an error." \
+            --base main --head "$BRANCH" || echo "::notice::PR already open for $BRANCH"

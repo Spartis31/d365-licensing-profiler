@@ -1,4 +1,4 @@
-"""Extraction du texte du Dynamics 365 Licensing Guide (PDF officiel)."""
+"""Text extraction from the Dynamics 365 Licensing Guide (official PDF)."""
 import re
 import sys
 from pypdf import PdfReader
@@ -19,7 +19,7 @@ def main():
     meta = reader.metadata
     print("title:", meta.title if meta else None)
 
-    # Repere la date d'edition annoncee en couverture.
+    # Locate the edition date announced on the cover page.
     head = pages[0] + pages[1] if len(pages) > 1 else pages[0]
     for m in re.finditer(r"(January|February|March|April|May|June|July|August|September|October|November|December)\s+\d{4}", head):
         print("edition:", m.group(0))

@@ -411,8 +411,8 @@ main {
   margin: 0 auto;
 }
 
-/* Rythme vertical entre les blocs d'une vue. Une regle par paires laissait sans
-   marge les combinaisons non prevues, par exemple une carte suivant un tableau. */
+/* Vertical rhythm between blocks of a view. Pairwise rules left unforeseen
+   combinations without margin, for example a card following a table. */
 .view > * + * {
   margin-top: 20px;
 }
@@ -797,8 +797,8 @@ table.grid thead .sticky-col {
   font-weight: 600;
 }
 
-/* Niveau intermediaire de la hierarchie : moins contraste que l'en-tete, plus
-   que les lignes de donnees. La specificite doit depasser `table.grid th`. */
+/* Middle level of the hierarchy: less contrast than the header, more than data
+   rows. Specificity must beat `table.grid th`. */
 table.grid .domain-row th,
 table.grid .domain-row td {
   background: var(--blue-20);

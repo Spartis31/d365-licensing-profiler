@@ -1,7 +1,7 @@
-"""Telecharge le Licensing Guide courant et en deduit l'edition.
+"""Download the current Licensing Guide and derive its edition from it.
 
-Le permalien redirige toujours vers le PDF publie ; le nom du fichier cible porte
-le mois et l'annee, ce qui evite toute saisie manuelle de la version.
+The permalink always redirects to the published PDF; the target file name carries
+the month and the year, which removes any need to enter the version by hand.
 """
 import os
 import re
@@ -21,13 +21,13 @@ with urllib.request.urlopen(request) as response:
 
 match = FILENAME_EDITION.search(final_url)
 if not match:
-    print(f"Edition introuvable dans l'URL finale: {final_url}", file=sys.stderr)
+    print(f"Edition not found in the final URL: {final_url}", file=sys.stderr)
     sys.exit(1)
 
 edition = f"{match.group(1)} {match.group(2)}"
 
 if not payload.startswith(b"%PDF"):
-    print("Le fichier telecharge n'est pas un PDF.", file=sys.stderr)
+    print("The downloaded file is not a PDF.", file=sys.stderr)
     sys.exit(1)
 
 with open(DEST, "wb") as fh:
@@ -35,7 +35,7 @@ with open(DEST, "wb") as fh:
 
 print(f"edition   : {edition}")
 print(f"source    : {final_url}")
-print(f"taille    : {len(payload)} octets")
+print(f"size      : {len(payload)} bytes")
 
 output = os.environ.get("GITHUB_OUTPUT")
 if output:

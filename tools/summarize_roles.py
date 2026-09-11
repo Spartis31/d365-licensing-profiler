@@ -1,12 +1,12 @@
-"""Resume des roles extraits, ecrit directement dans un fichier."""
+"""Summary of the extracted roles, written straight to a file."""
 import json
 from collections import Counter
 
 roles = json.load(open("tools/ref/standard_roles.json", encoding="utf-8"))
 
 lines = [f"total: {len(roles)}"]
-lines.append("par licence minimale: " + str(dict(Counter(r["licence"] for r in roles))))
-lines.append("premium seulement: " + str(sum(1 for r in roles if r["premiumOnly"])))
+lines.append("by minimum licence: " + str(dict(Counter(r["licence"] for r in roles))))
+lines.append("premium only: " + str(sum(1 for r in roles if r["premiumOnly"])))
 lines.append("")
 for role in roles:
     flag = "PREMIUM " if role["premiumOnly"] else ""

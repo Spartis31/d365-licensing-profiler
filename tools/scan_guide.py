@@ -1,4 +1,4 @@
-"""Reperage des sections du Licensing Guide utiles au profilage F&O."""
+"""Locate the Licensing Guide sections relevant to F&O profiling."""
 import re
 
 TEXT = open("tools/ref/guide.txt", encoding="utf-8").read()

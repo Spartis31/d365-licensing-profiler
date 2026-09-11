@@ -1,8 +1,8 @@
-"""Barriere qualite sur src/data/standardRoles.ts.
+"""Quality gate on src/data/standardRoles.ts.
 
-Le controle porte sur le fichier genere, pas sur le JSON brut : les descriptions
-coupees par un saut de colonne sont corrigees par DESCRIPTION_OVERRIDES pendant
-la generation, donc seul le resultat final fait foi.
+The check targets the generated file rather than the raw JSON: descriptions cut
+short by a column break are repaired by DESCRIPTION_OVERRIDES during generation,
+so only the final result is authoritative.
 """
 import json
 import re
@@ -20,27 +20,27 @@ names = re.findall(r"^\s*name: '(.*)',$", source, re.MULTILINE)
 problems = []
 
 if len(descriptions) != expected:
-    problems.append(f"{len(descriptions)} descriptions generees pour {expected} roles extraits")
+    problems.append(f"{len(descriptions)} descriptions generated for {expected} extracted roles")
 
 empty = [n for n, d in zip(names, descriptions) if not d.strip()]
 truncated = [n for n, d in zip(names, descriptions) if re.match(r"^[a-z]", d)]
 
 for name in empty:
-    problems.append(f"description vide : {name}")
+    problems.append(f"empty description: {name}")
 for name in truncated:
-    problems.append(f"description tronquee (commence en minuscule) : {name}")
+    problems.append(f"truncated description (starts with a lowercase letter): {name}")
 
 edition = re.search(r"ROLES_GUIDE_EDITION = '([^']+)'", source)
 if not edition:
-    problems.append("ROLES_GUIDE_EDITION absent du fichier genere")
+    problems.append("ROLES_GUIDE_EDITION missing from the generated file")
 
 print(f"roles    : {len(descriptions)}")
 print(f"edition  : {edition.group(1) if edition else '?'}")
 
 if problems:
-    print("\nControle qualite en echec :", file=sys.stderr)
+    print("\nQuality check failed:", file=sys.stderr)
     for problem in problems:
         print(f"  - {problem}", file=sys.stderr)
     sys.exit(1)
 
-print("controle qualite : OK")
+print("quality check: OK")

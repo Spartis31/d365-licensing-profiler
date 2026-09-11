@@ -77,6 +77,7 @@ export const fr: Translation = {
   },
   matrix: {
     heading: 'Processus métier par profil',
+    customDomain: 'Personnalisé',
     intro:
       'Pour chaque profil, cochez les processus métier que le profil doit réaliser. Les lignes de domaine sont des titres et ne sont pas cochables.',
     process: 'Responsabilités',

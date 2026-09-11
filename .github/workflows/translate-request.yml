@@ -1,6 +1,6 @@
 name: Translate request
 
-# Declenche quand une demande recoit l'etiquette posee par l'application.
+# Triggered when a request receives the label set by the application.
 on:
   issues:
     types: [labeled]
@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   translate:
-    if: github.event.label.name == 'traduction-ia'
+    if: github.event.label.name == 'ai-translation'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Traduire les libelles
+      - name: Translate the labels
         env:
           ISSUE_BODY: ${{ github.event.issue.body }}
           TRANSLATION_ENDPOINT: ${{ secrets.TRANSLATION_ENDPOINT }}
@@ -27,7 +27,7 @@ jobs:
           TRANSLATION_MODEL: ${{ vars.TRANSLATION_MODEL }}
         run: python tools/translate_request.py
 
-      - name: Publier le commentaire
+      - name: Post the comment
         if: hashFiles('comment.md') != ''
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

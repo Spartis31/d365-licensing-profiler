@@ -97,10 +97,10 @@ export function MatrixView({ project, toggleSelection, addCustomProcess, removeC
         author: custom.author,
       }));
     if (orphans.length > 0) {
-      result.push({ id: CUSTOM_DOMAIN_ID, label: lang === 'fr' ? 'Personnalisé' : 'Custom', processes: orphans });
+      result.push({ id: CUSTOM_DOMAIN_ID, label: t('matrix.customDomain'), processes: orphans });
     }
     return result;
-  }, [project.customProcesses, project.profiles, search, onlySelected, lang]);
+  }, [project.customProcesses, project.profiles, search, onlySelected, lang, t]);
 
   if (project.profiles.length === 0) {
     return (
@@ -281,7 +281,7 @@ export function MatrixView({ project, toggleSelection, addCustomProcess, removeC
                   {domain.label[lang]}
                 </option>
               ))}
-              <option value={CUSTOM_DOMAIN_ID}>{lang === 'fr' ? 'Personnalisé' : 'Custom'}</option>
+              <option value={CUSTOM_DOMAIN_ID}>{t('matrix.customDomain')}</option>
             </select>
             <select
               value={draftLicence ?? 'none'}

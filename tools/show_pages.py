@@ -1,4 +1,4 @@
-"""Affiche des pages precises du Licensing Guide extrait."""
+"""Print specific pages from the extracted Licensing Guide text."""
 import re
 import sys
 

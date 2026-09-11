@@ -201,7 +201,7 @@ function PeopleCard({
               onChange={(e) =>
                 save(
                   { ...levels, [alias]: e.target.value as GovernanceLevel },
-                  `Gouvernance : ${alias} devient ${e.target.value}`,
+                  `Governance: ${alias} becomes ${e.target.value}`,
                 )
               }
             >
@@ -218,7 +218,7 @@ function PeopleCard({
               disabled={busy || Object.keys(levels).length <= 1}
               onClick={() => {
                 const { [alias]: _removed, ...rest } = levels;
-                save(rest, `Gouvernance : retrait de ${alias}`);
+                save(rest, `Governance: remove ${alias}`);
               }}
             >
               ✕
@@ -239,7 +239,7 @@ function PeopleCard({
           disabled={busy || draft.trim().length === 0}
           onClick={() => {
             const alias = draft.trim().toLowerCase().replace(/@microsoft\.com$/, '');
-            save({ ...levels, [alias]: 'contributor' }, `Gouvernance : ajout de ${alias}`);
+            save({ ...levels, [alias]: 'contributor' }, `Governance: add ${alias}`);
             setDraft('');
           }}
         >

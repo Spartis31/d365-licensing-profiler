@@ -1,4 +1,4 @@
-"""Associe chaque tarif du guide a l'application citee juste avant."""
+"""Match each price in the guide with the application named just before it."""
 import re
 from pathlib import Path
 
@@ -17,7 +17,7 @@ for i, line in enumerate(lines):
     m = price_re.search(line)
     if not m:
         continue
-    # Remonte jusqu'a 12 lignes pour trouver le nom d'application le plus proche.
+    # Look back up to 12 lines to find the nearest application name.
     context = ""
     for back in range(1, 13):
         if i - back < 0:

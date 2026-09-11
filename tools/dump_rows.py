@@ -1,4 +1,4 @@
-"""Extraction structuree: lignes de process (B, C, E) + style (couleur de fond) pour distinguer domaines/process."""
+"""Structured extraction: process rows (B, C, E) + styling (fill colour) to tell domains from processes apart."""
 import openpyxl
 from openpyxl.utils import get_column_letter
 
