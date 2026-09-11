@@ -462,6 +462,9 @@ export function AdminView() {
         </header>
 
         <div className="card">
+          <p className="hint" style={{ margin: '0 0 10px' }}>
+            {t('auth.signedInAs', { alias: identity.login })}
+          </p>
           <div className="toolbar" style={{ marginBottom: 0 }}>
             <span className="identity-chip">{t(`admin.level_${level}`)}</span>
             <span className="hint">{t('admin.levelHint')}</span>
@@ -509,6 +512,9 @@ export function AdminView() {
       </header>
 
       <div className="card">
+        <p className="hint" style={{ margin: '0 0 10px' }}>
+          {t('auth.signedInAs', { alias: identity.login })}
+        </p>
         <div className="toolbar" style={{ marginBottom: 0 }}>
           <span className="identity-chip">{t(`admin.level_${level}`)}</span>
           <span className="hint">{t('admin.levelHint')}</span>

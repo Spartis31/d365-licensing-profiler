@@ -4,6 +4,8 @@ export const REPO = 'Spartis31/d365-licensing-profiler';
 
 /** Written in every issue body so a request stays recognisable if its label is lost. */
 const REQUEST_MARKER = 'Submitted from the D365 Licensing Profiler.';
+/** GitHub drops prefilled labels for authors without repository rights, so the body decides. */
+const APPROVAL_MARKER = 'I would like to be approved as a contributor.';
 const REQUEST_LABEL = 'process-request';
 const TRANSLATION_LABEL = 'ai-translation';
 const APPROVAL_LABEL = 'approval-request';
@@ -156,7 +158,7 @@ export function newRequestUrl(options: {
 export function approvalRequestUrl(identity: ContributorIdentity): string {
   const params = new URLSearchParams({
     title: `Approval request: ${identity.login}`,
-    body: [REQUEST_MARKER, '', 'I would like to be approved as a contributor.'].join('\n'),
+    body: [REQUEST_MARKER, '', APPROVAL_MARKER].join('\n'),
     labels: APPROVAL_LABEL,
   });
   return `https://github.com/${REPO}/issues/new?${params.toString()}`;
@@ -217,7 +219,9 @@ export async function fetchRequests(force = false): Promise<RequestsResult> {
         needsTranslation:
           issue.labels.some((l) => l.name.toLowerCase() === TRANSLATION_LABEL) ||
           (issue.body ?? '').includes('AI translation requested'),
-        isApproval: issue.labels.some((l) => l.name.toLowerCase() === APPROVAL_LABEL),
+        isApproval:
+          issue.labels.some((l) => l.name.toLowerCase() === APPROVAL_LABEL) ||
+          (issue.body ?? '').includes(APPROVAL_MARKER),
       }));
 
     localStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), requests }));
