@@ -256,6 +256,10 @@ export const sv: Translation = {
     submit: 'Skicka begäran',
   },
   admin: {
+    seenPeople: 'Sedda i begäranden',
+    seenPeopleHint:
+      'Dessa personer har redan skickat in en begäran. Alla som loggar in är bidragsgivare som standard – lägg till dem här för att göra det tydligt eller för att befordra dem.',
+    addAsContributor: 'Lägg till som bidragsgivare',
     copyPrompt: 'Kopiera översättningsbegäran',
     promptCopied: 'Kopierat – klistra in i Copilot och klistra sedan in tabellen här',
     openCopilot: 'Öppna Copilot',

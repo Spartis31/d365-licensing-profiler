@@ -256,6 +256,10 @@ export const de: Translation = {
     submit: 'Anfrage absenden',
   },
   admin: {
+    seenPeople: 'In Anfragen gesehen',
+    seenPeopleHint:
+      'Diese Personen haben bereits eine Anfrage eingereicht. Wer sich anmeldet, ist standardmäßig Mitwirkender; fügen Sie sie hier hinzu, um das festzuhalten oder sie höherzustufen.',
+    addAsContributor: 'Als Mitwirkenden hinzufügen',
     copyPrompt: 'Übersetzungsanfrage kopieren',
     promptCopied: 'Kopiert — in Copilot einfügen und die Tabelle anschließend hier einfügen',
     openCopilot: 'Copilot öffnen',

@@ -256,6 +256,10 @@ export const da: Translation = {
     submit: 'Send anmodningen',
   },
   admin: {
+    seenPeople: 'Set i anmodninger',
+    seenPeopleHint:
+      'Disse personer har allerede sendt en anmodning. Alle, der logger ind, er bidragyder som standard; tilføj dem her for at gøre det tydeligt eller for at forfremme dem.',
+    addAsContributor: 'Tilføj som bidragyder',
     copyPrompt: 'Kopiér oversættelsesanmodningen',
     promptCopied: 'Kopieret — indsæt den i Copilot, og indsæt derefter tabellen her',
     openCopilot: 'Åbn Copilot',

@@ -255,6 +255,10 @@ export const fr: Translation = {
     submit: 'Soumettre la demande',
   },
   admin: {
+    seenPeople: 'Vus dans les demandes',
+    seenPeopleHint:
+      "Ces personnes ont déjà soumis une demande. Toute personne connectée est contributeur par défaut : ajoutez-la ici pour le rendre explicite, ou pour la promouvoir.",
+    addAsContributor: 'Ajouter comme contributeur',
     copyPrompt: 'Copier la demande de traduction',
     promptCopied: 'Copié — collez-le dans Copilot, puis recollez le tableau ici',
     openCopilot: 'Ouvrir Copilot',

@@ -256,6 +256,10 @@ export const nl: Translation = {
     submit: 'De aanvraag indienen',
   },
   admin: {
+    seenPeople: 'Gezien in verzoeken',
+    seenPeopleHint:
+      'Deze personen hebben al een verzoek ingediend. Iedereen die zich aanmeldt is standaard bijdrager; voeg ze hier toe om dat vast te leggen of om ze te promoveren.',
+    addAsContributor: 'Toevoegen als bijdrager',
     copyPrompt: 'Vertaalverzoek kopiëren',
     promptCopied: 'Gekopieerd — plak het in Copilot en plak de tabel daarna hier',
     openCopilot: 'Copilot openen',

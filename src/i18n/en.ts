@@ -253,6 +253,10 @@ export const en = {
     submit: 'Submit the request',
   },
   admin: {
+    seenPeople: 'Seen in requests',
+    seenPeopleHint:
+      'These people have already submitted a request. Anyone who signs in is a contributor by default; add them here to make that explicit, or to promote them.',
+    addAsContributor: 'Add as contributor',
     copyPrompt: 'Copy the translation request',
     promptCopied: 'Copied — paste it into Copilot, then paste the table back here',
     openCopilot: 'Open Copilot',

@@ -175,10 +175,13 @@ function PeopleCard({
   levels,
   requireWrite,
   onSaved,
+  seen,
 }: {
   levels: Record<string, GovernanceLevel>;
   requireWrite: RequireWrite;
   onSaved: (next: Record<string, GovernanceLevel>) => void;
+  /** Aliases that appear in requests; anyone signing in is a contributor by default. */
+  seen: string[];
 }) {
   const { t } = useTranslation();
   const [draft, setDraft] = useState('');
@@ -247,6 +250,33 @@ function PeopleCard({
           </li>
         ))}
       </ul>
+
+      {seen.filter((alias) => !(alias in levels)).length > 0 && (
+        <>
+          <h4 style={{ margin: '18px 0 4px' }}>{t('admin.seenPeople')}</h4>
+          <p className="hint" style={{ marginBottom: 10 }}>
+            {t('admin.seenPeopleHint')}
+          </p>
+          <ul className="people-list">
+            {seen
+              .filter((alias) => !(alias in levels))
+              .map((alias) => (
+                <li key={alias}>
+                  <span className="identity-chip">{alias}</span>
+                  <button
+                    type="button"
+                    disabled={busy}
+                    onClick={() =>
+                      save({ ...levels, [alias]: 'contributor' }, `Governance: add ${alias}`)
+                    }
+                  >
+                    {t('admin.addAsContributor')}
+                  </button>
+                </li>
+              ))}
+          </ul>
+        </>
+      )}
 
       <div className="compose-row" style={{ marginTop: 14 }}>
         <input
@@ -432,7 +462,12 @@ export function AdminView() {
       </div>
 
       {level === 'admin' && (
-        <PeopleCard levels={levels} requireWrite={requireWrite} onSaved={(next) => setLevels(applyGovernance(next))} />
+        <PeopleCard
+          levels={levels}
+          requireWrite={requireWrite}
+          onSaved={(next) => setLevels(applyGovernance(next))}
+          seen={[...new Set(all.map((request) => request.alias).filter((alias): alias is string => Boolean(alias)))]}
+        />
       )}
 
       <div className="card">

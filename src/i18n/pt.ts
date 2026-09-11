@@ -256,6 +256,10 @@ export const pt: Translation = {
     submit: 'Enviar o pedido',
   },
   admin: {
+    seenPeople: 'Vistos nos pedidos',
+    seenPeopleHint:
+      'Estas pessoas já submeteram um pedido. Quem inicia sessão é colaborador por predefinição; adicione-as aqui para o tornar explícito ou para as promover.',
+    addAsContributor: 'Adicionar como colaborador',
     copyPrompt: 'Copiar o pedido de tradução',
     promptCopied: 'Copiado — cole-o no Copilot e depois cole aqui a tabela',
     openCopilot: 'Abrir o Copilot',

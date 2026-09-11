@@ -256,6 +256,10 @@ export const it: Translation = {
     submit: 'Invia la richiesta',
   },
   admin: {
+    seenPeople: 'Visti nelle richieste',
+    seenPeopleHint:
+      "Queste persone hanno già inviato una richiesta. Chi accede è collaboratore per impostazione predefinita: le aggiunga qui per renderlo esplicito o per promuoverle.",
+    addAsContributor: 'Aggiungi come collaboratore',
     copyPrompt: 'Copia la richiesta di traduzione',
     promptCopied: 'Copiato: lo incolli in Copilot, poi incolli qui la tabella',
     openCopilot: 'Apri Copilot',
