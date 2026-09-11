@@ -250,7 +250,7 @@ export const fr: Translation = {
     noCustom: "Ajoutez d'abord un processus personnalisé, puis sélectionnez-le ici.",
     translate: 'Demander une traduction par l\u2019IA',
     translateHint:
-      "La traduction s'exécute sur GitHub après soumission, pas dans votre navigateur : aucune clé d'API ne peut être embarquée dans un site statique. L'issue est étiquetée et un workflow publie les libellés FR/EN.",
+      "La traduction s'exécute sur GitHub après soumission, jamais dans votre navigateur : aucune clé d'API ne peut être embarquée dans un site statique. Si aucun fournisseur n'est configuré sur le dépôt, la demande est simplement transmise à un modérateur.",
     submit: 'Soumettre la demande',
   },
   admin: {

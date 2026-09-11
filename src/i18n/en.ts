@@ -248,7 +248,7 @@ export const en = {
     noCustom: 'Add a custom process first, then select it here.',
     translate: 'Request an AI translation',
     translateHint:
-      'The translation runs on GitHub after submission, not in your browser: no API key can be shipped in a static site. The issue is labelled and a workflow posts the FR/EN wording.',
+      'The translation runs on GitHub after submission, never in your browser: no API key can be shipped in a static site. If no provider is configured on the repository, the request is simply passed to a moderator.',
     submit: 'Submit the request',
   },
   admin: {
