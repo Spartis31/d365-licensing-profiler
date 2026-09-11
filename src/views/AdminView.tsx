@@ -6,6 +6,7 @@ import {
   REPO,
   REQUEST_LABEL_NAME,
   STATUS_LABELS,
+  applyGovernance,
   fetchRequests,
   governanceLevels,
   levelOf,
@@ -156,7 +157,7 @@ function PeopleCard({
 }: {
   levels: Record<string, GovernanceLevel>;
   requireWrite: RequireWrite;
-  onSaved: () => void;
+  onSaved: (next: Record<string, GovernanceLevel>) => void;
 }) {
   const { t } = useTranslation();
   const [draft, setDraft] = useState('');
@@ -174,7 +175,7 @@ function PeopleCard({
           const current = await readFile(GOVERNANCE_PATH);
           await writeFile(GOVERNANCE_PATH, `${JSON.stringify(next, null, 2)}\n`, current.sha, message);
           setDone(true);
-          onSaved();
+          onSaved(next);
         } catch (cause) {
           setError(cause instanceof Error ? cause.message : String(cause));
         } finally {
@@ -410,11 +411,7 @@ export function AdminView() {
       </div>
 
       {level === 'admin' && (
-        <PeopleCard
-          levels={levels}
-          requireWrite={requireWrite}
-          onSaved={() => void loadGovernance().then(setLevels)}
-        />
+        <PeopleCard levels={levels} requireWrite={requireWrite} onSaved={(next) => setLevels(applyGovernance(next))} />
       )}
 
       <div className="card">

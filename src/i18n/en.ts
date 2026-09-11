@@ -272,7 +272,7 @@ export const en = {
     canWrite: 'write allowed',
     readOnly: 'read only',
     needWrite: 'Editing requires a token with write access to this repository.',
-    saved: 'Saved. The site redeploys automatically.',
+    saved: 'Saved. The list above is up to date; other people will see it within a minute, once the site republishes.',
     comment: 'Comment',
     commentPlaceholder: 'Your reply…',
     noComments: 'No exchange yet.',

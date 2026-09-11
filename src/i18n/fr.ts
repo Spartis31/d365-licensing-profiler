@@ -274,7 +274,7 @@ export const fr: Translation = {
     canWrite: 'écriture autorisée',
     readOnly: 'lecture seule',
     needWrite: "La modification demande un jeton avec l'écriture sur ce dépôt.",
-    saved: 'Enregistré. Le site se redéploie automatiquement.',
+    saved: "Enregistré. La liste ci-dessus est à jour ; les autres personnes la verront d'ici une minute, le temps que le site se republie.",
     comment: 'Commenter',
     commentPlaceholder: 'Votre réponse…',
     noComments: 'Aucun échange pour le moment.',

@@ -20,6 +20,12 @@ export function governanceLevels(): Record<string, GovernanceLevel> {
   return levels;
 }
 
+/** Adopts a just-saved map: the published file lags behind by one deployment. */
+export function applyGovernance(next: Record<string, GovernanceLevel>): Record<string, GovernanceLevel> {
+  levels = next;
+  return levels;
+}
+
 /**
  * Levels live in a JSON file rather than in the source, so the console can edit
  * them through the GitHub API without anyone touching code.
