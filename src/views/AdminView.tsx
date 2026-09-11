@@ -444,8 +444,14 @@ export function AdminView() {
 
   const load = useCallback(async (force = false) => {
     setLoading(true);
-    setResult(await fetchRequests(force));
+    const shown = await fetchRequests(force);
+    setResult(shown);
     setLoading(false);
+    // The cache keeps the screen instant; it must never hide a decision taken since.
+    if (!force && shown.status === 'ok' && shown.cached) {
+      const fresh = await fetchRequests(true);
+      if (fresh.status === 'ok') setResult(fresh);
+    }
   }, []);
 
   useEffect(() => {
