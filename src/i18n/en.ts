@@ -225,6 +225,8 @@ export const en = {
       'Your GitHub account appears publicly on every request you submit and in the contributor list of the repository. Nothing else is collected.',
     error_format: 'This is not a valid GitHub account name.',
     error_unknown: 'GitHub does not know this account.',
+    error_rateLimited:
+      'GitHub limits how many checks it answers per hour, and that limit is reached. Try again in a few minutes.',
     error_network: 'GitHub could not be reached. Try again.',
     restricted: 'Reserved for approved contributors',
   },

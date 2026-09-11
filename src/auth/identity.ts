@@ -12,7 +12,7 @@ export interface ContributorIdentity {
   avatarUrl: string;
 }
 
-export type RejectionReason = 'format' | 'unknown' | 'network';
+export type RejectionReason = 'format' | 'unknown' | 'rateLimited' | 'network';
 
 export type IdentityResult = { ok: true; identity: ContributorIdentity } | { ok: false; reason: RejectionReason };
 
@@ -38,7 +38,11 @@ export async function verifyGitHubAccount(rawLogin: string): Promise<IdentityRes
       headers: { Accept: 'application/vnd.github+json' },
     });
     if (response.status === 404) return { ok: false, reason: 'unknown' };
-    if (!response.ok) return { ok: false, reason: 'network' };
+    if (!response.ok) {
+      // 60 calls an hour per address without a token, shared by everyone behind it.
+      const remaining = response.headers.get('x-ratelimit-remaining');
+      return { ok: false, reason: remaining === '0' ? 'rateLimited' : 'network' };
+    }
 
     const user = (await response.json()) as { login: string; name: string | null; avatar_url: string };
     return {

@@ -228,6 +228,8 @@ export const da: Translation = {
       'Din GitHub-konto vises offentligt på hver anmodning, du sender, og på lagerets liste over bidragydere. Der indsamles intet andet.',
     error_format: 'Dette er ikke et gyldigt GitHub-kontonavn.',
     error_unknown: 'GitHub kender ikke denne konto.',
+    error_rateLimited:
+      'GitHub begrænser antallet af kontroller i timen, og grænsen er nået. Prøv igen om nogle minutter.',
     error_network: 'GitHub kunne ikke nås. Prøv igen.',
     restricted: 'Forbeholdt godkendte bidragydere',
   },

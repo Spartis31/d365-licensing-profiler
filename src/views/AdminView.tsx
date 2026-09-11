@@ -179,28 +179,47 @@ function RequestDetail({
 }
 
 /** Public profile names, read from GitHub so the repository stores no personal data. */
+const NAME_CACHE_KEY = 'd365lic.ghnames';
+
+function readNameCache(): Record<string, string> {
+  try {
+    return JSON.parse(localStorage.getItem(NAME_CACHE_KEY) ?? '{}') as Record<string, string>;
+  } catch {
+    return {};
+  }
+}
+
 function useGitHubNames(logins: string[]): Record<string, string> {
-  const [names, setNames] = useState<Record<string, string>>({});
+  const [names, setNames] = useState<Record<string, string>>(readNameCache);
   const key = logins.join(',');
 
   useEffect(() => {
     let cancelled = false;
-    const wanted = key ? key.split(',') : [];
+    const cached = readNameCache();
+    // One call per person against a 60-an-hour budget: never ask twice for the same name.
+    const missing = (key ? key.split(',') : []).filter((login) => !(login in cached));
+    if (missing.length === 0) {
+      setNames(cached);
+      return;
+    }
     void Promise.all(
-      wanted.map(async (login) => {
+      missing.map(async (login) => {
         try {
           const response = await fetch(`https://api.github.com/users/${login}`, {
             headers: { Accept: 'application/vnd.github+json' },
           });
-          if (!response.ok) return [login, ''] as const;
+          if (!response.ok) return null;
           const user = (await response.json()) as { name: string | null };
           return [login, user.name ?? ''] as const;
         } catch {
-          return [login, ''] as const;
+          return null;
         }
       }),
     ).then((pairs) => {
-      if (!cancelled) setNames(Object.fromEntries(pairs));
+      const found = pairs.filter((pair): pair is readonly [string, string] => pair !== null);
+      const next = { ...cached, ...Object.fromEntries(found) };
+      localStorage.setItem(NAME_CACHE_KEY, JSON.stringify(next));
+      if (!cancelled) setNames(next);
     });
     return () => {
       cancelled = true;

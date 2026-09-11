@@ -228,6 +228,8 @@ export const es: Translation = {
       'Su cuenta de GitHub aparece públicamente en cada solicitud que envía y en la lista de colaboradores del repositorio. No se recopila nada más.',
     error_format: 'Este no es un nombre de cuenta de GitHub válido.',
     error_unknown: 'GitHub no conoce esta cuenta.',
+    error_rateLimited:
+      'GitHub limita cuántas comprobaciones responde por hora, y se ha alcanzado ese límite. Inténtelo de nuevo dentro de unos minutos.',
     error_network: 'No se ha podido contactar con GitHub. Inténtelo de nuevo.',
     restricted: 'Reservado a los colaboradores aprobados',
   },

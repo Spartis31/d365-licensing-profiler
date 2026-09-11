@@ -228,6 +228,8 @@ export const de: Translation = {
       'Ihr GitHub-Konto erscheint öffentlich bei jeder Anfrage, die Sie einreichen, und in der Liste der Mitwirkenden des Repositorys. Weiteres wird nicht erfasst.',
     error_format: 'Das ist kein gültiger GitHub-Kontoname.',
     error_unknown: 'GitHub kennt dieses Konto nicht.',
+    error_rateLimited:
+      'GitHub beantwortet nur eine begrenzte Zahl von Prüfungen pro Stunde, und diese Grenze ist erreicht. Versuchen Sie es in einigen Minuten erneut.',
     error_network: 'GitHub war nicht erreichbar. Versuchen Sie es erneut.',
     restricted: 'Bestätigten Mitwirkenden vorbehalten',
   },

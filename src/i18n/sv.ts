@@ -228,6 +228,8 @@ export const sv: Translation = {
       'Ditt GitHub-konto visas offentligt på varje begäran du skickar in och i lagringsplatsens lista över bidragsgivare. Inget annat samlas in.',
     error_format: 'Detta är inte ett giltigt GitHub-kontonamn.',
     error_unknown: 'GitHub känner inte till det här kontot.',
+    error_rateLimited:
+      'GitHub begränsar hur många kontroller som besvaras per timme, och gränsen är nådd. Försök igen om några minuter.',
     error_network: 'Det gick inte att nå GitHub. Försök igen.',
     restricted: 'Förbehållet godkända bidragsgivare',
   },

@@ -228,6 +228,8 @@ export const nl: Translation = {
       'Uw GitHub-account verschijnt openbaar bij elk verzoek dat u indient en in de lijst met bijdragers van de repository. Er wordt niets anders verzameld.',
     error_format: 'Dit is geen geldige GitHub-accountnaam.',
     error_unknown: 'GitHub kent dit account niet.',
+    error_rateLimited:
+      'GitHub beperkt het aantal controles per uur en die grens is bereikt. Probeer het over enkele minuten opnieuw.',
     error_network: 'GitHub kon niet worden bereikt. Probeer het opnieuw.',
     restricted: 'Voorbehouden aan goedgekeurde bijdragers',
   },

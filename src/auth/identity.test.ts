@@ -56,6 +56,18 @@ describe('verifyGitHubAccount', () => {
     expect(await verifyGitHubAccount('ghost-account')).toEqual({ ok: false, reason: 'unknown' });
   });
 
+  it('names the hourly GitHub quota instead of blaming the network', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => ({
+        ok: false,
+        status: 403,
+        headers: { get: (name: string) => (name === 'x-ratelimit-remaining' ? '0' : null) },
+      })),
+    );
+    expect(await verifyGitHubAccount('octocat')).toEqual({ ok: false, reason: 'rateLimited' });
+  });
+
   it('reports a network failure rather than letting anyone through', async () => {
     vi.stubGlobal(
       'fetch',
