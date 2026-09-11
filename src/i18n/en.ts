@@ -254,10 +254,15 @@ export const en = {
   admin: {
     heading: 'Admin console',
     intro:
-      'Requests are stored as GitHub issues but are read and handled here. Connect a GitHub token to comment, decide and manage levels without leaving the application.',
-    connection: 'GitHub connection',
-    connectionHint:
-      'A static site cannot obtain a token on its own: GitHub OAuth endpoints reject browser calls. Paste a personal token instead. It stays in this tab and disappears when the browser closes.',
+      'Read and handle requests, exchanges and levels here. Everything happens in this screen.',
+    connection: 'Allow editing',
+    unlockIntro:
+      'This action modifies the shared repository, so GitHub needs to know it is really you. You are asked only once on this computer.',
+    stepCreate: 'Open the token creation page on GitHub',
+    stepScopes: 'Select the d365-licensing-profiler repository, then allow Issues and Contents read and write',
+    stepPaste: 'Copy the token shown and paste it below',
+    onceOnly: 'The token stays on this computer. It is never sent anywhere but GitHub.',
+    signedInAs: 'Editing allowed for {{login}}.',
     tokenPlaceholder: 'GitHub token (github_pat_…)',
     connect: 'Connect',
     connecting: 'Connecting…',

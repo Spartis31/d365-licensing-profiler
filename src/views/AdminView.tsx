@@ -19,13 +19,13 @@ import {
   listComments,
   readFile,
   restoreSession,
-  signInWithToken,
   signOutGitHub,
   subscribe,
   updateIssue,
   writeFile,
 } from '../data/github';
 import type { IssueComment } from '../data/github';
+import { GitHubTokenModal } from '../components/GitHubTokenModal';
 
 const STATUS_TONE: Record<RequestStatus, string> = {
   pending: 'tag-lic-activity',
@@ -36,82 +36,24 @@ const STATUS_TONE: Record<RequestStatus, string> = {
 
 const LEVELS: GovernanceLevel[] = ['contributor', 'moderator', 'admin'];
 
-const TOKEN_SCOPE_URL =
-  'https://github.com/settings/personal-access-tokens/new?target_name=Spartis31&description=D365%20Licensing%20Profiler';
+/** Runs an action, asking for write access first if it has never been granted. */
+type RequireWrite = (action: () => void) => void;
 
 function useGitHubUser() {
   return useSyncExternalStore(subscribe, currentUser, () => null);
 }
 
-/** Connection card: no token can be obtained without a server, so the user pastes one. */
-function ConnectCard() {
-  const { t } = useTranslation();
-  const ghUser = useGitHubUser();
-  const [value, setValue] = useState('');
-  const [error, setError] = useState<string | null>(null);
-  const [busy, setBusy] = useState(false);
-
-  if (ghUser) {
-    return (
-      <div className="card">
-        <h3 style={{ marginTop: 0 }}>{t('admin.connection')}</h3>
-        <div className="toolbar" style={{ marginBottom: 0 }}>
-          <img className="gh-avatar" src={ghUser.avatarUrl} alt="" width={24} height={24} />
-          <span className="identity-chip">{ghUser.login}</span>
-          <span className="hint">{ghUser.canWrite ? t('admin.canWrite') : t('admin.readOnly')}</span>
-          <span className="spacer" />
-          <button type="button" className="subtle" onClick={signOutGitHub}>
-            {t('admin.disconnect')}
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="card">
-      <h3 style={{ marginTop: 0 }}>{t('admin.connection')}</h3>
-      <p className="hint" style={{ marginBottom: 12 }}>
-        {t('admin.connectionHint')}
-      </p>
-      <div className="compose-row">
-        <input
-          type="password"
-          placeholder={t('admin.tokenPlaceholder')}
-          value={value}
-          autoComplete="off"
-          onChange={(e) => {
-            setValue(e.target.value);
-            setError(null);
-          }}
-        />
-        <button
-          type="button"
-          className="primary"
-          disabled={busy || value.trim().length === 0}
-          onClick={() => {
-            setBusy(true);
-            signInWithToken(value)
-              .then(() => setValue(''))
-              .catch((cause: Error) => setError(cause.message))
-              .finally(() => setBusy(false));
-          }}
-        >
-          {busy ? t('admin.connecting') : t('admin.connect')}
-        </button>
-      </div>
-      {error && <p className="error-text">{error}</p>}
-      <p className="hint" style={{ marginTop: 12 }}>
-        <a href={TOKEN_SCOPE_URL} target="_blank" rel="noopener noreferrer">
-          {t('admin.createToken')}
-        </a>{' '}
-        — {t('admin.tokenScopes')}
-      </p>
-    </div>
-  );
-}
-
-function RequestDetail({ request, canWrite, onChanged }: { request: ProcessRequest; canWrite: boolean; onChanged: () => void }) {
+function RequestDetail({
+  request,
+  canModerate,
+  requireWrite,
+  onChanged,
+}: {
+  request: ProcessRequest;
+  canModerate: boolean;
+  requireWrite: RequireWrite;
+  onChanged: () => void;
+}) {
   const { t } = useTranslation();
   const [comments, setComments] = useState<IssueComment[] | null>(null);
   const [draft, setDraft] = useState('');
@@ -124,14 +66,15 @@ function RequestDetail({ request, canWrite, onChanged }: { request: ProcessReque
       .catch(() => setComments([]));
   }, [request.number]);
 
-  const act = (run: () => Promise<unknown>) => {
-    setBusy(true);
-    setError(null);
-    run()
-      .then(onChanged)
-      .catch((cause: Error) => setError(cause.message))
-      .finally(() => setBusy(false));
-  };
+  const act = (run: () => Promise<unknown>) =>
+    requireWrite(() => {
+      setBusy(true);
+      setError(null);
+      run()
+        .then(onChanged)
+        .catch((cause: Error) => setError(cause.message))
+        .finally(() => setBusy(false));
+    });
 
   const setStatus = (status: RequestStatus) =>
     act(async () => {
@@ -186,7 +129,7 @@ function RequestDetail({ request, canWrite, onChanged }: { request: ProcessReque
         </button>
       </div>
 
-      {canWrite && (
+      {canModerate && (
         <div className="toolbar" style={{ marginTop: 12, marginBottom: 0 }}>
           <span className="hint">{t('admin.decide')}</span>
           {(['pending', 'accepted', 'acceptedWithChanges', 'rejected'] as RequestStatus[]).map((status) => (
@@ -206,38 +149,39 @@ function RequestDetail({ request, canWrite, onChanged }: { request: ProcessReque
   );
 }
 
-function PeopleCard({ levels, onSaved }: { levels: Record<string, GovernanceLevel>; onSaved: () => void }) {
+function PeopleCard({
+  levels,
+  requireWrite,
+  onSaved,
+}: {
+  levels: Record<string, GovernanceLevel>;
+  requireWrite: RequireWrite;
+  onSaved: () => void;
+}) {
   const { t } = useTranslation();
-  const ghUser = useGitHubUser();
   const [draft, setDraft] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
 
-  const save = (next: Record<string, GovernanceLevel>, message: string) => {
-    setBusy(true);
-    setError(null);
-    setDone(false);
-    void (async () => {
-      try {
-        const current = await readFile(GOVERNANCE_PATH);
-        await writeFile(
-          GOVERNANCE_PATH,
-          `${JSON.stringify(next, null, 2)}\n`,
-          current.sha,
-          message,
-        );
-        setDone(true);
-        onSaved();
-      } catch (cause) {
-        setError(cause instanceof Error ? cause.message : String(cause));
-      } finally {
-        setBusy(false);
-      }
-    })();
-  };
-
-  const editable = Boolean(ghUser?.canWrite);
+  const save = (next: Record<string, GovernanceLevel>, message: string) =>
+    requireWrite(() => {
+      setBusy(true);
+      setError(null);
+      setDone(false);
+      void (async () => {
+        try {
+          const current = await readFile(GOVERNANCE_PATH);
+          await writeFile(GOVERNANCE_PATH, `${JSON.stringify(next, null, 2)}\n`, current.sha, message);
+          setDone(true);
+          onSaved();
+        } catch (cause) {
+          setError(cause instanceof Error ? cause.message : String(cause));
+        } finally {
+          setBusy(false);
+        }
+      })();
+    });
 
   return (
     <div className="card">
@@ -252,7 +196,7 @@ function PeopleCard({ levels, onSaved }: { levels: Record<string, GovernanceLeve
             <span className="identity-chip">{alias}</span>
             <select
               value={level}
-              disabled={!editable || busy}
+              disabled={busy}
               onChange={(e) =>
                 save(
                   { ...levels, [alias]: e.target.value as GovernanceLevel },
@@ -270,7 +214,7 @@ function PeopleCard({ levels, onSaved }: { levels: Record<string, GovernanceLeve
               type="button"
               className="ghost danger icon"
               title={t('actions.remove')}
-              disabled={!editable || busy || Object.keys(levels).length <= 1}
+              disabled={busy || Object.keys(levels).length <= 1}
               onClick={() => {
                 const { [alias]: _removed, ...rest } = levels;
                 save(rest, `Gouvernance : retrait de ${alias}`);
@@ -286,12 +230,12 @@ function PeopleCard({ levels, onSaved }: { levels: Record<string, GovernanceLeve
         <input
           placeholder={t('admin.addAliasPlaceholder')}
           value={draft}
-          disabled={!editable || busy}
+          disabled={busy}
           onChange={(e) => setDraft(e.target.value)}
         />
         <button
           type="button"
-          disabled={!editable || busy || draft.trim().length === 0}
+          disabled={busy || draft.trim().length === 0}
           onClick={() => {
             const alias = draft.trim().toLowerCase().replace(/@microsoft\.com$/, '');
             save({ ...levels, [alias]: 'contributor' }, `Gouvernance : ajout de ${alias}`);
@@ -302,7 +246,6 @@ function PeopleCard({ levels, onSaved }: { levels: Record<string, GovernanceLeve
         </button>
       </div>
 
-      {!editable && <p className="hint">{t('admin.needWrite')}</p>}
       {done && <p className="hint">{t('admin.saved')}</p>}
       {error && <p className="error-text">{error}</p>}
     </div>
@@ -318,6 +261,13 @@ export function AdminView() {
   const [loading, setLoading] = useState(false);
   const [openRequest, setOpenRequest] = useState<number | null>(null);
   const [freeText, setFreeText] = useState('');
+  const [pending, setPending] = useState<(() => void) | null>(null);
+
+  // Write access is requested at the moment it is needed, never up front.
+  const requireWrite: RequireWrite = (action) => {
+    if (currentUser()?.canWrite) action();
+    else setPending(() => action);
+  };
 
   const load = useCallback(async (force = false) => {
     setLoading(true);
@@ -367,8 +317,6 @@ export function AdminView() {
         </div>
       </div>
 
-      <ConnectCard />
-
       {result?.status === 'rateLimited' && (
         <div className="banner warn" role="note">
           <span>{t('admin.rateLimited')}</span>
@@ -414,7 +362,8 @@ export function AdminView() {
                   {openRequest === request.number && (
                     <RequestDetail
                       request={request}
-                      canWrite={Boolean(ghUser?.canWrite) && level !== 'contributor'}
+                      canModerate={level !== 'contributor'}
+                      requireWrite={requireWrite}
                       onChanged={() => void load(true)}
                     />
                   )}
@@ -460,7 +409,13 @@ export function AdminView() {
         </div>
       </div>
 
-      {level === 'admin' && <PeopleCard levels={levels} onSaved={() => void loadGovernance().then(setLevels)} />}
+      {level === 'admin' && (
+        <PeopleCard
+          levels={levels}
+          requireWrite={requireWrite}
+          onSaved={() => void loadGovernance().then(setLevels)}
+        />
+      )}
 
       <div className="card">
         <h3 style={{ marginTop: 0 }}>{t('admin.moderation')}</h3>
@@ -473,7 +428,26 @@ export function AdminView() {
         >
           {t('admin.openInGitHub')}
         </a>
+        {ghUser && (
+          <p className="hint" style={{ marginTop: 12 }}>
+            {t('admin.signedInAs', { login: ghUser.login })}{' '}
+            <button type="button" className="link" onClick={signOutGitHub}>
+              {t('admin.disconnect')}
+            </button>
+          </p>
+        )}
       </div>
+
+      {pending && (
+        <GitHubTokenModal
+          onDone={() => {
+            const action = pending;
+            setPending(null);
+            action();
+          }}
+          onCancel={() => setPending(null)}
+        />
+      )}
     </section>
   );
 }

@@ -256,10 +256,15 @@ export const fr: Translation = {
   admin: {
     heading: "Console d'administration",
     intro:
-      "Les demandes sont stockées comme issues GitHub, mais se consultent et se traitent ici. Connectez un jeton GitHub pour commenter, décider et gérer les niveaux sans quitter l'application.",
-    connection: 'Connexion GitHub',
-    connectionHint:
-      "Un site statique ne peut pas obtenir de jeton tout seul : les points d'entrée OAuth de GitHub n'acceptent pas les appels depuis un navigateur. Collez donc un jeton personnel. Il reste dans cet onglet et disparaît à la fermeture du navigateur.",
+      'Consultez et traitez ici les demandes, les échanges et les niveaux de chacun. Tout se fait dans cet écran.',
+    connection: 'Autoriser la modification',
+    unlockIntro:
+      "Cette action modifie le dépôt partagé. GitHub doit donc savoir que c'est bien vous. Cette autorisation n'est demandée qu'une fois sur cet ordinateur.",
+    stepCreate: 'Ouvrir la page de création du jeton sur GitHub',
+    stepScopes: "Choisir le dépôt d365-licensing-profiler, puis autoriser Issues et Contents en lecture et écriture",
+    stepPaste: 'Copier le jeton affiché et le coller ci-dessous',
+    onceOnly: "Le jeton reste sur cet ordinateur. Il n'est jamais envoyé ailleurs qu'à GitHub.",
+    signedInAs: 'Autorisation active pour {{login}}.',
     tokenPlaceholder: 'Jeton GitHub (github_pat_…)',
     connect: 'Connecter',
     connecting: 'Connexion…',

@@ -1,4 +1,4 @@
-import { REPO } from './governance';
+﻿import { REPO } from './governance';
 
 /**
  * GitHub access from a static site.
@@ -6,8 +6,8 @@ import { REPO } from './governance';
  * The REST API allows cross-origin writes (preflight returns PATCH/PUT/POST and
  * accepts the Authorization header), but no token can be obtained without a
  * server: the OAuth device flow endpoints do not support CORS. The user therefore
- * supplies a fine-grained token, kept in sessionStorage so it disappears when the
- * browser closes.
+ * supplies a fine-grained token once per machine; it is kept locally and never
+ * leaves the browser except towards api.github.com.
  */
 const TOKEN_KEY = 'd365lic.ghToken';
 const API = 'https://api.github.com';
@@ -19,7 +19,7 @@ export interface GitHubUser {
   canWrite: boolean;
 }
 
-let token: string | null = sessionStorage.getItem(TOKEN_KEY);
+let token: string | null = localStorage.getItem(TOKEN_KEY);
 let user: GitHubUser | null = null;
 const listeners = new Set<() => void>();
 
@@ -73,7 +73,7 @@ export async function signInWithToken(candidate: string): Promise<GitHubUser> {
       avatarUrl: me.avatar_url,
       canWrite: Boolean(permissions.push || permissions.maintain || permissions.admin),
     };
-    sessionStorage.setItem(TOKEN_KEY, token);
+    localStorage.setItem(TOKEN_KEY, token);
     emit();
     return user;
   } catch (error) {
@@ -87,13 +87,13 @@ export async function signInWithToken(candidate: string): Promise<GitHubUser> {
 export function signOutGitHub(): void {
   token = null;
   user = null;
-  sessionStorage.removeItem(TOKEN_KEY);
+  localStorage.removeItem(TOKEN_KEY);
   emit();
 }
 
 /** Restores a session token kept from a previous view of the console. */
 export async function restoreSession(): Promise<void> {
-  const saved = sessionStorage.getItem(TOKEN_KEY);
+  const saved = localStorage.getItem(TOKEN_KEY);
   if (!saved || user) return;
   try {
     await signInWithToken(saved);
