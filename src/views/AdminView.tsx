@@ -8,6 +8,7 @@ import {
   REQUEST_LABEL_NAME,
   STATUS_LABELS,
   applyGovernance,
+  approvalRequestUrl,
   canModerate,
   canOpenConsole,
   canRequest,
@@ -451,9 +452,17 @@ export function AdminView() {
 
         <div className="card">
           <h3 style={{ marginTop: 0 }}>{t('admin.pendingTitle')}</h3>
-          <p className="hint" style={{ marginBottom: 0 }}>
+          <p className="hint" style={{ marginBottom: 12 }}>
             {t('admin.pendingBody')}
           </p>
+          <a
+            className="button-link"
+            href={approvalRequestUrl(identity)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t('admin.requestApproval')}
+          </a>
         </div>
 
         <FreeRequestCard identity={identity} />

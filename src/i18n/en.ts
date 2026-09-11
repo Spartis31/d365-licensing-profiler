@@ -260,7 +260,8 @@ export const en = {
     approveContributor: 'Approve this user',
     pendingTitle: 'Waiting for approval',
     pendingBody:
-      'You can use the whole tool, and send a free-text request below. Proposing a process for the shared catalog needs an approval from a moderator.',
+      'You can use the whole tool. Proposing a process for the shared catalog needs an approval from a moderator. Ask for it below: signing in leaves no trace, so this request is what makes you visible to an administrator.',
+    requestApproval: 'Ask to be approved',
     notYourself: 'You cannot remove yourself.',
     lastAdmin: 'The last administrator cannot be changed or removed.',
     level_approved: 'Approved contributor',

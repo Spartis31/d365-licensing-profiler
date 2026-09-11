@@ -263,7 +263,8 @@ export const nl: Translation = {
     approveContributor: 'Deze gebruiker goedkeuren',
     pendingTitle: 'Wacht op goedkeuring',
     pendingBody:
-      'U kunt het hele hulpmiddel gebruiken en hieronder een vrije-tekstverzoek sturen. Een proces voorstellen voor de gedeelde catalogus vereist de goedkeuring van een moderator.',
+      'U kunt het hele hulpmiddel gebruiken. Een proces voorstellen voor de gedeelde catalogus vereist goedkeuring. Vraag die hieronder aan: aanmelden laat geen spoor na, dus pas dit verzoek maakt u zichtbaar voor een beheerder.',
+    requestApproval: 'Goedkeuring aanvragen',
     notYourself: 'U kunt uzelf niet verwijderen.',
     lastAdmin: 'De laatste beheerder kan niet worden gewijzigd of verwijderd.',
     level_approved: 'Goedgekeurde bijdrager',

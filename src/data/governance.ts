@@ -6,6 +6,7 @@ export const REPO = 'Spartis31/d365-licensing-profiler';
 const REQUEST_MARKER = 'Submitted from the D365 Licensing Profiler.';
 const REQUEST_LABEL = 'process-request';
 const TRANSLATION_LABEL = 'ai-translation';
+const APPROVAL_LABEL = 'approval-request';
 
 export type GovernanceLevel = 'user' | 'approved' | 'moderator' | 'admin';
 
@@ -142,6 +143,19 @@ export function newRequestUrl(options: {
     title: processes.length === 0 ? 'Open request' : title,
     body: lines.join('\n'),
     labels: labels.join(','),
+  });
+  return `https://github.com/${REPO}/issues/new?${params.toString()}`;
+}
+
+/**
+ * Signing in leaves no trace on a static site, so this is how an unapproved user
+ * becomes visible to an administrator at all.
+ */
+export function approvalRequestUrl(identity: ContributorIdentity): string {
+  const params = new URLSearchParams({
+    title: `Approval request: ${identity.login}`,
+    body: [REQUEST_MARKER, '', 'I would like to be approved as a contributor.'].join('\n'),
+    labels: APPROVAL_LABEL,
   });
   return `https://github.com/${REPO}/issues/new?${params.toString()}`;
 }
