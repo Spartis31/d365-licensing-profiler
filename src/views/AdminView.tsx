@@ -124,28 +124,29 @@ export function AdminView() {
         <p className="hint" style={{ marginBottom: 12 }}>
           {t('admin.freeRequestHint')}
         </p>
-        <textarea
-          rows={3}
-          value={freeText}
-          placeholder={t('admin.freeRequestPlaceholder')}
-          onChange={(e) => setFreeText(e.target.value)}
-        />
-        <button
-          type="button"
-          className="primary"
-          style={{ marginTop: 10 }}
-          disabled={freeText.trim().length === 0}
-          onClick={() => {
-            window.open(
-              newRequestUrl({ identity, processes: [], freeText, wantsTranslation: false }),
-              '_blank',
-              'noopener',
-            );
-            setFreeText('');
-          }}
-        >
-          {t('admin.submit')}
-        </button>
+        <div className="compose-row">
+          <textarea
+            rows={3}
+            value={freeText}
+            placeholder={t('admin.freeRequestPlaceholder')}
+            onChange={(e) => setFreeText(e.target.value)}
+          />
+          <button
+            type="button"
+            className="primary"
+            disabled={freeText.trim().length === 0}
+            onClick={() => {
+              window.open(
+                newRequestUrl({ identity, processes: [], freeText, wantsTranslation: false }),
+                '_blank',
+                'noopener',
+              );
+              setFreeText('');
+            }}
+          >
+            {t('admin.submit')}
+          </button>
+        </div>
       </div>
 
       {level !== 'contributor' && (

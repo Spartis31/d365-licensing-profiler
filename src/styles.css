@@ -1094,6 +1094,24 @@ td.cell button {
   border: 1px solid #f0dcb4;
 }
 
+/* Le bouton suit le bas de la zone de texte, y compris quand l'utilisateur la
+   redimensionne. */
+.compose-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+}
+
+.compose-row textarea {
+  flex: 1;
+  min-width: 0;
+  resize: vertical;
+}
+
+.compose-row button {
+  flex: none;
+}
+
 .field {
   display: flex;
   flex-direction: column;
