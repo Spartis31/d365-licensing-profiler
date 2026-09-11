@@ -1,9 +1,11 @@
-import type { MicrosoftIdentity } from '../auth/identity';
+import type { ContributorIdentity } from '../auth/identity';
 
 export const REPO = 'Spartis31/d365-licensing-profiler';
 
-/** Marker written in every issue body so requests can be attributed to an alias. */
-const ALIAS_MARKER = 'Microsoft alias:';
+/** Marker written in every issue body so requests can be attributed. */
+const ALIAS_MARKER = 'GitHub account:';
+/** Requests opened before contributors moved to GitHub carried a corporate alias. */
+const LEGACY_MARKER = 'Microsoft alias:';
 const REQUEST_LABEL = 'process-request';
 const TRANSLATION_LABEL = 'ai-translation';
 
@@ -12,7 +14,7 @@ export type GovernanceLevel = 'contributor' | 'moderator' | 'admin';
 export const GOVERNANCE_PATH = 'public/governance.json';
 
 /** Fallback used before the file is fetched, and if the fetch ever fails. */
-const SEED: Record<string, GovernanceLevel> = { thomasjulie: 'admin' };
+const SEED: Record<string, GovernanceLevel> = { Spartis31: 'admin' };
 
 let levels: Record<string, GovernanceLevel> = SEED;
 
@@ -40,9 +42,10 @@ export async function loadGovernance(): Promise<Record<string, GovernanceLevel>>
   return levels;
 }
 
-export function levelOf(identity: MicrosoftIdentity | null): GovernanceLevel | null {
+export function levelOf(identity: ContributorIdentity | null): GovernanceLevel | null {
   if (!identity) return null;
-  return levels[identity.alias] ?? 'contributor';
+  // Signing in is enough to contribute; the file only records exceptions.
+  return levels[identity.login] ?? 'contributor';
 }
 
 /** Labels carrying the decision, so a status change is a traceable GitHub event. */
@@ -87,20 +90,20 @@ function statusOf(issue: RawIssue): RequestStatus {
 
 function aliasOf(body: string | null): string | null {
   if (!body) return null;
-  const match = new RegExp(`${ALIAS_MARKER}\\s*\`?([a-z0-9._-]+)\`?`, 'i').exec(body);
-  return match ? match[1].toLowerCase() : null;
+  const match = new RegExp(`(?:${ALIAS_MARKER}|${LEGACY_MARKER})\\s*\`?([A-Za-z0-9._-]+)\`?`, 'i').exec(body);
+  return match ? match[1] : null;
 }
 
 /** Pre-filled issue URL: no token in the browser, GitHub authenticates the author. */
 export function newRequestUrl(options: {
-  identity: MicrosoftIdentity;
+  identity: ContributorIdentity;
   processes: Array<{ label: string; licence: string; domain: string }>;
   freeText: string;
   wantsTranslation: boolean;
 }): string {
   const { identity, processes, freeText, wantsTranslation } = options;
   const lines = [
-    `${ALIAS_MARKER} \`${identity.alias}\``,
+    `${ALIAS_MARKER} \`${identity.login}\``,
     '',
     processes.length > 0 ? '## Proposed processes' : '',
     ...processes.map((p) => `- **${p.label}** — domain: ${p.domain} — minimum licence: ${p.licence}`),

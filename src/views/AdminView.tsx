@@ -171,6 +171,38 @@ function RequestDetail({
   );
 }
 
+/** Public profile names, read from GitHub so the repository stores no personal data. */
+function useGitHubNames(logins: string[]): Record<string, string> {
+  const [names, setNames] = useState<Record<string, string>>({});
+  const key = logins.join(',');
+
+  useEffect(() => {
+    let cancelled = false;
+    const wanted = key ? key.split(',') : [];
+    void Promise.all(
+      wanted.map(async (login) => {
+        try {
+          const response = await fetch(`https://api.github.com/users/${login}`, {
+            headers: { Accept: 'application/vnd.github+json' },
+          });
+          if (!response.ok) return [login, ''] as const;
+          const user = (await response.json()) as { name: string | null };
+          return [login, user.name ?? ''] as const;
+        } catch {
+          return [login, ''] as const;
+        }
+      }),
+    ).then((pairs) => {
+      if (!cancelled) setNames(Object.fromEntries(pairs));
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [key]);
+
+  return names;
+}
+
 function PeopleCard({
   levels,
   requireWrite,
@@ -188,6 +220,8 @@ function PeopleCard({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+  const names = useGitHubNames([...Object.keys(levels), ...seen]);
+  const label = (login: string) => (names[login] ? `${login} | ${names[login]}` : login);
 
   const save = (next: Record<string, GovernanceLevel>, message: string) =>
     requireWrite(() => {
@@ -218,7 +252,7 @@ function PeopleCard({
       <ul className="people-list">
         {Object.entries(levels).map(([alias, level]) => (
           <li key={alias}>
-            <span className="identity-chip">{alias}</span>
+            <span className="identity-chip">{label(alias)}</span>
             <select
               value={level}
               disabled={busy}
@@ -262,7 +296,7 @@ function PeopleCard({
               .filter((alias) => !(alias in levels))
               .map((alias) => (
                 <li key={alias}>
-                  <span className="identity-chip">{alias}</span>
+                  <span className="identity-chip">{label(alias)}</span>
                   <button
                     type="button"
                     disabled={busy}
@@ -349,7 +383,7 @@ export function AdminView() {
   }
 
   const all = result?.status === 'ok' ? result.requests : [];
-  const visible = level === 'contributor' ? all.filter((r) => r.alias === identity.alias) : all;
+  const visible = level === 'contributor' ? all.filter((r) => r.alias === identity.login) : all;
 
   return (
     <section className="view">

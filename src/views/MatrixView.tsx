@@ -304,7 +304,7 @@ export function MatrixView({ project, toggleSelection, addCustomProcess, removeC
                   domainId: draftDomain,
                   label: draftLabel.trim(),
                   licence: draftLicence,
-                  author: identity.alias,
+                  author: identity.login,
                 });
                 setDraftLabel('');
               }}

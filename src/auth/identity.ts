@@ -1,59 +1,71 @@
 import { useSyncExternalStore } from 'react';
 
 /**
- * Identity of a Microsoft employee.
+ * A contributor is a verified GitHub account.
  *
- * The shape matches what an Entra ID token exposes, so swapping the local
- * provider for MSAL later only changes how an identity is obtained, not how the
- * views consume it.
+ * Only `login` ever reaches the repository. `displayName` is entered by the
+ * person for their own convenience and never leaves this browser.
  */
-export interface MicrosoftIdentity {
-  /** Corporate alias, e.g. `thomasjulie`. */
-  alias: string;
-  email: string;
+export interface ContributorIdentity {
+  login: string;
   displayName: string;
-  /** How the identity was obtained; `local` carries no security guarantee. */
-  provider: 'local' | 'entra';
+  avatarUrl: string;
 }
 
-export type RejectionReason = 'format' | 'domain' | 'guest';
+export type RejectionReason = 'format' | 'unknown' | 'network';
 
-export type IdentityResult =
-  | { ok: true; identity: MicrosoftIdentity }
-  | { ok: false; reason: RejectionReason };
+export type IdentityResult = { ok: true; identity: ContributorIdentity } | { ok: false; reason: RejectionReason };
 
-const CORPORATE_DOMAIN = '@microsoft.com';
 const STORAGE_KEY = 'd365lic.identity';
 
-/** Microsoft's Entra tenant, for the future MSAL authority. */
-export const MICROSOFT_TENANT_ID = '72f988bf-86f1-41af-91ab-2d7cd011db47';
+/** GitHub logins: alphanumeric and single hyphens, 39 characters at most. */
+const LOGIN_PATTERN = /^[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38}$/i;
 
-/**
- * Validates a corporate sign-in. Guests of the Microsoft tenant carry `#EXT#`
- * in their principal name and are rejected even though they belong to it.
- */
-export function identityFromEmail(raw: string, provider: MicrosoftIdentity['provider']): IdentityResult {
-  const email = raw.trim().toLowerCase();
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) return { ok: false, reason: 'format' };
-  if (email.includes('#ext#')) return { ok: false, reason: 'guest' };
-  if (!email.endsWith(CORPORATE_DOMAIN)) return { ok: false, reason: 'domain' };
-
-  const alias = email.slice(0, -CORPORATE_DOMAIN.length);
-  if (alias.length === 0) return { ok: false, reason: 'format' };
-
-  return { ok: true, identity: { alias, email, displayName: alias, provider } };
+export function isLoginShape(raw: string): boolean {
+  return LOGIN_PATTERN.test(raw.trim().replace(/^@/, ''));
 }
 
-let current: MicrosoftIdentity | null = read();
+/**
+ * Checks the account exists. Ownership is proven later by GitHub itself, when
+ * the person signs in there to post their request.
+ */
+export async function verifyGitHubAccount(rawLogin: string, displayName: string): Promise<IdentityResult> {
+  const login = rawLogin.trim().replace(/^@/, '');
+  if (!isLoginShape(login)) return { ok: false, reason: 'format' };
+
+  try {
+    const response = await fetch(`https://api.github.com/users/${login}`, {
+      headers: { Accept: 'application/vnd.github+json' },
+    });
+    if (response.status === 404) return { ok: false, reason: 'unknown' };
+    if (!response.ok) return { ok: false, reason: 'network' };
+
+    const user = (await response.json()) as { login: string; avatar_url: string };
+    return {
+      ok: true,
+      identity: { login: user.login, displayName: displayName.trim(), avatarUrl: user.avatar_url },
+    };
+  } catch {
+    return { ok: false, reason: 'network' };
+  }
+}
+
+let current: ContributorIdentity | null = read();
 const listeners = new Set<() => void>();
 
-function read(): MicrosoftIdentity | null {
+function read(): ContributorIdentity | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as Record<string, unknown>;
-    const result = identityFromEmail(String(parsed.email ?? ''), 'local');
-    return result.ok ? result.identity : null;
+    const login = String(parsed.login ?? '');
+    // Identities stored before the move to GitHub carried an email instead.
+    if (!isLoginShape(login)) return null;
+    return {
+      login,
+      displayName: String(parsed.displayName ?? ''),
+      avatarUrl: String(parsed.avatarUrl ?? ''),
+    };
   } catch {
     return null;
   }
@@ -63,7 +75,7 @@ function emit(): void {
   for (const listener of listeners) listener();
 }
 
-export function signIn(identity: MicrosoftIdentity): void {
+export function signIn(identity: ContributorIdentity): void {
   current = identity;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(identity));
   emit();
@@ -75,7 +87,7 @@ export function signOut(): void {
   emit();
 }
 
-export function useIdentity(): MicrosoftIdentity | null {
+export function useIdentity(): ContributorIdentity | null {
   return useSyncExternalStore(
     (listener) => {
       listeners.add(listener);
