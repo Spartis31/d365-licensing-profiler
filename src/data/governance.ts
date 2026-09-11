@@ -152,16 +152,21 @@ export async function fetchRequests(force = false): Promise<RequestsResult> {
   }
 
   try {
-    const response = await fetch(
-      `https://api.github.com/repos/${REPO}/issues?state=all&labels=${REQUEST_LABEL}&per_page=100`,
-      { headers: { Accept: 'application/vnd.github+json' } },
-    );
+    // No label filter: GitHub silently drops unknown labels from a prefilled issue
+    // URL, so a request is recognised by its alias marker as well as by its label.
+    const response = await fetch(`https://api.github.com/repos/${REPO}/issues?state=all&per_page=100`, {
+      headers: { Accept: 'application/vnd.github+json' },
+    });
     if (response.status === 403 || response.status === 429) return { status: 'rateLimited' };
     if (!response.ok) return { status: 'error' };
 
     const issues = (await response.json()) as RawIssue[];
     const requests = issues
       .filter((issue) => !issue.pull_request)
+      .filter(
+        (issue) =>
+          issue.labels.some((l) => l.name.toLowerCase() === REQUEST_LABEL) || aliasOf(issue.body) !== null,
+      )
       .map((issue) => ({
         number: issue.number,
         title: issue.title,
@@ -170,7 +175,9 @@ export async function fetchRequests(force = false): Promise<RequestsResult> {
         alias: aliasOf(issue.body),
         status: statusOf(issue),
         createdAt: issue.created_at,
-        needsTranslation: issue.labels.some((l) => l.name.toLowerCase() === TRANSLATION_LABEL),
+        needsTranslation:
+          issue.labels.some((l) => l.name.toLowerCase() === TRANSLATION_LABEL) ||
+          (issue.body ?? '').includes('Traduction FR/EN par IA'),
       }));
 
     localStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), requests }));

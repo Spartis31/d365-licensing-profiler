@@ -419,7 +419,7 @@ export function AdminView() {
         <p className="hint">{t('admin.moderationHint')}</p>
         <a
           className="button-link"
-          href={`https://github.com/${REPO}/issues?q=is%3Aissue+label%3A${REQUEST_LABEL_NAME}`}
+          href={`https://github.com/${REPO}/issues?q=is%3Aissue`}
           target="_blank"
           rel="noopener noreferrer"
         >
