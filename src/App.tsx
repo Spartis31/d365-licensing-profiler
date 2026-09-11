@@ -6,13 +6,15 @@ import { ProfilesView } from './views/ProfilesView';
 import { MatrixView } from './views/MatrixView';
 import { RolesView } from './views/RolesView';
 import { ResultsView } from './views/ResultsView';
+import { AdminView } from './views/AdminView';
 import { DisclaimerModal } from './components/DisclaimerModal';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
+import { useIdentity } from './auth/identity';
 import { currentLanguage } from './i18n';
 import { download, projectFileName, readProjectFile, saveProjectFile } from './export/projectFile';
 
 const DISCLAIMER_KEY = 'd365lic.disclaimerAccepted';
-const TABS = ['setup', 'profiles', 'matrix', 'roles', 'results'] as const;
+const TABS = ['setup', 'profiles', 'matrix', 'roles', 'results', 'admin'] as const;
 type Tab = (typeof TABS)[number];
 
 /** The two profiling tabs are mutually exclusive; only the active mode's is shown. */
@@ -21,6 +23,7 @@ const HIDDEN_BY_MODE: Record<string, Tab> = { processes: 'roles', roles: 'matrix
 export default function App() {
   const { t } = useTranslation();
   const api = useProject();
+  const identity = useIdentity();
   const [tab, setTab] = useState<Tab>('setup');
   const [accepted, setAccepted] = useState(() => localStorage.getItem(DISCLAIMER_KEY) === 'true');
   const [showDisclaimer, setShowDisclaimer] = useState(false);
@@ -29,7 +32,8 @@ export default function App() {
   const fileInput = useRef<HTMLInputElement>(null);
 
   const hiddenTab = HIDDEN_BY_MODE[api.project.profilingMode];
-  const visibleTabs = TABS.filter((name) => name !== hiddenTab);
+  // Administration only exists for signed-in Microsoft employees.
+  const visibleTabs = TABS.filter((name) => name !== hiddenTab && (name !== 'admin' || identity));
   // Changing mode in Setup must not leave the user stranded on a hidden step.
   const activeTab = tab === hiddenTab ? (api.project.profilingMode === 'roles' ? 'roles' : 'matrix') : tab;
 
@@ -71,6 +75,7 @@ export default function App() {
     matrix: api.project.profiles.some((profile) => Object.keys(profile.selections).length > 0),
     roles: api.project.profiles.some((profile) => Object.keys(profile.standardRoles ?? {}).length > 0),
     results: false,
+    admin: false,
   };
 
   return (
@@ -148,6 +153,7 @@ export default function App() {
         {activeTab === 'matrix' && <MatrixView {...api} />}
         {activeTab === 'roles' && <RolesView {...api} />}
         {activeTab === 'results' && <ResultsView project={api.project} />}
+        {activeTab === 'admin' && <AdminView />}
       </main>
 
       <footer className="app-footer">

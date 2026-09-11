@@ -11,6 +11,7 @@ export const fr: Translation = {
     matrix: 'Processus métier',
     roles: 'Rôles standards',
     results: 'Résultats',
+    admin: 'Administration Processus',
     disclaimer: 'Avertissement',
   },
   actions: {
@@ -241,6 +242,52 @@ export const fr: Translation = {
       "La mise à jour s'exécute sur GitHub : téléchargement du guide publié, réextraction des 143 rôles standards, contrôle du résultat et ouverture d'une pull request. La fusionner met le catalogue à jour pour tout le monde.",
     updateUnavailable:
       "Mettre à jour le catalogue de rôles partagé suppose la version en ligne : l'écriture vaut pour tous les utilisateurs. Disponible hors ligne pour l'instant : la vérification de l'édition publiée.",
+  },
+  request: {
+    button: 'Demande d\u2019ajout de processus standard',
+    intro:
+      "Proposez vos processus personnalisés pour intégration au catalogue partagé. La soumission ouvre une issue GitHub pré-remplie : vous en restez l'auteur, un modérateur l'examine.",
+    noCustom: "Ajoutez d'abord un processus personnalisé, puis sélectionnez-le ici.",
+    translate: 'Demander une traduction par l\u2019IA',
+    translateHint:
+      "La traduction s'exécute sur GitHub après soumission, pas dans votre navigateur : aucune clé d'API ne peut être embarquée dans un site statique. L'issue est étiquetée et un workflow publie les libellés FR/EN.",
+    submit: 'Soumettre la demande',
+  },
+  admin: {
+    heading: 'Administration Processus',
+    intro:
+      "Les demandes sont des issues GitHub. Cet écran les lit ; approuver, modifier et répondre se font dans GitHub, où s'appliquent les permissions du dépôt.",
+    level_contributor: 'Contributeur',
+    level_moderator: 'Modérateur',
+    level_admin: 'Administrateur',
+    levelHint: 'Votre niveau détermine ce que vous voyez et ce que vous pouvez faire.',
+    refresh: 'Actualiser',
+    loading: 'Chargement…',
+    request: 'Demande',
+    requester: 'Demandeur',
+    status: 'Statut',
+    date: 'Date',
+    status_pending: 'En cours',
+    status_accepted: 'Accepté',
+    status_acceptedWithChanges: 'Accepté avec modification',
+    status_rejected: 'Refusé',
+    translation: 'Traduction demandée',
+    noRequests: 'Aucune demande pour le moment.',
+    rateLimited:
+      'Limite GitHub atteinte (60 appels par heure sans authentification). La liste reviendra dans quelques minutes.',
+    loadError: 'Impossible de joindre GitHub.',
+    freeRequest: 'Demande en texte libre',
+    freeRequestHint: "Tout ce qui n'entre pas dans un processus : une question, une correction, une suggestion.",
+    freeRequestPlaceholder: 'Décrivez votre demande…',
+    submit: 'Soumettre',
+    moderation: 'Modération',
+    moderationHint:
+      "Modifier un titre, ses traductions, la licence ou le domaine se fait dans l'issue elle-même : chaque changement est tracé et réversible.",
+    openInGitHub: 'Ouvrir les demandes dans GitHub',
+    people: 'Contributeurs, modérateurs et administrateurs',
+    peopleHint:
+      "Les niveaux sont versionnés dans le dépôt : en changer un passe par une pull request plutôt que par un réglage modifiable par n'importe qui.",
+    editPeople: 'Modifier les niveaux',
   },
   common: {
     language: 'Langue',

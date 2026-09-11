@@ -9,6 +9,7 @@ export const en = {
     matrix: 'Business processes',
     roles: 'Standard roles',
     results: 'Results',
+    admin: 'Process administration',
     disclaimer: 'Disclaimer',
   },
   actions: {
@@ -239,6 +240,52 @@ export const en = {
       'The update runs on GitHub: it downloads the published guide, re-extracts the 143 standard roles, checks the result and opens a pull request. Merging it updates the catalogue for everyone.',
     updateUnavailable:
       'Updating the shared role catalogue requires the online version: it writes for every user. Currently available offline: checking the published edition.',
+  },
+  request: {
+    button: 'Request a standard process',
+    intro:
+      'Propose your custom processes for inclusion in the shared catalogue. Submitting opens a pre-filled GitHub issue: you stay the author, and a moderator reviews it.',
+    noCustom: 'Add a custom process first, then select it here.',
+    translate: 'Request an AI translation',
+    translateHint:
+      'The translation runs on GitHub after submission, not in your browser: no API key can be shipped in a static site. The issue is labelled and a workflow posts the FR/EN wording.',
+    submit: 'Submit the request',
+  },
+  admin: {
+    heading: 'Process administration',
+    intro:
+      'Requests are GitHub issues. This screen reads them; approving, editing and answering happen in GitHub, where repository permissions apply.',
+    level_contributor: 'Contributor',
+    level_moderator: 'Moderator',
+    level_admin: 'Administrator',
+    levelHint: 'Your level determines what you see and what you can do.',
+    refresh: 'Refresh',
+    loading: 'Loading…',
+    request: 'Request',
+    requester: 'Requested by',
+    status: 'Status',
+    date: 'Date',
+    status_pending: 'In progress',
+    status_accepted: 'Accepted',
+    status_acceptedWithChanges: 'Accepted with changes',
+    status_rejected: 'Rejected',
+    translation: 'Translation requested',
+    noRequests: 'No request yet.',
+    rateLimited:
+      'GitHub rate limit reached (60 calls per hour without signing in). The list will come back shortly.',
+    loadError: 'Unable to reach GitHub.',
+    freeRequest: 'Free-text request',
+    freeRequestHint: 'Anything that does not fit a process: a question, a correction, a suggestion.',
+    freeRequestPlaceholder: 'Describe your request…',
+    submit: 'Submit',
+    moderation: 'Moderation',
+    moderationHint:
+      'Editing a title, its translations, the licence or the domain happens in the issue itself, so every change is traced and reversible.',
+    openInGitHub: 'Open the requests in GitHub',
+    people: 'Contributors, moderators and administrators',
+    peopleHint:
+      'Levels are versioned in the repository: changing one goes through a pull request rather than a setting anyone could edit.',
+    editPeople: 'Edit the levels',
   },
   common: {
     language: 'Language',

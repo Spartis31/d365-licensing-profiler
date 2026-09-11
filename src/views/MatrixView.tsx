@@ -8,6 +8,7 @@ import { currentLanguage } from '../i18n';
 import { LicenceTag } from '../components/LicenceTag';
 import { useIdentity } from '../auth/identity';
 import { SignInModal } from '../components/SignInModal';
+import { newRequestUrl } from '../data/governance';
 
 interface ProcessRow {
   id: string;
@@ -32,6 +33,9 @@ export function MatrixView({ project, toggleSelection, addCustomProcess, removeC
   const lang = currentLanguage();
   const identity = useIdentity();
   const [showSignIn, setShowSignIn] = useState(false);
+  const [showRequest, setShowRequest] = useState(false);
+  const [picked, setPicked] = useState<Record<string, boolean>>({});
+  const [wantsTranslation, setWantsTranslation] = useState(false);
   const [search, setSearch] = useState('');
   const [onlySelected, setOnlySelected] = useState(false);
   const [collapsed, setCollapsed] = useState<Record<string, boolean>>({});
@@ -308,6 +312,82 @@ export function MatrixView({ project, toggleSelection, addCustomProcess, removeC
               {t('actions.add')}
             </button>
           </div>
+        </div>
+      )}
+
+      <h3>
+        <button
+          type="button"
+          className="link"
+          onClick={() => {
+            if (!identity) {
+              setShowSignIn(true);
+              return;
+            }
+            setShowRequest((v) => !v);
+          }}
+        >
+          {showRequest ? '−' : '+'} {t('request.button')}
+        </button>
+        {!identity && <span className="lock-hint">{t('auth.restricted')}</span>}
+      </h3>
+      {showRequest && identity && (
+        <div className="card">
+          <p className="hint" style={{ marginTop: 0 }}>
+            {t('request.intro')}
+          </p>
+          {project.customProcesses.length === 0 ? (
+            <p className="hint">{t('request.noCustom')}</p>
+          ) : (
+            <ul className="entity-list">
+              {project.customProcesses.map((custom) => (
+                <li key={custom.id}>
+                  <label className="checkbox">
+                    <input
+                      type="checkbox"
+                      checked={Boolean(picked[custom.id])}
+                      onChange={() => setPicked((p) => ({ ...p, [custom.id]: !p[custom.id] }))}
+                    />
+                    <span>{custom.label}</span>
+                  </label>
+                  <LicenceTag licence={custom.licence} />
+                </li>
+              ))}
+            </ul>
+          )}
+
+          <label className="checkbox" style={{ marginTop: 10 }}>
+            <input
+              type="checkbox"
+              checked={wantsTranslation}
+              onChange={(e) => setWantsTranslation(e.target.checked)}
+            />
+            <span>{t('request.translate')}</span>
+          </label>
+          <p className="hint">{t('request.translateHint')}</p>
+
+          <button
+            type="button"
+            className="primary"
+            style={{ marginTop: 10 }}
+            disabled={!project.customProcesses.some((c) => picked[c.id])}
+            onClick={() => {
+              const selected = project.customProcesses
+                .filter((c) => picked[c.id])
+                .map((c) => ({
+                  label: c.label,
+                  licence: c.licence ? t(`licences.${c.licence}`) : t('licences.none'),
+                  domain: DOMAINS.find((d) => d.id === c.domainId)?.label[lang] ?? c.domainId,
+                }));
+              window.open(
+                newRequestUrl({ identity, processes: selected, freeText: '', wantsTranslation }),
+                '_blank',
+                'noopener',
+              );
+            }}
+          >
+            {t('request.submit')}
+          </button>
         </div>
       )}
 
