@@ -12,9 +12,16 @@ Replicates and replaces the Excel workbook `Microsoft_profiling_licencesDyn365_S
 4. **Results** — Base, Attach and cross-application licences, per profile and per legal entity.
 5. **Administration console** — review and decide requests to extend the standard catalog.
 
-The interface is bilingual **EN / FR** and switches instantly. Source code, comments, commit
-messages and GitHub labels are English; French exists only as UI translations in
-[src/i18n](src/i18n) and in the label dictionaries of the catalog.
+The interface ships in nine languages — English, French, Danish, German, Spanish, Italian,
+Dutch, Portuguese (pt-PT) and Swedish — and switches instantly. Source code, comments, commit
+messages and GitHub labels are English; other languages exist only as UI translations in
+[src/i18n](src/i18n) and in the label dictionaries of the catalog. English is the mandatory
+fallback: a missing translation degrades to English rather than to an empty string.
+
+Security role names and descriptions stay in English on purpose — they are the product's own
+security role names, so translating them would diverge from what the customer sees in D365.
+Licence names (Finance, Supply Chain Management, Attach, Premium, Team Members) stay in
+English too, as commercial SKU names.
 
 ## Profiling methods are exclusive
 

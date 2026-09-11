@@ -10,6 +10,7 @@ export const SUPPORTED_LANGUAGES = [
   { code: 'de', label: 'Deutsch', locale: 'de-DE' },
   { code: 'es', label: 'Español', locale: 'es-ES' },
   { code: 'it', label: 'Italiano', locale: 'it-IT' },
+  { code: 'nl', label: 'Nederlands', locale: 'nl-NL' },
   { code: 'pt', label: 'Português', locale: 'pt-PT' },
   { code: 'sv', label: 'Svenska', locale: 'sv-SE' },
 ] as const;

@@ -23,35 +23,35 @@ APP_BY_PAGE = {
     55: "supplyChain",
 }
 
-LANGUAGES = ("fr", "da", "de", "es", "it", "pt", "sv")
+LANGUAGES = ("fr", "da", "de", "es", "it", "nl", "pt", "sv")
 
 # Group headings are the only translatable part of the role catalog: role names and
 # descriptions stay in English because they are the product's own security role names.
 GROUPS = {
-    "C-Suite": ("Direction générale", "Direktion", "Geschäftsleitung", "Alta dirección", "Direzione generale", "Direção-geral", "Företagsledning"),
-    "Budgeting": ("Budget", "Budgettering", "Budgetierung", "Presupuestos", "Budget", "Orçamentação", "Budgetering"),
-    "Financials and Accounting": ("Finance et comptabilité", "Økonomi og regnskab", "Finanzen und Buchhaltung", "Finanzas y contabilidad", "Finanza e contabilità", "Finanças e contabilidade", "Ekonomi och redovisning"),
-    "Commerce": ("Commerce", "Commerce", "Commerce", "Commerce", "Commerce", "Commerce", "Commerce"),
-    "General": ("Général", "Generelt", "Allgemein", "General", "Generale", "Geral", "Allmänt"),
-    "Project Management": ("Gestion de projet", "Projektstyring", "Projektmanagement", "Gestión de proyectos", "Gestione progetti", "Gestão de projetos", "Projektledning"),
-    "Project Accounting & Administration": ("Comptabilité et administration de projet", "Projektregnskab og administration", "Projektbuchhaltung und -verwaltung", "Contabilidad y administración de proyectos", "Contabilità e amministrazione progetti", "Contabilidade e administração de projetos", "Projektredovisning och administration"),
-    "Project Sales": ("Ventes de projet", "Projektsalg", "Projektvertrieb", "Ventas de proyectos", "Vendite di progetto", "Vendas de projetos", "Projektförsäljning"),
-    "Practice Management": ("Gestion de practice", "Practice-styring", "Practice-Management", "Gestión de práctica profesional", "Gestione della practice", "Gestão de práticas", "Practice-hantering"),
-    "Resource Management": ("Gestion des ressources", "Ressourcestyring", "Ressourcenmanagement", "Gestión de recursos", "Gestione risorse", "Gestão de recursos", "Resurshantering"),
-    "Cost Accounting": ("Comptabilité analytique", "Omkostningsregnskab", "Kostenrechnung", "Contabilidad de costes", "Contabilità industriale", "Contabilidade analítica", "Kostnadsredovisning"),
-    "Customer Service": ("Service client", "Kundeservice", "Kundenservice", "Servicio al cliente", "Servizio clienti", "Serviço ao cliente", "Kundtjänst"),
-    "Demand Planning": ("Planification de la demande", "Efterspørgselsplanlægning", "Bedarfsplanung", "Planificación de la demanda", "Pianificazione della domanda", "Planeamento da procura", "Efterfrågeplanering"),
-    "Engineering": ("Bureau d'études", "Konstruktion", "Konstruktion", "Ingeniería", "Ufficio tecnico", "Engenharia", "Konstruktion"),
-    "Distribution": ("Distribution", "Distribution", "Distribution", "Distribución", "Distribuzione", "Distribuição", "Distribution"),
-    "Field Service": ("Service terrain", "Field Service", "Außendienst", "Servicio de campo", "Assistenza sul campo", "Serviço no terreno", "Fältservice"),
-    "Marketing": ("Marketing", "Marketing", "Marketing", "Marketing", "Marketing", "Marketing", "Marknadsföring"),
-    "Manufacturing": ("Production", "Produktion", "Fertigung", "Fabricación", "Produzione", "Produção", "Tillverkning"),
-    "Procurement": ("Achats", "Indkøb", "Beschaffung", "Aprovisionamiento", "Approvvigionamento", "Aprovisionamento", "Inköp"),
-    "Quality Control": ("Contrôle qualité", "Kvalitetskontrol", "Qualitätskontrolle", "Control de calidad", "Controllo qualità", "Controlo de qualidade", "Kvalitetskontroll"),
-    "Sales": ("Ventes", "Salg", "Vertrieb", "Ventas", "Vendite", "Vendas", "Försäljning"),
-    "Transportation": ("Transport", "Transport", "Transport", "Transporte", "Trasporti", "Transporte", "Transport"),
-    "Asset Management": ("Gestion des actifs", "Aktivstyring", "Anlagenverwaltung", "Gestión de activos", "Gestione cespiti", "Gestão de ativos", "Tillgångsförvaltning"),
-    "Human Resources": ("Ressources humaines", "Menneskelige ressourcer", "Personalwesen", "Recursos humanos", "Risorse umane", "Recursos humanos", "Personal"),
+    "C-Suite": ("Direction générale", "Direktion", "Geschäftsleitung", "Alta dirección", "Direzione generale", "Directie", "Direção-geral", "Företagsledning"),
+    "Budgeting": ("Budget", "Budgettering", "Budgetierung", "Presupuestos", "Budget", "Budgettering", "Orçamentação", "Budgetering"),
+    "Financials and Accounting": ("Finance et comptabilité", "Økonomi og regnskab", "Finanzen und Buchhaltung", "Finanzas y contabilidad", "Finanza e contabilità", "Financiën en boekhouding", "Finanças e contabilidade", "Ekonomi och redovisning"),
+    "Commerce": ("Commerce", "Commerce", "Commerce", "Commerce", "Commerce", "Commerce", "Commerce", "Commerce"),
+    "General": ("Général", "Generelt", "Allgemein", "General", "Generale", "Algemeen", "Geral", "Allmänt"),
+    "Project Management": ("Gestion de projet", "Projektstyring", "Projektmanagement", "Gestión de proyectos", "Gestione progetti", "Projectbeheer", "Gestão de projetos", "Projektledning"),
+    "Project Accounting & Administration": ("Comptabilité et administration de projet", "Projektregnskab og administration", "Projektbuchhaltung und -verwaltung", "Contabilidad y administración de proyectos", "Contabilità e amministrazione progetti", "Projectboekhouding en -administratie", "Contabilidade e administração de projetos", "Projektredovisning och administration"),
+    "Project Sales": ("Ventes de projet", "Projektsalg", "Projektvertrieb", "Ventas de proyectos", "Vendite di progetto", "Projectverkoop", "Vendas de projetos", "Projektförsäljning"),
+    "Practice Management": ("Gestion de practice", "Practice-styring", "Practice-Management", "Gestión de práctica profesional", "Gestione della practice", "Practice-beheer", "Gestão de práticas", "Practice-hantering"),
+    "Resource Management": ("Gestion des ressources", "Ressourcestyring", "Ressourcenmanagement", "Gestión de recursos", "Gestione risorse", "Resourcebeheer", "Gestão de recursos", "Resurshantering"),
+    "Cost Accounting": ("Comptabilité analytique", "Omkostningsregnskab", "Kostenrechnung", "Contabilidad de costes", "Contabilità industriale", "Kostenboekhouding", "Contabilidade analítica", "Kostnadsredovisning"),
+    "Customer Service": ("Service client", "Kundeservice", "Kundenservice", "Servicio al cliente", "Servizio clienti", "Klantenservice", "Serviço ao cliente", "Kundtjänst"),
+    "Demand Planning": ("Planification de la demande", "Efterspørgselsplanlægning", "Bedarfsplanung", "Planificación de la demanda", "Pianificazione della domanda", "Vraagplanning", "Planeamento da procura", "Efterfrågeplanering"),
+    "Engineering": ("Bureau d'études", "Konstruktion", "Konstruktion", "Ingeniería", "Ufficio tecnico", "Engineering", "Engenharia", "Konstruktion"),
+    "Distribution": ("Distribution", "Distribution", "Distribution", "Distribución", "Distribuzione", "Distributie", "Distribuição", "Distribution"),
+    "Field Service": ("Service terrain", "Field Service", "Außendienst", "Servicio de campo", "Assistenza sul campo", "Field Service", "Serviço no terreno", "Fältservice"),
+    "Marketing": ("Marketing", "Marketing", "Marketing", "Marketing", "Marketing", "Marketing", "Marketing", "Marknadsföring"),
+    "Manufacturing": ("Production", "Produktion", "Fertigung", "Fabricación", "Produzione", "Productie", "Produção", "Tillverkning"),
+    "Procurement": ("Achats", "Indkøb", "Beschaffung", "Aprovisionamiento", "Approvvigionamento", "Inkoop", "Aprovisionamento", "Inköp"),
+    "Quality Control": ("Contrôle qualité", "Kvalitetskontrol", "Qualitätskontrolle", "Control de calidad", "Controllo qualità", "Kwaliteitscontrole", "Controlo de qualidade", "Kvalitetskontroll"),
+    "Sales": ("Ventes", "Salg", "Vertrieb", "Ventas", "Vendite", "Verkoop", "Vendas", "Försäljning"),
+    "Transportation": ("Transport", "Transport", "Transport", "Transporte", "Trasporti", "Transport", "Transporte", "Transport"),
+    "Asset Management": ("Gestion des actifs", "Aktivstyring", "Anlagenverwaltung", "Gestión de activos", "Gestione cespiti", "Activabeheer", "Gestão de ativos", "Tillgångsförvaltning"),
+    "Human Resources": ("Ressources humaines", "Menneskelige ressourcer", "Personalwesen", "Recursos humanos", "Risorse umane", "Personeelszaken", "Recursos humanos", "Personal"),
 }
 
 APP_FALLBACK_GROUP = {

@@ -47,7 +47,7 @@ export function SignInModal({ onClose }: { onClose: () => void }) {
         {error && <p className="error-text">{t(`auth.error_${error}`)}</p>}
 
         <div className="modal-actions">
-          <button type="button" className="subtle" onClick={onClose}>
+            <button type="button" onClick={onClose}>
             {t('actions.close')}
           </button>
           <button type="button" className="primary" disabled={email.trim().length === 0} onClick={submit}>

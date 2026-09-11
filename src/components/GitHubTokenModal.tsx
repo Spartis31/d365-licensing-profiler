@@ -62,7 +62,7 @@ export function GitHubTokenModal({ onDone, onCancel }: { onDone: () => void; onC
         </p>
 
         <div className="modal-actions">
-          <button type="button" className="subtle" onClick={onCancel}>
+            <button type="button" onClick={onCancel}>
             {t('actions.close')}
           </button>
           <button type="button" className="primary" disabled={busy || value.trim().length === 0} onClick={submit}>

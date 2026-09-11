@@ -67,6 +67,16 @@ function FlagPT() {
   );
 }
 
+function FlagNL() {
+  return (
+    <svg viewBox="0 0 9 6" aria-hidden="true" focusable="false">
+      <rect width="9" height="2" y="0" fill="#ae1c28" />
+      <rect width="9" height="2" y="2" fill="#ffffff" />
+      <rect width="9" height="2" y="4" fill="#21468b" />
+    </svg>
+  );
+}
+
 function FlagDA() {
   return (
     <svg viewBox="0 0 37 28" aria-hidden="true" focusable="false">
@@ -94,6 +104,7 @@ const FLAGS: Record<LanguageCode, () => JSX.Element> = {
   de: FlagDE,
   es: FlagES,
   it: FlagIT,
+  nl: FlagNL,
   pt: FlagPT,
   sv: FlagSV,
 };

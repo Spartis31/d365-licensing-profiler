@@ -117,7 +117,7 @@ export function SetupView({
         {identity ? (
           <div className="toolbar" style={{ marginBottom: 0 }}>
             <span className="identity-chip">{t('auth.signedInAs', { alias: identity.alias })}</span>
-            <button type="button" className="subtle" onClick={signOut}>
+            <button type="button" onClick={signOut}>
               {t('auth.signOut')}
             </button>
           </div>

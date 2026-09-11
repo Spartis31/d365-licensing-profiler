@@ -206,13 +206,14 @@ button.primary:hover:not(:disabled) {
   border-color: var(--blue-70);
 }
 
-button.subtle {
+/* Light-on-dark variant: only legible on the navy header, never on a card. */
+.app-header button.subtle {
   background: rgba(255, 255, 255, 0.12);
   border-color: rgba(255, 255, 255, 0.24);
   color: #fff;
 }
 
-button.subtle:hover:not(:disabled) {
+.app-header button.subtle:hover:not(:disabled) {
   background: rgba(255, 255, 255, 0.22);
   border-color: rgba(255, 255, 255, 0.36);
 }
