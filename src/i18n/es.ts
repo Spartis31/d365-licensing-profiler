@@ -229,7 +229,7 @@ export const es: Translation = {
     error_format: 'Este no es un nombre de cuenta de GitHub válido.',
     error_unknown: 'GitHub no conoce esta cuenta.',
     error_network: 'No se ha podido contactar con GitHub. Inténtelo de nuevo.',
-    restricted: 'Reservado a los colaboradores',
+    restricted: 'Reservado a los colaboradores aprobados',
   },
   guide: {
     title: 'Licensing Guide',
@@ -260,7 +260,8 @@ export const es: Translation = {
     seenPeople: 'Vistos en las solicitudes',
     seenPeopleHint:
       'Estas personas ya han enviado una solicitud. Quien inicia sesión es colaborador de forma predeterminada; añádalas aquí para dejarlo explícito o para promocionarlas.',
-    addAsContributor: 'Añadir como colaborador',
+    approveContributor: 'Aprobar a este colaborador',
+    level_approved: 'Colaborador aprobado',
     copyPrompt: 'Copiar la solicitud de traducción',
     promptCopied: 'Copiado: péguelo en Copilot y luego pegue aquí la tabla',
     openCopilot: 'Abrir Copilot',

@@ -7,9 +7,11 @@ import {
   REQUEST_LABEL_NAME,
   STATUS_LABELS,
   applyGovernance,
+  canModerate,
+  canOpenConsole,
   fetchRequests,
   governanceLevels,
-  levelOf,
+  levelIn,
   loadGovernance,
   newRequestUrl,
 } from '../data/governance';
@@ -36,7 +38,7 @@ const STATUS_TONE: Record<RequestStatus, string> = {
   rejected: 'tag-lic-projectOperations',
 };
 
-const LEVELS: GovernanceLevel[] = ['contributor', 'moderator', 'admin'];
+const LEVELS: GovernanceLevel[] = ['contributor', 'approved', 'moderator', 'admin'];
 
 /** Runs an action, asking for write access first if it has never been granted. */
 type RequireWrite = (action: () => void) => void;
@@ -301,10 +303,10 @@ function PeopleCard({
                     type="button"
                     disabled={busy}
                     onClick={() =>
-                      save({ ...levels, [alias]: 'contributor' }, `Governance: add ${alias}`)
+                      save({ ...levels, [alias]: 'approved' }, `Governance: approve ${alias}`)
                     }
                   >
-                    {t('admin.addAsContributor')}
+                    {t('admin.approveContributor')}
                   </button>
                 </li>
               ))}
@@ -324,7 +326,7 @@ function PeopleCard({
           disabled={busy || draft.trim().length === 0}
           onClick={() => {
             const alias = draft.trim().toLowerCase().replace(/@microsoft\.com$/, '');
-            save({ ...levels, [alias]: 'contributor' }, `Governance: add ${alias}`);
+            save({ ...levels, [alias]: 'approved' }, `Governance: approve ${alias}`);
             setDraft('');
           }}
         >
@@ -367,9 +369,9 @@ export function AdminView() {
     void load();
   }, [load]);
 
-  const level = levelOf(identity);
+  const level = levelIn(levels, identity);
 
-  if (!identity || !level) {
+  if (!identity || !canOpenConsole(level)) {
     return (
       <section className="view">
         <header>
@@ -383,7 +385,7 @@ export function AdminView() {
   }
 
   const all = result?.status === 'ok' ? result.requests : [];
-  const visible = level === 'contributor' ? all.filter((r) => r.alias === identity.login) : all;
+  const visible = canModerate(level) ? all : all.filter((r) => r.alias === identity.login);
 
   return (
     <section className="view">
@@ -419,7 +421,7 @@ export function AdminView() {
           <thead>
             <tr>
               <th>{t('admin.request')}</th>
-              {level !== 'contributor' && <th>{t('admin.requester')}</th>}
+              {canModerate(level) && <th>{t('admin.requester')}</th>}
               <th>{t('admin.status')}</th>
               <th>{t('admin.date')}</th>
             </tr>
@@ -448,13 +450,13 @@ export function AdminView() {
                   {openRequest === request.number && (
                     <RequestDetail
                       request={request}
-                      canModerate={level !== 'contributor'}
+                      canModerate={canModerate(level)}
                       requireWrite={requireWrite}
                       onChanged={() => void load(true)}
                     />
                   )}
                 </td>
-                {level !== 'contributor' && <td>{request.alias ?? '—'}</td>}
+                {canModerate(level) && <td>{request.alias ?? '—'}</td>}
                 <td>
                   <span className={`tag ${STATUS_TONE[request.status]}`}>{t(`admin.status_${request.status}`)}</span>
                 </td>

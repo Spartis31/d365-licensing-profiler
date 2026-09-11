@@ -229,7 +229,7 @@ export const nl: Translation = {
     error_format: 'Dit is geen geldige GitHub-accountnaam.',
     error_unknown: 'GitHub kent dit account niet.',
     error_network: 'GitHub kon niet worden bereikt. Probeer het opnieuw.',
-    restricted: 'Voorbehouden aan bijdragers',
+    restricted: 'Voorbehouden aan goedgekeurde bijdragers',
   },
   guide: {
     title: 'Licensing Guide',
@@ -260,7 +260,8 @@ export const nl: Translation = {
     seenPeople: 'Gezien in verzoeken',
     seenPeopleHint:
       'Deze personen hebben al een verzoek ingediend. Iedereen die zich aanmeldt is standaard bijdrager; voeg ze hier toe om dat vast te leggen of om ze te promoveren.',
-    addAsContributor: 'Toevoegen als bijdrager',
+    approveContributor: 'Deze bijdrager goedkeuren',
+    level_approved: 'Goedgekeurde bijdrager',
     copyPrompt: 'Vertaalverzoek kopiëren',
     promptCopied: 'Gekopieerd — plak het in Copilot en plak de tabel daarna hier',
     openCopilot: 'Copilot openen',

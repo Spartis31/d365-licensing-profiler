@@ -226,7 +226,7 @@ export const en = {
     error_format: 'This is not a valid GitHub account name.',
     error_unknown: 'GitHub does not know this account.',
     error_network: 'GitHub could not be reached. Try again.',
-    restricted: 'Reserved for contributors',
+    restricted: 'Reserved for approved contributors',
   },
   guide: {
     title: 'Licensing Guide',
@@ -257,7 +257,8 @@ export const en = {
     seenPeople: 'Seen in requests',
     seenPeopleHint:
       'These people have already submitted a request. Anyone who signs in is a contributor by default; add them here to make that explicit, or to promote them.',
-    addAsContributor: 'Add as contributor',
+    approveContributor: 'Approve this contributor',
+    level_approved: 'Approved contributor',
     copyPrompt: 'Copy the translation request',
     promptCopied: 'Copied — paste it into Copilot, then paste the table back here',
     openCopilot: 'Open Copilot',

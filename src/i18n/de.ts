@@ -229,7 +229,7 @@ export const de: Translation = {
     error_format: 'Das ist kein gültiger GitHub-Kontoname.',
     error_unknown: 'GitHub kennt dieses Konto nicht.',
     error_network: 'GitHub war nicht erreichbar. Versuchen Sie es erneut.',
-    restricted: 'Mitwirkenden vorbehalten',
+    restricted: 'Bestätigten Mitwirkenden vorbehalten',
   },
   guide: {
     title: 'Licensing Guide',
@@ -260,7 +260,8 @@ export const de: Translation = {
     seenPeople: 'In Anfragen gesehen',
     seenPeopleHint:
       'Diese Personen haben bereits eine Anfrage eingereicht. Wer sich anmeldet, ist standardmäßig Mitwirkender; fügen Sie sie hier hinzu, um das festzuhalten oder sie höherzustufen.',
-    addAsContributor: 'Als Mitwirkenden hinzufügen',
+    approveContributor: 'Diesen Mitwirkenden bestätigen',
+    level_approved: 'Bestätigter Mitwirkender',
     copyPrompt: 'Übersetzungsanfrage kopieren',
     promptCopied: 'Kopiert — in Copilot einfügen und die Tabelle anschließend hier einfügen',
     openCopilot: 'Copilot öffnen',

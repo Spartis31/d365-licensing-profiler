@@ -229,7 +229,7 @@ export const da: Translation = {
     error_format: 'Dette er ikke et gyldigt GitHub-kontonavn.',
     error_unknown: 'GitHub kender ikke denne konto.',
     error_network: 'GitHub kunne ikke nås. Prøv igen.',
-    restricted: 'Forbeholdt bidragydere',
+    restricted: 'Forbeholdt godkendte bidragydere',
   },
   guide: {
     title: 'Licensing Guide',
@@ -260,7 +260,8 @@ export const da: Translation = {
     seenPeople: 'Set i anmodninger',
     seenPeopleHint:
       'Disse personer har allerede sendt en anmodning. Alle, der logger ind, er bidragyder som standard; tilføj dem her for at gøre det tydeligt eller for at forfremme dem.',
-    addAsContributor: 'Tilføj som bidragyder',
+    approveContributor: 'Godkend denne bidragyder',
+    level_approved: 'Godkendt bidragyder',
     copyPrompt: 'Kopiér oversættelsesanmodningen',
     promptCopied: 'Kopieret — indsæt den i Copilot, og indsæt derefter tabellen her',
     openCopilot: 'Åbn Copilot',

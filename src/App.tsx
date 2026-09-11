@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useProject } from './state/useProject';
 import { SetupView } from './views/SetupView';
@@ -14,6 +14,7 @@ import type { TourTab } from './components/Tour';
 import { IconExcel, IconGuide, IconNew, IconOpen, IconSave, IconTutorial } from './components/icons';
 import { GUIDE_PERMALINK } from './data/guide';
 import { useIdentity } from './auth/identity';
+import { canOpenConsole, governanceLevels, levelIn, loadGovernance } from './data/governance';
 import { currentLanguage } from './i18n';
 import { download, projectFileName, readProjectFile, saveProjectFile } from './export/projectFile';
 
@@ -38,11 +39,19 @@ export default function App() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [tourOpen, setTourOpen] = useState(false);
+  const [levels, setLevels] = useState(governanceLevels());
   const fileInput = useRef<HTMLInputElement>(null);
 
+  // Loaded here, not in the console: the console is only reachable once we know the level.
+  useEffect(() => {
+    void loadGovernance().then(setLevels);
+  }, []);
+
   const hiddenTab = HIDDEN_BY_MODE[api.project.profilingMode];
-  // Administration only exists for signed-in Microsoft employees.
-  const visibleTabs = TABS.filter((name) => name !== hiddenTab && (name !== 'admin' || identity));
+  // Administration only exists for contributors someone has approved.
+  const visibleTabs = TABS.filter(
+    (name) => name !== hiddenTab && (name !== 'admin' || canOpenConsole(levelIn(levels, identity))),
+  );
   // Changing mode in Setup, or reloading on a tab that no longer exists, must not strand the user.
   const fallbackTab: Tab =
     tab === hiddenTab ? (api.project.profilingMode === 'roles' ? 'roles' : 'matrix') : 'setup';

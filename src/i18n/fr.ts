@@ -228,7 +228,7 @@ export const fr: Translation = {
     error_format: "Ce n'est pas un nom de compte GitHub valide.",
     error_unknown: 'GitHub ne connaît pas ce compte.',
     error_network: 'Impossible de joindre GitHub. Réessayez.',
-    restricted: 'Réservé aux contributeurs',
+    restricted: 'Réservé aux contributeurs approuvés',
   },
   guide: {
     title: 'Licensing Guide',
@@ -259,7 +259,8 @@ export const fr: Translation = {
     seenPeople: 'Vus dans les demandes',
     seenPeopleHint:
       "Ces personnes ont déjà soumis une demande. Toute personne connectée est contributeur par défaut : ajoutez-la ici pour le rendre explicite, ou pour la promouvoir.",
-    addAsContributor: 'Ajouter comme contributeur',
+    approveContributor: 'Approuver ce contributeur',
+    level_approved: 'Contributeur approuvé',
     copyPrompt: 'Copier la demande de traduction',
     promptCopied: 'Copié — collez-le dans Copilot, puis recollez le tableau ici',
     openCopilot: 'Ouvrir Copilot',

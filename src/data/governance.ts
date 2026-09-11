@@ -9,7 +9,17 @@ const LEGACY_MARKER = 'Microsoft alias:';
 const REQUEST_LABEL = 'process-request';
 const TRANSLATION_LABEL = 'ai-translation';
 
-export type GovernanceLevel = 'contributor' | 'moderator' | 'admin';
+export type GovernanceLevel = 'contributor' | 'approved' | 'moderator' | 'admin';
+
+/** Approval is recognition, not permission: only these two levels may decide. */
+export function canModerate(level: GovernanceLevel | null): boolean {
+  return level === 'moderator' || level === 'admin';
+}
+
+/** A plain contributor contributes; the console opens once someone approved them. */
+export function canOpenConsole(level: GovernanceLevel | null): boolean {
+  return level !== null && level !== 'contributor';
+}
 
 export const GOVERNANCE_PATH = 'public/governance.json';
 
@@ -42,10 +52,18 @@ export async function loadGovernance(): Promise<Record<string, GovernanceLevel>>
   return levels;
 }
 
-export function levelOf(identity: ContributorIdentity | null): GovernanceLevel | null {
+/** Pure form, so a view can react to the file arriving. */
+export function levelIn(
+  source: Record<string, GovernanceLevel>,
+  identity: ContributorIdentity | null,
+): GovernanceLevel | null {
   if (!identity) return null;
   // Signing in is enough to contribute; the file only records exceptions.
-  return levels[identity.login] ?? 'contributor';
+  return source[identity.login] ?? 'contributor';
+}
+
+export function levelOf(identity: ContributorIdentity | null): GovernanceLevel | null {
+  return levelIn(levels, identity);
 }
 
 /** Labels carrying the decision, so a status change is a traceable GitHub event. */
