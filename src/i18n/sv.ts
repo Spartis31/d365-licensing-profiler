@@ -256,6 +256,9 @@ export const sv: Translation = {
     submit: 'Skicka begäran',
   },
   admin: {
+    copyPrompt: 'Kopiera översättningsbegäran',
+    promptCopied: 'Kopierat – klistra in i Copilot och klistra sedan in tabellen här',
+    openCopilot: 'Öppna Copilot',
     heading: 'Administrationskonsol',
     intro:
       'Läs och hantera begäranden, dialog och nivåer här. Allt sker på den här sidan.',

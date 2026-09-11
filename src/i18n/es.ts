@@ -256,6 +256,9 @@ export const es: Translation = {
     submit: 'Enviar la solicitud',
   },
   admin: {
+    copyPrompt: 'Copiar la solicitud de traducción',
+    promptCopied: 'Copiado: péguelo en Copilot y luego pegue aquí la tabla',
+    openCopilot: 'Abrir Copilot',
     heading: 'Consola de administración',
     intro:
       'Consulte y gestione aquí las solicitudes, los intercambios y los niveles. Todo ocurre en esta pantalla.',

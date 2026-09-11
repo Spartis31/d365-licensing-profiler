@@ -256,6 +256,9 @@ export const nl: Translation = {
     submit: 'De aanvraag indienen',
   },
   admin: {
+    copyPrompt: 'Vertaalverzoek kopiëren',
+    promptCopied: 'Gekopieerd — plak het in Copilot en plak de tabel daarna hier',
+    openCopilot: 'Copilot openen',
     heading: 'Beheerconsole',
     intro:
       'Lees en behandel hier de aanvragen, de uitwisselingen en de niveaus. Alles gebeurt in dit scherm.',

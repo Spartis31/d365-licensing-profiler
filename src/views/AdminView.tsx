@@ -26,6 +26,7 @@ import {
   writeFile,
 } from '../data/github';
 import type { IssueComment } from '../data/github';
+import { COPILOT_URL, labelsFromBody, translationPrompt } from '../data/translationPrompt';
 import { GitHubTokenModal } from '../components/GitHubTokenModal';
 
 const STATUS_TONE: Record<RequestStatus, string> = {
@@ -60,6 +61,8 @@ function RequestDetail({
   const [draft, setDraft] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+  const proposed = labelsFromBody(request.body);
 
   useEffect(() => {
     listComments(request.number)
@@ -107,6 +110,24 @@ function RequestDetail({
           </div>
         ))}
       </div>
+
+      {proposed.length > 0 && (
+        <div className="toolbar" style={{ marginTop: 12, marginBottom: 0 }}>
+          <button
+            type="button"
+            onClick={() => {
+              void navigator.clipboard.writeText(translationPrompt(proposed));
+              setCopied(true);
+            }}
+          >
+            {t('admin.copyPrompt')}
+          </button>
+          <a className="button-link" href={COPILOT_URL} target="_blank" rel="noopener noreferrer">
+            {t('admin.openCopilot')}
+          </a>
+          {copied && <span className="hint">{t('admin.promptCopied')}</span>}
+        </div>
+      )}
 
       <div className="compose-row" style={{ marginTop: 12 }}>
         <textarea

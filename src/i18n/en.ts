@@ -253,6 +253,9 @@ export const en = {
     submit: 'Submit the request',
   },
   admin: {
+    copyPrompt: 'Copy the translation request',
+    promptCopied: 'Copied — paste it into Copilot, then paste the table back here',
+    openCopilot: 'Open Copilot',
     heading: 'Admin console',
     intro:
       'Read and handle requests, exchanges and levels here. Everything happens in this screen.',
