@@ -314,6 +314,52 @@ export const de: Translation = {
     peopleHint:
       'Die Stufen sind in einer Datendatei im Repository gespeichert. Jede hier vorgenommene Änderung erzeugt einen Commit: nachvollziehbar, umkehrbar, ohne Eingriff in den Code.',
   },
+  tour: {
+    title: 'Tutorial',
+    stepOf: 'Schritt {{current}} von {{total}}',
+    next: 'Weiter',
+    previous: 'Zurück',
+    close: 'Schließen',
+    finish: 'Fertig',
+    steps: {
+      welcome: {
+        title: 'Eine Methode in vier Schritten',
+        body: 'Dieses Tool übersetzt die Tätigkeiten Ihrer Benutzer in die benötigten Lizenzen. Sie beschreiben das Projekt, erfassen die Benutzerprofile, markieren, was jedes Profil tut, und lesen dann das Ergebnis. Rechnen Sie für einen üblichen Umfang mit einer Viertelstunde.',
+      },
+      meta: {
+        title: 'Beginnen Sie mit dem Projekt',
+        body: 'Erfassen Sie Projektname, Kunde und Ihren eigenen Namen. Diese Angaben stehen am Anfang des Excel-Exports, damit der Empfänger weiß, worum es geht.',
+      },
+      mode: {
+        title: 'Wählen Sie eine Methode, nicht beide',
+        body: 'Entweder beschreiben Sie die Tätigkeiten in Fachsprache, oder Sie markieren die Standard-Sicherheitsrollen. Beide führen zu denselben Lizenzen, setzen aber an entgegengesetzten Enden an. Beim Wechsel bleibt alles erhalten, was Sie in der anderen erfasst haben, doch nur die gewählte Methode fließt in die Ergebnisse ein.',
+      },
+      entities: {
+        title: 'Erfassen Sie die rechtlichen Personen',
+        body: 'Eine Zeile je rechtlicher Person, die in Betrieb geht. Lizenzen werden auf Tenant-Ebene erworben, doch diese Aufteilung zeigt, wo die Benutzer sitzen — hilfreich, wenn mehrere Länder zu einem Rollout gehören.',
+      },
+      profiles: {
+        title: 'Beschreiben Sie die Benutzerprofile',
+        body: 'Ein Profil ist eine Gruppe von Personen mit derselben Tätigkeit, keine Einzelperson. Geben Sie ihm eine Abteilung, einen Namen und die Anzahl der Benutzer je rechtlicher Person. Zehn bis zwanzig Profile decken in der Regel ein ganzes Unternehmen ab.',
+      },
+      selection: {
+        title: 'Markieren Sie, was jedes Profil tut',
+        body: 'Jede Zeile ist eine Verantwortung, jede Spalte ein Profil. Markieren Sie alles, was zutrifft. Das Tool behält je Profil die anspruchsvollste Lizenz: Vollständigkeit zählt hier mehr als Zurückhaltung.',
+      },
+      results: {
+        title: 'Lesen Sie die Lizenzen',
+        body: 'Die Base-Lizenz entfällt auf die teuerste Anwendung, die ein Profil benötigt; jede weitere Anwendung wird zu einer Attach-Lizenz, die deutlich weniger kostet. Die Tabelle je Profil darunter zeigt, warum jede Lizenz zugeordnet wurde.',
+      },
+      share: {
+        title: 'Exportieren und teilen',
+        body: 'Der Excel-Export erzeugt eine Arbeitsmappe mit lebenden Formeln: Die Anzahlen bleiben editierbar, Ihr Kunde kann also simulieren. „Datei speichern“ erzeugt eine .d365lic-Datei, die Sie später wieder öffnen oder einem Kollegen schicken können — nichts wird auf einem Server gespeichert.',
+      },
+      done: {
+        title: 'Sie können loslegen',
+        body: 'Ihre Arbeit wird beim Tippen in diesem Browser gespeichert. Sie können dieses Tutorial jederzeit über die Schaltfläche Tutorial erneut öffnen. Der monatlich aktualisierte Microsoft Dynamics 365 Licensing Guide hat stets Vorrang vor dieser Schätzung.',
+      },
+    },
+  },
   common: {
     language: 'Sprache',
     yes: 'Ja',

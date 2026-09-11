@@ -29,7 +29,7 @@ export function ProfilesView({
         </div>
       ) : (
         <>
-          <div className="table-wrap">
+          <div className="table-wrap" data-tour="profiles-card">
             <table className="grid profiles-grid">
               <thead>
                 <tr>

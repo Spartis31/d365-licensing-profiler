@@ -314,6 +314,52 @@ export const es: Translation = {
     peopleHint:
       'Los niveles se guardan en un archivo de datos del repositorio. Cada cambio realizado aquí crea un commit: trazable, reversible, sin tocar el código.',
   },
+  tour: {
+    title: 'Tutorial',
+    stepOf: 'Paso {{current}} de {{total}}',
+    next: 'Siguiente',
+    previous: 'Anterior',
+    close: 'Cerrar',
+    finish: 'Finalizar',
+    steps: {
+      welcome: {
+        title: 'Un método en cuatro tiempos',
+        body: 'Esta herramienta traduce lo que hacen sus usuarios en las licencias que necesitan. Describirá el proyecto, enumerará los perfiles de usuario, marcará lo que hace cada perfil y leerá el resultado. Cuente con un cuarto de hora para un alcance habitual.',
+      },
+      meta: {
+        title: 'Empiece por el proyecto',
+        body: 'Indique el nombre del proyecto, el cliente y su propio nombre. Estos datos encabezan la exportación a Excel, de modo que quien la reciba sepa de qué se trata.',
+      },
+      mode: {
+        title: 'Elija un método, no los dos',
+        body: 'O bien describe las actividades en lenguaje de negocio, o bien marca los roles de seguridad estándar. Los dos llevan a las mismas licencias, pero desde extremos opuestos. Cambiar de método conserva lo introducido en el otro, pero solo el método seleccionado alimenta los resultados.',
+      },
+      entities: {
+        title: 'Enumere las entidades jurídicas',
+        body: 'Una línea por entidad jurídica que entra en producción. Las licencias se adquieren a nivel de inquilino, pero este desglose muestra dónde están los usuarios — útil cuando varios países comparten un mismo despliegue.',
+      },
+      profiles: {
+        title: 'Describa los perfiles de usuario',
+        body: 'Un perfil es un grupo de personas que hacen el mismo trabajo, no un individuo. Asígnele un departamento, un nombre y un número de usuarios por entidad jurídica. De diez a veinte perfiles suelen bastar para cubrir toda una empresa.',
+      },
+      selection: {
+        title: 'Marque lo que hace cada perfil',
+        body: 'Cada fila es una responsabilidad, cada columna un perfil. Marque todo lo que corresponda. La herramienta conserva la licencia más exigente por perfil: vale más ser exhaustivo que prudente.',
+      },
+      results: {
+        title: 'Lea las licencias',
+        body: 'La licencia Base corresponde a la aplicación más cara que necesita el perfil; todas las demás aplicaciones se convierten en licencias Attach, mucho más económicas. La tabla por perfil, más abajo, muestra por qué se ha asignado cada licencia.',
+      },
+      share: {
+        title: 'Exporte y comparta',
+        body: 'La exportación a Excel genera un libro con fórmulas vivas: el número de usuarios sigue siendo editable, así que su cliente puede simular. «Guardar archivo» conserva un .d365lic que podrá reabrir más tarde o enviar a un compañero — no se almacena nada en ningún servidor.',
+      },
+      done: {
+        title: 'Ya puede empezar',
+        body: 'Su trabajo se guarda en este navegador a medida que escribe. Puede reabrir este tutorial en cualquier momento con el botón Tutorial. El Microsoft Dynamics 365 Licensing Guide, actualizado cada mes, siempre prevalece sobre esta estimación.',
+      },
+    },
+  },
   common: {
     language: 'Idioma',
     yes: 'Sí',

@@ -29,7 +29,7 @@ export function SetupView({
         <p className="intro">{t('setup.intro')}</p>
       </header>
 
-      <div className="card">
+      <div className="card" data-tour="setup-meta">
         <div className="field-grid">
           <label>
             <span>{t('setup.projectName')}</span>
@@ -46,7 +46,7 @@ export function SetupView({
         </div>
       </div>
 
-      <div className="card">
+      <div className="card" data-tour="setup-mode">
         <h3 style={{ marginTop: 0 }}>{t('setup.mode')}</h3>
         <p className="hint" style={{ marginBottom: 14 }}>
           {t('setup.modeHint')}
@@ -74,7 +74,7 @@ export function SetupView({
         </p>
       </div>
 
-      <div className="card">
+      <div className="card" data-tour="setup-entities">
         <h3 style={{ marginTop: 0 }}>{t('setup.legalEntities')}</h3>
         <p className="hint" style={{ marginBottom: 12 }}>
           {t('setup.legalEntitiesHint')}

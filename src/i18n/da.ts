@@ -314,6 +314,52 @@ export const da: Translation = {
     peopleHint:
       'Niveauerne gemmes i en datafil i lageret. Hver ændring her danner et commit: sporbart, reversibelt og uden at røre ved kode.',
   },
+  tour: {
+    title: 'Vejledning',
+    stepOf: 'Trin {{current}} af {{total}}',
+    next: 'Næste',
+    previous: 'Forrige',
+    close: 'Luk',
+    finish: 'Afslut',
+    steps: {
+      welcome: {
+        title: 'En metode i fire trin',
+        body: 'Værktøjet oversætter det, dine brugere gør, til de licenser, de har brug for. Du beskriver projektet, lister brugerprofilerne, markerer hvad hver profil gør, og læser derefter resultatet. Regn med et kvarter for et almindeligt omfang.',
+      },
+      meta: {
+        title: 'Begynd med projektet',
+        body: 'Angiv projektets navn, kunden og dig selv. Disse oplysninger står øverst i Excel-eksporten, så modtageren ved, hvad han sidder med.',
+      },
+      mode: {
+        title: 'Vælg én metode, ikke begge',
+        body: 'Enten beskriver du aktiviteterne i forretningssprog, eller også markerer du standardsikkerhedsrollerne. Begge fører til de samme licenser, men fra hver sin ende. Skifter du metode, bevares alt, du har indtastet i den anden, men kun den valgte metode indgår i resultaterne.',
+      },
+      entities: {
+        title: 'List de juridiske enheder',
+        body: 'Én linje pr. juridisk enhed, der går i drift. Licenser købes på tenant-niveau, men denne fordeling viser, hvor brugerne hører til — nyttigt når flere lande deler samme udrulning.',
+      },
+      profiles: {
+        title: 'Beskriv brugerprofilerne',
+        body: 'En profil er en gruppe mennesker med samme job, ikke en enkelt person. Giv den en afdeling, et navn og et antal brugere pr. juridisk enhed. Ti til tyve profiler dækker som regel en hel virksomhed.',
+      },
+      selection: {
+        title: 'Markér hvad hver profil gør',
+        body: 'Hver række er et ansvarsområde, hver kolonne en profil. Markér alt, hvad der gælder. Værktøjet beholder den mest krævende licens pr. profil, så det er vigtigere at være udtømmende end forsigtig.',
+      },
+      results: {
+        title: 'Læs licenserne',
+        body: 'Base-licensen går til den dyreste applikation, profilen har brug for; alle øvrige applikationer bliver til Attach-licenser, som koster langt mindre. Tabellen pr. profil nedenfor viser, hvorfor hver licens er tildelt.',
+      },
+      share: {
+        title: 'Eksportér og del',
+        body: 'Eksport til Excel danner en projektmappe med levende formler: antallene kan stadig redigeres, så din kunde kan simulere. "Gem fil" danner en .d365lic-fil, du kan åbne igen senere eller sende til en kollega — intet gemmes på en server.',
+      },
+      done: {
+        title: 'Du er klar',
+        body: 'Dit arbejde gemmes i denne browser, mens du skriver. Du kan altid åbne denne vejledning igen med knappen Vejledning. Microsoft Dynamics 365 Licensing Guide, der opdateres hver måned, har altid forrang for dette estimat.',
+      },
+    },
+  },
   common: {
     language: 'Sprog',
     yes: 'Ja',

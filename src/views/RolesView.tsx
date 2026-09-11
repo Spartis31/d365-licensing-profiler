@@ -87,7 +87,7 @@ export function RolesView({ project, toggleStandardRole }: ProjectApi) {
         </select>
       </div>
 
-      <div className="table-wrap matrix-wrap">
+      <div className="table-wrap matrix-wrap" data-tour="selection-table">
         <table className="grid matrix-grid">
           <thead>
             <tr>

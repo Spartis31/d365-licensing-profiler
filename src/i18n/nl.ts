@@ -314,6 +314,52 @@ export const nl: Translation = {
     peopleHint:
       'De niveaus worden opgeslagen in een gegevensbestand in de repository. Elke wijziging die hier wordt gemaakt, levert een commit op: traceerbaar, omkeerbaar, zonder de code aan te raken.',
   },
+  tour: {
+    title: 'Rondleiding',
+    stepOf: 'Stap {{current}} van {{total}}',
+    next: 'Volgende',
+    previous: 'Vorige',
+    close: 'Sluiten',
+    finish: 'Voltooien',
+    steps: {
+      welcome: {
+        title: 'Een methode in vier stappen',
+        body: 'Dit hulpmiddel vertaalt wat uw gebruikers doen naar de licenties die zij nodig hebben. U beschrijft het project, legt de gebruikersprofielen vast, vinkt aan wat elk profiel doet en leest vervolgens het resultaat. Reken op ongeveer een kwartier voor een gangbare scope.',
+      },
+      meta: {
+        title: 'Begin bij het project',
+        body: 'Noteer de projectnaam, de klant en uw eigen naam. Deze gegevens staan bovenaan de Excel-export, zodat de ontvanger weet waar het over gaat.',
+      },
+      mode: {
+        title: 'Kies één methode, niet beide',
+        body: 'U beschrijft de activiteiten in bedrijfstaal of u vinkt de standaardbeveiligingsrollen aan. Beide leiden tot dezelfde licenties, maar vertrekken vanuit tegengestelde richtingen. Bij het wisselen blijft alles behouden wat u in de andere hebt ingevoerd, maar alleen de gekozen methode voedt de resultaten.',
+      },
+      entities: {
+        title: 'Leg de juridische entiteiten vast',
+        body: 'Eén regel per juridische entiteit die live gaat. Licenties worden op tenantniveau aangeschaft, maar deze verdeling laat zien waar de gebruikers zitten — handig wanneer meerdere landen samen uitrollen.',
+      },
+      profiles: {
+        title: 'Beschrijf de gebruikersprofielen',
+        body: 'Een profiel is een groep mensen met hetzelfde werk, niet één individu. Geef het een afdeling, een naam en het aantal gebruikers per juridische entiteit. Tien tot twintig profielen dekken meestal een heel bedrijf.',
+      },
+      selection: {
+        title: 'Vink aan wat elk profiel doet',
+        body: 'Elke rij is een verantwoordelijkheid, elke kolom een profiel. Vink alles aan wat van toepassing is. Het hulpmiddel houdt per profiel de zwaarste licentie aan: volledig zijn telt hier zwaarder dan voorzichtig zijn.',
+      },
+      results: {
+        title: 'Lees de licenties',
+        body: 'De Base-licentie gaat naar de duurste toepassing die een profiel nodig heeft; elke andere toepassing wordt een Attach-licentie, die veel minder kost. De tabel per profiel hieronder laat zien waarom elke licentie is toegekend.',
+      },
+      share: {
+        title: 'Exporteren en delen',
+        body: '‘Exporteren naar Excel’ maakt een werkmap met levende formules: de aantallen blijven bewerkbaar, zodat uw klant kan simuleren. ‘Bestand opslaan’ levert een .d365lic-bestand op dat u later opnieuw kunt openen of naar een collega kunt sturen — er wordt niets op een server bewaard.',
+      },
+      done: {
+        title: 'U kunt aan de slag',
+        body: 'Uw werk wordt tijdens het typen in deze browser opgeslagen. U kunt deze rondleiding op elk moment opnieuw openen via de knop Rondleiding. De Microsoft Dynamics 365 Licensing Guide, die maandelijks wordt bijgewerkt, gaat altijd voor op deze schatting.',
+      },
+    },
+  },
   common: {
     language: 'Taal',
     yes: 'Ja',

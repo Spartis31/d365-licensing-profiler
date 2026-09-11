@@ -133,7 +133,7 @@ export function ResultsView({ project }: { project: Project }) {
         <h2>{t('results.heading')}</h2>
       </header>
 
-      <div className="kpi-row">
+      <div className="kpi-row" data-tour="results-summary">
         <div className="kpi accent">
           <span className="kpi-value">{namedUsers}</span>
           <span className="kpi-label">{t('results.totalUsers')}</span>

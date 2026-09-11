@@ -311,6 +311,52 @@ export const en = {
     peopleHint:
       'Levels are stored in a data file in the repository. Every change made here creates a commit: traced, reversible, without touching code.',
   },
+  tour: {
+    title: 'Tutorial',
+    stepOf: 'Step {{current}} of {{total}}',
+    next: 'Next',
+    previous: 'Previous',
+    close: 'Close',
+    finish: 'Finish',
+    steps: {
+      welcome: {
+        title: 'A four-step method',
+        body: 'This tool turns what your users do into the licences they need. You will describe the project, list the user profiles, tick what each profile does, then read the result. Allow about fifteen minutes for a typical scope.',
+      },
+      meta: {
+        title: 'Start with the project',
+        body: 'Name the project, the customer and yourself. These details head the Excel export, so whoever receives it knows what they are looking at.',
+      },
+      mode: {
+        title: 'Choose one method, not both',
+        body: 'Either describe activities in business language, or tick the standard security roles. Both reach the same licences from opposite ends. Switching keeps what you entered in the other, but only the selected method feeds the results.',
+      },
+      entities: {
+        title: 'List the legal entities',
+        body: 'One line per legal entity going live. Licences are bought at tenant level, but this split shows where the users are — useful when several countries share a rollout.',
+      },
+      profiles: {
+        title: 'Describe the user profiles',
+        body: 'A profile is a group of people doing the same job, not one individual. Give it a department, a name, and the headcount per legal entity. Ten to twenty profiles usually cover an entire company.',
+      },
+      selection: {
+        title: 'Tick what each profile does',
+        body: 'Each row is a responsibility, each column a profile. Tick every box that applies. The tool keeps the most demanding licence per profile, so being complete matters more than being cautious.',
+      },
+      results: {
+        title: 'Read the licences',
+        body: 'The Base licence goes to the most expensive application a profile needs; every other application becomes an Attach licence, which costs far less. The per-profile table below shows why each licence was assigned.',
+      },
+      share: {
+        title: 'Export and share',
+        body: 'Export to Excel produces a workbook with live formulas: headcounts stay editable, so your customer can simulate. Save file keeps a .d365lic you can reopen later or send to a colleague — nothing is stored on a server.',
+      },
+      done: {
+        title: 'You are ready',
+        body: 'Your work is saved in this browser as you type. Reopen this tutorial at any time from the Tutorial button. The Microsoft Dynamics 365 Licensing Guide, updated monthly, always prevails over this estimate.',
+      },
+    },
+  },
   common: {
     language: 'Language',
     yes: 'Yes',

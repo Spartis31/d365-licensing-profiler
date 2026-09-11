@@ -147,7 +147,7 @@ export function MatrixView({ project, toggleSelection, addCustomProcess, removeC
         <span className="hint">{t('matrix.shown', { count: totalShown })}</span>
       </div>
 
-      <div className="table-wrap matrix-wrap">
+      <div className="table-wrap matrix-wrap" data-tour="selection-table">
         <table className="grid matrix-grid">
           <thead>
             <tr>

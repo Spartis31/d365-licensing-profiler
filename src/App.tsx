@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useProject } from './state/useProject';
 import { SetupView } from './views/SetupView';
@@ -9,6 +9,10 @@ import { ResultsView } from './views/ResultsView';
 import { AdminView } from './views/AdminView';
 import { DisclaimerModal } from './components/DisclaimerModal';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
+import { Tour } from './components/Tour';
+import type { TourTab } from './components/Tour';
+import { IconExcel, IconGuide, IconNew, IconOpen, IconSave, IconTutorial } from './components/icons';
+import { GUIDE_PERMALINK } from './data/guide';
 import { useIdentity } from './auth/identity';
 import { currentLanguage } from './i18n';
 import { download, projectFileName, readProjectFile, saveProjectFile } from './export/projectFile';
@@ -33,6 +37,7 @@ export default function App() {
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [tourOpen, setTourOpen] = useState(false);
   const fileInput = useRef<HTMLInputElement>(null);
 
   const hiddenTab = HIDDEN_BY_MODE[api.project.profilingMode];
@@ -47,6 +52,17 @@ export default function App() {
     localStorage.setItem(TAB_KEY, name);
     setTab(name);
   };
+
+  const mode = api.project.profilingMode;
+  // Stable identity: the tour navigates from an effect and would otherwise loop.
+  const tourNavigate = useCallback(
+    (target: TourTab) => {
+      const name: Tab = target === 'selection' ? (mode === 'roles' ? 'roles' : 'matrix') : target;
+      localStorage.setItem(TAB_KEY, name);
+      setTab(name);
+    },
+    [mode],
+  );
 
   const acceptDisclaimer = () => {
     localStorage.setItem(DISCLAIMER_KEY, 'true');
@@ -102,7 +118,18 @@ export default function App() {
         <div className="header-actions">
           <LanguageSwitcher />
           <span className="header-sep" />
+          <button
+            type="button"
+            className="primary"
+            onClick={() => {
+              if (confirm(t('common.confirmNewProject'))) api.reset();
+            }}
+          >
+            <IconNew />
+            {t('actions.newProject')}
+          </button>
           <button type="button" className="subtle" onClick={() => fileInput.current?.click()}>
+            <IconOpen />
             {t('actions.open')}
           </button>
           <input
@@ -115,20 +142,24 @@ export default function App() {
               e.target.value = '';
             }}
           />
-          <button type="button" className="subtle" onClick={() => saveProjectFile(api.project)}>
-            {t('actions.save')}
-          </button>
-          <button type="button" className="primary" disabled={busy} onClick={() => void handleExcel()}>
-            {t('actions.exportExcel')}
-          </button>
           <button
             type="button"
             className="subtle"
-            onClick={() => {
-              if (confirm(t('common.confirmNewProject'))) api.reset();
-            }}
+            data-tour="header-save"
+            onClick={() => saveProjectFile(api.project)}
           >
-            {t('actions.newProject')}
+            <IconSave />
+            {t('actions.save')}
+          </button>
+          <button
+            type="button"
+            className="subtle-strong"
+            data-tour="header-excel"
+            disabled={busy}
+            onClick={() => void handleExcel()}
+          >
+            <IconExcel />
+            {t('actions.exportExcel')}
           </button>
         </div>
       </header>
@@ -156,6 +187,21 @@ export default function App() {
             {t(`nav.${name}`)}
           </button>
         ))}
+        <span className="steps-spacer" />
+        <a
+          className="steps-link"
+          href={GUIDE_PERMALINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-tour="guide-button"
+        >
+          <IconGuide />
+          {t('guide.open')}
+        </a>
+        <button type="button" className="steps-link" onClick={() => setTourOpen(true)}>
+          <IconTutorial />
+          {t('tour.title')}
+        </button>
       </nav>
 
       <main>
@@ -176,6 +222,13 @@ export default function App() {
 
       {(!accepted || showDisclaimer) && (
         <DisclaimerModal onAccept={accepted ? () => setShowDisclaimer(false) : acceptDisclaimer} />
+      )}
+
+      {tourOpen && (
+        <Tour
+          onNavigate={tourNavigate}
+          onClose={() => setTourOpen(false)}
+        />
       )}
     </div>
   );

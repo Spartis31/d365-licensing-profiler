@@ -314,6 +314,52 @@ export const it: Translation = {
     peopleHint:
       'I livelli sono memorizzati in un file di dati del repository. Ogni modifica effettuata qui crea un commit: tracciabile, reversibile, senza toccare il codice.',
   },
+  tour: {
+    title: 'Tutorial',
+    stepOf: 'Passaggio {{current}} di {{total}}',
+    next: 'Avanti',
+    previous: 'Indietro',
+    close: 'Chiudi',
+    finish: 'Fine',
+    steps: {
+      welcome: {
+        title: 'Un metodo in quattro passaggi',
+        body: "Questo strumento traduce ciò che fanno i suoi utenti nelle licenze di cui hanno bisogno. Descriverà il progetto, elencherà i profili utente, selezionerà ciò che fa ogni profilo e leggerà il risultato. Per un perimetro abituale prevede circa un quarto d'ora.",
+      },
+      meta: {
+        title: 'Inizi dal progetto',
+        body: "Indichi il nome del progetto, il cliente e il suo nome. Questi dati aprono l'esportazione in Excel, così chi la riceve sa di cosa si tratta.",
+      },
+      mode: {
+        title: 'Scelga un solo metodo, non entrambi',
+        body: "Può descrivere le attività in linguaggio di business oppure selezionare i ruoli di sicurezza standard. I due metodi portano alle stesse licenze partendo da estremi opposti. Cambiando metodo si conserva quanto inserito nell'altro, ma solo il metodo selezionato alimenta i risultati.",
+      },
+      entities: {
+        title: 'Elenchi le entità giuridiche',
+        body: 'Una riga per ogni entità giuridica che entrerà in produzione. Le licenze si acquistano a livello di tenant, ma questa ripartizione mostra dove si collocano gli utenti — utile quando più paesi condividono lo stesso rollout.',
+      },
+      profiles: {
+        title: 'Descriva i profili utente',
+        body: "Un profilo è un gruppo di persone che svolgono lo stesso lavoro, non una singola persona. Gli assegni un reparto, un nome e il numero di utenti per entità giuridica. Da dieci a venti profili coprono di solito un'intera azienda.",
+      },
+      selection: {
+        title: 'Selezioni ciò che fa ogni profilo',
+        body: 'Ogni riga è una responsabilità, ogni colonna un profilo. Selezioni tutto ciò che si applica. Lo strumento conserva la licenza più esigente per profilo: essere completi conta più che essere prudenti.',
+      },
+      results: {
+        title: 'Legga le licenze',
+        body: "La licenza Base va all'applicazione più costosa di cui il profilo ha bisogno; ogni altra applicazione diventa una licenza Attach, che costa molto meno. La tabella per profilo qui sotto mostra perché ogni licenza è stata assegnata.",
+      },
+      share: {
+        title: 'Esporti e condivida',
+        body: '«Esporta in Excel» genera una cartella di lavoro con formule attive: i numeri di utenti restano modificabili, quindi il suo cliente può simulare. «Salva file» produce un file .d365lic che potrà riaprire più tardi o inviare a un collega — nulla viene memorizzato su un server.',
+      },
+      done: {
+        title: 'Tutto pronto',
+        body: 'Il suo lavoro viene salvato in questo browser mentre digita. Può riaprire questo tutorial in qualsiasi momento dal pulsante Tutorial. La Microsoft Dynamics 365 Licensing Guide, aggiornata ogni mese, prevale sempre su questa stima.',
+      },
+    },
+  },
   common: {
     language: 'Lingua',
     yes: 'Sì',
