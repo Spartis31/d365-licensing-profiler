@@ -7,6 +7,7 @@ import { MatrixView } from './views/MatrixView';
 import { RolesView } from './views/RolesView';
 import { ResultsView } from './views/ResultsView';
 import { AdminView } from './views/AdminView';
+import { BrandMark } from './components/BrandMark';
 import { DisclaimerModal } from './components/DisclaimerModal';
 import { LanguageSwitcher } from './components/LanguageSwitcher';
 import { Tour } from './components/Tour';
@@ -118,7 +119,7 @@ export default function App() {
     <div className="app">
       <header className="app-header">
         <div className="brand">
-          <span className="brand-mark">365</span>
+          <BrandMark />
           <div>
             <h1>{t('app.title')}</h1>
             <p>{t('app.subtitle')}</p>
