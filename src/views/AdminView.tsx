@@ -17,8 +17,15 @@ import {
   levelIn,
   loadGovernance,
   newRequestUrl,
+  seenPeople,
 } from '../data/governance';
-import type { GovernanceLevel, ProcessRequest, RequestsResult, RequestStatus } from '../data/governance';
+import type {
+  GovernanceLevel,
+  ProcessRequest,
+  RequestsResult,
+  RequestStatus,
+  SeenPerson,
+} from '../data/governance';
 import {
   addComment,
   currentUser,
@@ -239,8 +246,8 @@ function PeopleCard({
   levels: Record<string, GovernanceLevel>;
   requireWrite: RequireWrite;
   onSaved: (next: Record<string, GovernanceLevel>) => void;
-  /** GitHub accounts that posted a request, with when they first asked. */
-  seen: Array<{ login: string; requestedAt: string }>;
+  /** GitHub accounts that posted a request, with when they asked and the issue to close. */
+  seen: SeenPerson[];
   currentLogin: string;
 }) {
   const { t } = useTranslation();
@@ -252,7 +259,7 @@ function PeopleCard({
   const label = (login: string) => (names[login] ? `${login} | ${names[login]}` : login);
   const adminCount = Object.values(levels).filter((value) => value === 'admin').length;
 
-  const save = (next: Record<string, GovernanceLevel>, message: string) =>
+  const save = (next: Record<string, GovernanceLevel>, message: string, closeIssue?: number | null) =>
     requireWrite(() => {
       setBusy(true);
       setError(null);
@@ -261,6 +268,7 @@ function PeopleCard({
         try {
           const current = await readFile(GOVERNANCE_PATH);
           await writeFile(GOVERNANCE_PATH, `${JSON.stringify(next, null, 2)}\n`, current.sha, message);
+          if (closeIssue) await updateIssue(closeIssue, { state: 'closed' });
           setDone(true);
           onSaved(next);
         } catch (cause) {
@@ -330,7 +338,7 @@ function PeopleCard({
           <ul className="people-list">
             {seen
               .filter(({ login }) => !(login in levels))
-              .map(({ login, requestedAt }) => (
+              .map(({ login, requestedAt, approvalIssue }) => (
                 <li key={login}>
                   <span className="identity-chip">{label(login)}</span>
                   <span className="hint">
@@ -340,7 +348,11 @@ function PeopleCard({
                     type="button"
                     disabled={busy}
                     onClick={() =>
-                      save({ ...levels, [login]: 'approved' }, `Governance: approve ${login}`)
+                      save(
+                        { ...levels, [login]: 'approved' },
+                        `Governance: approve ${login}`,
+                        approvalIssue,
+                      )
                     }
                   >
                     {t('admin.approveContributor')}
@@ -375,19 +387,6 @@ function PeopleCard({
       {error && <p className="error-text">{error}</p>}
     </div>
   );
-}
-
-/** An explicit approval request dates someone best; otherwise their first request does. */
-function seenPeople(all: ProcessRequest[]): Array<{ login: string; requestedAt: string }> {
-  const first = new Map<string, string>();
-  for (const request of all) {
-    if (!request.author) continue;
-    const known = first.get(request.author);
-    if (!known || request.isApproval || request.createdAt < known) {
-      first.set(request.author, request.createdAt);
-    }
-  }
-  return [...first].map(([login, requestedAt]) => ({ login, requestedAt }));
 }
 
 function FreeRequestCard({ identity }: { identity: ContributorIdentity }) {
@@ -612,7 +611,10 @@ export function AdminView() {
         <PeopleCard
           levels={levels}
           requireWrite={requireWrite}
-          onSaved={(next) => setLevels(applyGovernance(next))}
+          onSaved={(next) => {
+            setLevels(applyGovernance(next));
+            void load(true);
+          }}
           currentLogin={identity.login}
           seen={seenPeople(all)}
         />

@@ -164,6 +164,29 @@ export function approvalRequestUrl(identity: ContributorIdentity): string {
   return `https://github.com/${REPO}/issues/new?${params.toString()}`;
 }
 
+export interface SeenPerson {
+  login: string;
+  requestedAt: string;
+  /** The open approval request to close when this person is approved. */
+  approvalIssue: number | null;
+}
+
+/** An explicit approval request dates someone best; otherwise their first request does. */
+export function seenPeople(all: ProcessRequest[]): SeenPerson[] {
+  const found = new Map<string, Omit<SeenPerson, 'login'>>();
+  for (const request of all) {
+    if (!request.author) continue;
+    const known = found.get(request.author);
+    if (!known || request.isApproval || request.createdAt < known.requestedAt) {
+      found.set(request.author, {
+        requestedAt: request.createdAt,
+        approvalIssue: request.isApproval && request.status === 'pending' ? request.number : null,
+      });
+    }
+  }
+  return [...found].map(([login, rest]) => ({ login, ...rest }));
+}
+
 const CACHE_KEY = 'd365lic.requests';
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
