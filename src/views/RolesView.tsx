@@ -5,6 +5,7 @@ import { ROLES_GUIDE_EDITION, STANDARD_ROLES } from '../data/standardRoles';
 import type { RoleApp, StandardRole } from '../data/standardRoles';
 import { currentLanguage } from '../i18n';
 import { LicenceTag } from '../components/LicenceTag';
+import { GuideCard } from '../components/GuideCard';
 
 type Row = { kind: 'group'; id: string; label: string } | { kind: 'role'; role: StandardRole };
 
@@ -143,6 +144,8 @@ export function RolesView({ project, toggleStandardRole }: ProjectApi) {
           </tbody>
         </table>
       </div>
+
+      <GuideCard />
     </section>
   );
 }
