@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { ProjectApi } from '../state/useProject';
 import { ROLES_GUIDE_EDITION, STANDARD_ROLES } from '../data/standardRoles';
 import type { RoleApp, StandardRole } from '../data/standardRoles';
+import { localize } from '../types';
 import { currentLanguage } from '../i18n';
 import { LicenceTag } from '../components/LicenceTag';
 import { GuideCard } from '../components/GuideCard';
@@ -35,7 +36,7 @@ export function RolesView({ project, toggleStandardRole }: ProjectApi) {
       let group: string | null = null;
       const buffer: Row[] = [];
       for (const role of roles) {
-        const label = role.group[lang];
+        const label = localize(role.group, lang);
         if (label !== group) {
           group = label;
           buffer.push({ kind: 'group', id: `${currentApp}-${label}`, label: `${t(`licences.${currentApp}`)} — ${label}` });

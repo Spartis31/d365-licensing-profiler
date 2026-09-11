@@ -1,13 +1,13 @@
 import ExcelJS from 'exceljs';
 import type { LicenceKey, Project } from '../types';
-import { ADDITIONAL_LICENCES, BASE_LICENCES } from '../types';
+import { ADDITIONAL_LICENCES, BASE_LICENCES, localize } from '../types';
 import { DOMAINS, CUSTOM_DOMAIN_ID, CATALOG_VERSION } from '../data/catalog';
 import { STANDARD_ROLES } from '../data/standardRoles';
 import { computeProject } from '../engine/licensing';
 import type { LicenceTotals, ProfileResult } from '../engine/licensing';
-import type { LanguageCode } from '../i18n';
-import { en } from '../i18n/en';
-import { fr } from '../i18n/fr';
+import type { LanguageCode } from '../i18n/languages';
+import { localeOf } from '../i18n/languages';
+import { RESOURCES } from '../i18n/resources';
 
 const FONT = 'Segoe UI';
 
@@ -24,7 +24,7 @@ const C = {
   highlight: 'FFFFF4D6',
 };
 
-type T = typeof en;
+type T = typeof RESOURCES.en;
 
 /** Same licence palette as the application, derived from the D365 app logos. */
 const LICENCE_COLOR: Record<LicenceKey, string> = {
@@ -177,8 +177,8 @@ function inputRows(project: Project, t: T, lang: LanguageCode): InputRow[] {
     );
     let group = '';
     for (const role of selected) {
-      if (role.group[lang] !== group) {
-        group = role.group[lang];
+      if (localize(role.group, lang) !== group) {
+        group = localize(role.group, lang);
         rows.push({ kind: 'group', label: group, note: '', licence: '', color: C.muted, reference: '' });
       }
       rows.push({
@@ -223,8 +223,8 @@ function inputRows(project: Project, t: T, lang: LanguageCode): InputRow[] {
       if (!isSelected(process.id)) continue;
       items.push({
         kind: 'item',
-        label: process.label[lang],
-        note: process.note?.[lang] ?? '',
+        label: localize(process.label, lang),
+        note: process.note ? localize(process.note, lang) : '',
         licence: process.licence ? t.licences[process.licence] : t.licences.none,
         color: process.licence ? LICENCE_COLOR[process.licence] : C.muted,
         reference: process.source ?? '',
@@ -233,7 +233,7 @@ function inputRows(project: Project, t: T, lang: LanguageCode): InputRow[] {
     }
     collectCustom(domain.id, items);
     if (items.length === 0) continue;
-    rows.push({ kind: 'group', label: domain.label[lang], note: '', licence: '', color: C.muted, reference: '' });
+    rows.push({ kind: 'group', label: localize(domain.label, lang), note: '', licence: '', color: C.muted, reference: '' });
     rows.push(...items);
   }
 
@@ -242,7 +242,7 @@ function inputRows(project: Project, t: T, lang: LanguageCode): InputRow[] {
   if (orphans.length > 0) {
     rows.push({
       kind: 'group',
-      label: lang === 'fr' ? 'Processus personnalis\u00e9s' : 'Custom processes',
+      label: t.matrix.customDomain,
       note: '',
       licence: '',
       color: C.muted,
@@ -255,7 +255,7 @@ function inputRows(project: Project, t: T, lang: LanguageCode): InputRow[] {
 }
 
 export async function buildWorkbook(project: Project, lang: LanguageCode): Promise<ExcelJS.Workbook> {
-  const t = (lang === 'fr' ? fr : en) as T;
+  const t = RESOURCES[lang] as T;
   const result = computeProject(project);
   const used = licenceLines(t).filter((line) => line.fromTotals(result.totals) > 0);
 
@@ -430,7 +430,7 @@ export async function buildWorkbook(project: Project, lang: LanguageCode): Promi
   const meta: Array<[string, string]> = [
     [t.setup.customer, project.meta.customer || '\u2014'],
     [t.setup.author, project.meta.author || '\u2014'],
-    [t.excel.date, new Date().toLocaleDateString(lang === 'fr' ? 'fr-FR' : 'en-GB')],
+    [t.excel.date, new Date().toLocaleDateString(localeOf(lang))],
     [t.excel.method, project.profilingMode === 'roles' ? t.excel.method_roles : t.excel.method_processes],
     [t.excel.guide, CATALOG_VERSION],
   ];
@@ -623,11 +623,13 @@ export async function buildWorkbook(project: Project, lang: LanguageCode): Promi
   // ================================================================ Disclaimer
   wsDisc.getColumn(2).width = 110;
   let d = titleBlock(wsDisc, t, project, t.disclaimer.heading, 2);
-  for (const body of [fr.disclaimer.body, en.disclaimer.body]) {
-    paragraph(wsDisc, d, 2, 2, body, 150);
+  // English is always repeated, so the sheet stays readable outside the author's country.
+  const notices = lang === 'en' ? [RESOURCES.en] : [RESOURCES[lang], RESOURCES.en];
+  for (const notice of notices) {
+    paragraph(wsDisc, d, 2, 2, notice.disclaimer.body, 150);
     d += 2;
   }
-  paragraph(wsDisc, d, 2, 2, `${fr.disclaimer.note}\n${en.disclaimer.note}`, 40);
+  paragraph(wsDisc, d, 2, 2, notices.map((notice) => notice.disclaimer.note).join('\n'), 40);
 
   return wb;
 }

@@ -1,3 +1,5 @@
+import type { LanguageCode } from './i18n/languages';
+
 /**
  * Base licences, **ordered by base-allocation priority**.
  *
@@ -49,9 +51,11 @@ export type LicenceKey = BaseLicence | AdditionalLicence;
 /** A process row may carry no licence requirement at all (informational rows). */
 export type LicenceRequirement = LicenceKey | null;
 
-export interface Localized {
-  en: string;
-  fr: string;
+/** English is mandatory and acts as the fallback for any missing translation. */
+export type Localized = { en: string } & Partial<Record<LanguageCode, string>>;
+
+export function localize(value: Localized, lang: LanguageCode): string {
+  return value[lang] ?? value.en;
 }
 
 export interface ProcessDefinition {

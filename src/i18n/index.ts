@@ -1,28 +1,24 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import { en } from './en';
-import { fr } from './fr';
+import { RESOURCES } from './resources';
+import { SUPPORTED_LANGUAGES, closestLanguage, isLanguageCode, localeOf } from './languages';
+import type { LanguageCode } from './languages';
 
-export const SUPPORTED_LANGUAGES = [
-  { code: 'en', label: 'English' },
-  { code: 'fr', label: 'Français' },
-] as const;
-
-export type LanguageCode = (typeof SUPPORTED_LANGUAGES)[number]['code'];
+export { SUPPORTED_LANGUAGES, localeOf, RESOURCES };
+export type { LanguageCode };
 
 const STORAGE_KEY = 'd365lic.language';
 
 function detectLanguage(): LanguageCode {
   const stored = localStorage.getItem(STORAGE_KEY);
-  if (stored === 'fr' || stored === 'en') return stored;
-  return navigator.language.toLowerCase().startsWith('fr') ? 'fr' : 'en';
+  if (isLanguageCode(stored)) return stored;
+  return closestLanguage(navigator.language);
 }
 
 void i18n.use(initReactI18next).init({
-  resources: {
-    en: { translation: en },
-    fr: { translation: fr },
-  },
+  resources: Object.fromEntries(
+    SUPPORTED_LANGUAGES.map((language) => [language.code, { translation: RESOURCES[language.code] }]),
+  ),
   lng: detectLanguage(),
   fallbackLng: 'en',
   interpolation: { escapeValue: false },
@@ -35,7 +31,7 @@ export function setLanguage(code: LanguageCode): void {
 }
 
 export function currentLanguage(): LanguageCode {
-  return i18n.language.startsWith('fr') ? 'fr' : 'en';
+  return closestLanguage(i18n.language);
 }
 
 export default i18n;

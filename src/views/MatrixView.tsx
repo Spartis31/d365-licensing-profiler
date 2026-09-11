@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { ProjectApi } from '../state/useProject';
 import { CUSTOM_DOMAIN_ID, DOMAINS } from '../data/catalog';
 import type { LicenceRequirement } from '../types';
-import { ADDITIONAL_LICENCES, BASE_LICENCES } from '../types';
+import { ADDITIONAL_LICENCES, BASE_LICENCES, localize } from '../types';
 import { currentLanguage } from '../i18n';
 import { LicenceTag } from '../components/LicenceTag';
 import { useIdentity } from '../auth/identity';
@@ -63,12 +63,12 @@ export function MatrixView({ project, toggleSelection, addCustomProcess, removeC
     for (const domain of DOMAINS) {
       const processes: ProcessRow[] = [];
       for (const process of domain.processes) {
-        const label = process.label[lang];
+        const label = localize(process.label, lang);
         if (!keep(label, process.id)) continue;
         processes.push({
           id: process.id,
           label,
-          note: process.note?.[lang],
+          note: process.note ? localize(process.note, lang) : undefined,
           source: process.source,
           licence: process.licence,
           custom: false,
@@ -84,7 +84,7 @@ export function MatrixView({ project, toggleSelection, addCustomProcess, removeC
           author: custom.author,
         });
       }
-      if (processes.length > 0) result.push({ id: domain.id, label: domain.label[lang], processes });
+      if (processes.length > 0) result.push({ id: domain.id, label: localize(domain.label, lang), processes });
     }
 
     const orphans: ProcessRow[] = (customByDomain.get(CUSTOM_DOMAIN_ID) ?? [])
@@ -278,7 +278,7 @@ export function MatrixView({ project, toggleSelection, addCustomProcess, removeC
             <select value={draftDomain} onChange={(e) => setDraftDomain(e.target.value)}>
               {DOMAINS.map((domain) => (
                 <option key={domain.id} value={domain.id}>
-                  {domain.label[lang]}
+                  {localize(domain.label, lang)}
                 </option>
               ))}
               <option value={CUSTOM_DOMAIN_ID}>{t('matrix.customDomain')}</option>
@@ -377,7 +377,7 @@ export function MatrixView({ project, toggleSelection, addCustomProcess, removeC
                 .map((c) => ({
                   label: c.label,
                   licence: c.licence ? t(`licences.${c.licence}`) : t('licences.none'),
-                  domain: DOMAINS.find((d) => d.id === c.domainId)?.label[lang] ?? c.domainId,
+                  domain: localize(DOMAINS.find((d) => d.id === c.domainId)?.label ?? { en: c.domainId }, lang),
                 }));
               window.open(
                 newRequestUrl({ identity, processes: selected, freeText: '', wantsTranslation }),

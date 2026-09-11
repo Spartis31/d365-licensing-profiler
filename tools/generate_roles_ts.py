@@ -23,31 +23,35 @@ APP_BY_PAGE = {
     55: "supplyChain",
 }
 
-GROUP_FR = {
-    "C-Suite": "Direction générale",
-    "Budgeting": "Budget",
-    "Financials and Accounting": "Finance et comptabilité",
-    "Commerce": "Commerce",
-    "General": "Général",
-    "Project Management": "Gestion de projet",
-    "Project Accounting & Administration": "Comptabilité et administration de projet",
-    "Project Sales": "Ventes de projet",
-    "Practice Management": "Gestion de practice",
-    "Resource Management": "Gestion des ressources",
-    "Cost Accounting": "Comptabilité analytique",
-    "Customer Service": "Service client",
-    "Demand Planning": "Planification de la demande",
-    "Engineering": "Bureau d'études",
-    "Distribution": "Distribution",
-    "Field Service": "Service terrain",
-    "Marketing": "Marketing",
-    "Manufacturing": "Production",
-    "Procurement": "Achats",
-    "Quality Control": "Contrôle qualité",
-    "Sales": "Ventes",
-    "Transportation": "Transport",
-    "Asset Management": "Gestion des actifs",
-    "Human Resources": "Ressources humaines",
+LANGUAGES = ("fr", "da", "de", "es", "it", "pt", "sv")
+
+# Group headings are the only translatable part of the role catalog: role names and
+# descriptions stay in English because they are the product's own security role names.
+GROUPS = {
+    "C-Suite": ("Direction générale", "Direktion", "Geschäftsleitung", "Alta dirección", "Direzione generale", "Direção-geral", "Företagsledning"),
+    "Budgeting": ("Budget", "Budgettering", "Budgetierung", "Presupuestos", "Budget", "Orçamentação", "Budgetering"),
+    "Financials and Accounting": ("Finance et comptabilité", "Økonomi og regnskab", "Finanzen und Buchhaltung", "Finanzas y contabilidad", "Finanza e contabilità", "Finanças e contabilidade", "Ekonomi och redovisning"),
+    "Commerce": ("Commerce", "Commerce", "Commerce", "Commerce", "Commerce", "Commerce", "Commerce"),
+    "General": ("Général", "Generelt", "Allgemein", "General", "Generale", "Geral", "Allmänt"),
+    "Project Management": ("Gestion de projet", "Projektstyring", "Projektmanagement", "Gestión de proyectos", "Gestione progetti", "Gestão de projetos", "Projektledning"),
+    "Project Accounting & Administration": ("Comptabilité et administration de projet", "Projektregnskab og administration", "Projektbuchhaltung und -verwaltung", "Contabilidad y administración de proyectos", "Contabilità e amministrazione progetti", "Contabilidade e administração de projetos", "Projektredovisning och administration"),
+    "Project Sales": ("Ventes de projet", "Projektsalg", "Projektvertrieb", "Ventas de proyectos", "Vendite di progetto", "Vendas de projetos", "Projektförsäljning"),
+    "Practice Management": ("Gestion de practice", "Practice-styring", "Practice-Management", "Gestión de práctica profesional", "Gestione della practice", "Gestão de práticas", "Practice-hantering"),
+    "Resource Management": ("Gestion des ressources", "Ressourcestyring", "Ressourcenmanagement", "Gestión de recursos", "Gestione risorse", "Gestão de recursos", "Resurshantering"),
+    "Cost Accounting": ("Comptabilité analytique", "Omkostningsregnskab", "Kostenrechnung", "Contabilidad de costes", "Contabilità industriale", "Contabilidade analítica", "Kostnadsredovisning"),
+    "Customer Service": ("Service client", "Kundeservice", "Kundenservice", "Servicio al cliente", "Servizio clienti", "Serviço ao cliente", "Kundtjänst"),
+    "Demand Planning": ("Planification de la demande", "Efterspørgselsplanlægning", "Bedarfsplanung", "Planificación de la demanda", "Pianificazione della domanda", "Planeamento da procura", "Efterfrågeplanering"),
+    "Engineering": ("Bureau d'études", "Konstruktion", "Konstruktion", "Ingeniería", "Ufficio tecnico", "Engenharia", "Konstruktion"),
+    "Distribution": ("Distribution", "Distribution", "Distribution", "Distribución", "Distribuzione", "Distribuição", "Distribution"),
+    "Field Service": ("Service terrain", "Field Service", "Außendienst", "Servicio de campo", "Assistenza sul campo", "Serviço no terreno", "Fältservice"),
+    "Marketing": ("Marketing", "Marketing", "Marketing", "Marketing", "Marketing", "Marketing", "Marknadsföring"),
+    "Manufacturing": ("Production", "Produktion", "Fertigung", "Fabricación", "Produzione", "Produção", "Tillverkning"),
+    "Procurement": ("Achats", "Indkøb", "Beschaffung", "Aprovisionamiento", "Approvvigionamento", "Aprovisionamento", "Inköp"),
+    "Quality Control": ("Contrôle qualité", "Kvalitetskontrol", "Qualitätskontrolle", "Control de calidad", "Controllo qualità", "Controlo de qualidade", "Kvalitetskontroll"),
+    "Sales": ("Ventes", "Salg", "Vertrieb", "Ventas", "Vendite", "Vendas", "Försäljning"),
+    "Transportation": ("Transport", "Transport", "Transport", "Transporte", "Trasporti", "Transporte", "Transport"),
+    "Asset Management": ("Gestion des actifs", "Aktivstyring", "Anlagenverwaltung", "Gestión de activos", "Gestione cespiti", "Gestão de ativos", "Tillgångsförvaltning"),
+    "Human Resources": ("Ressources humaines", "Menneskelige ressourcer", "Personalwesen", "Recursos humanos", "Risorse umane", "Recursos humanos", "Personal"),
 }
 
 APP_FALLBACK_GROUP = {
@@ -117,14 +121,14 @@ def main():
                 "description": description,
                 "app": app,
                 "group": group,
-                "groupFr": GROUP_FR.get(group, group),
+                "groupLabels": dict(zip(LANGUAGES, GROUPS[group])) if group in GROUPS else {},
                 "licence": role["licence"],
                 "page": role["page"],
             }
         )
 
     lines = [
-        "import type { LicenceKey } from '../types';",
+        "import type { LicenceKey, Localized } from '../types';",
         "",
         "/**",
         " * Standard security roles published in the Dynamics 365 Licensing Guide,",
@@ -145,7 +149,7 @@ def main():
         "  name: string;",
         "  description: string;",
         "  app: RoleApp;",
-        "  group: { en: string; fr: string };",
+        "  group: Localized;",
         "  licence: LicenceKey;",
         "  /** Licensing Guide page, for traceability. */",
         "  page: number;",
@@ -155,13 +159,15 @@ def main():
     ]
 
     for entry in entries:
+        group_parts = [f"en: '{escape(entry['group'])}'"]
+        group_parts += [f"{code}: '{escape(label)}'" for code, label in entry["groupLabels"].items()]
         lines.append(
             "  {\n"
             f"    id: '{entry['id']}',\n"
             f"    name: '{escape(entry['name'])}',\n"
             f"    description: '{escape(entry['description'])}',\n"
             f"    app: '{entry['app']}',\n"
-            f"    group: {{ en: '{escape(entry['group'])}', fr: '{escape(entry['groupFr'])}' }},\n"
+            f"    group: {{ {', '.join(group_parts)} }},\n"
             f"    licence: '{entry['licence']}',\n"
             f"    page: {entry['page']},\n"
             "  },"
