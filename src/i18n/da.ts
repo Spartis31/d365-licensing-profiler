@@ -222,11 +222,10 @@ export const da: Translation = {
     signOut: 'Log ud',
     button: 'Bliv bidragyder',
     signedInAs: 'Logget ind som {{alias}}',
-    displayName: 'Fornavn og efternavn',
     githubLogin: 'GitHub-konto',
     checking: 'Kontrollerer…',
     publicWarning:
-      'Din GitHub-konto vises offentligt på hver anmodning, du sender, og på lagerets liste over bidragydere. Dit navn bliver i denne browser og offentliggøres aldrig.',
+      'Din GitHub-konto vises offentligt på hver anmodning, du sender, og på lagerets liste over bidragydere. Der indsamles intet andet.',
     error_format: 'Dette er ikke et gyldigt GitHub-kontonavn.',
     error_unknown: 'GitHub kender ikke denne konto.',
     error_network: 'GitHub kunne ikke nås. Prøv igen.',

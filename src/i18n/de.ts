@@ -222,11 +222,10 @@ export const de: Translation = {
     signOut: 'Abmelden',
     button: 'Mitwirkender werden',
     signedInAs: 'Angemeldet als {{alias}}',
-    displayName: 'Vor- und Nachname',
     githubLogin: 'GitHub-Konto',
     checking: 'Wird geprüft…',
     publicWarning:
-      'Ihr GitHub-Konto erscheint öffentlich bei jeder Anfrage, die Sie einreichen, und in der Liste der Mitwirkenden des Repositorys. Ihr Name bleibt in diesem Browser und wird nie veröffentlicht.',
+      'Ihr GitHub-Konto erscheint öffentlich bei jeder Anfrage, die Sie einreichen, und in der Liste der Mitwirkenden des Repositorys. Weiteres wird nicht erfasst.',
     error_format: 'Das ist kein gültiger GitHub-Kontoname.',
     error_unknown: 'GitHub kennt dieses Konto nicht.',
     error_network: 'GitHub war nicht erreichbar. Versuchen Sie es erneut.',

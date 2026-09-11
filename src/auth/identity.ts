@@ -3,8 +3,8 @@ import { useSyncExternalStore } from 'react';
 /**
  * A contributor is a verified GitHub account.
  *
- * Only `login` ever reaches the repository. `displayName` is entered by the
- * person for their own convenience and never leaves this browser.
+ * Nothing is asked of the person beyond that account name: `displayName` comes
+ * from their own public GitHub profile, so the tool collects no personal data.
  */
 export interface ContributorIdentity {
   login: string;
@@ -29,7 +29,7 @@ export function isLoginShape(raw: string): boolean {
  * Checks the account exists. Ownership is proven later by GitHub itself, when
  * the person signs in there to post their request.
  */
-export async function verifyGitHubAccount(rawLogin: string, displayName: string): Promise<IdentityResult> {
+export async function verifyGitHubAccount(rawLogin: string): Promise<IdentityResult> {
   const login = rawLogin.trim().replace(/^@/, '');
   if (!isLoginShape(login)) return { ok: false, reason: 'format' };
 
@@ -40,10 +40,10 @@ export async function verifyGitHubAccount(rawLogin: string, displayName: string)
     if (response.status === 404) return { ok: false, reason: 'unknown' };
     if (!response.ok) return { ok: false, reason: 'network' };
 
-    const user = (await response.json()) as { login: string; avatar_url: string };
+    const user = (await response.json()) as { login: string; name: string | null; avatar_url: string };
     return {
       ok: true,
-      identity: { login: user.login, displayName: displayName.trim(), avatarUrl: user.avatar_url },
+      identity: { login: user.login, displayName: user.name ?? user.login, avatarUrl: user.avatar_url },
     };
   } catch {
     return { ok: false, reason: 'network' };

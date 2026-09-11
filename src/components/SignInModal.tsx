@@ -5,18 +5,17 @@ import type { RejectionReason } from '../auth/identity';
 
 export function SignInModal({ onClose }: { onClose: () => void }) {
   const { t } = useTranslation();
-  const [name, setName] = useState('');
   const [login, setLogin] = useState('');
   const [error, setError] = useState<RejectionReason | null>(null);
   const [busy, setBusy] = useState(false);
 
-  const ready = name.trim().length > 0 && login.trim().length > 0;
+  const ready = login.trim().length > 0;
 
   const submit = () => {
     if (!ready || busy) return;
     setBusy(true);
     setError(null);
-    void verifyGitHubAccount(login, name).then((result) => {
+    void verifyGitHubAccount(login).then((result) => {
       setBusy(false);
       if (!result.ok) {
         setError(result.reason);
@@ -38,22 +37,10 @@ export function SignInModal({ onClose }: { onClose: () => void }) {
         <p className="intro">{t('auth.intro')}</p>
 
         <label className="field">
-          <span>{t('auth.displayName')}</span>
-          <input
-            value={name}
-            autoFocus
-            onChange={(e) => {
-              setName(e.target.value);
-              setError(null);
-            }}
-            onKeyDown={onEnter}
-          />
-        </label>
-
-        <label className="field">
           <span>{t('auth.githubLogin')}</span>
           <input
             value={login}
+            autoFocus
             placeholder="octocat"
             onChange={(e) => {
               setLogin(e.target.value);

@@ -219,11 +219,10 @@ export const en = {
     signOut: 'Sign out',
     button: 'Become a contributor',
     signedInAs: 'Signed in as {{alias}}',
-    displayName: 'First and last name',
     githubLogin: 'GitHub account',
     checking: 'Checking…',
     publicWarning:
-      'Your GitHub account appears publicly on every request you submit and in the contributor list of the repository. Your name stays in this browser and is never published.',
+      'Your GitHub account appears publicly on every request you submit and in the contributor list of the repository. Nothing else is collected.',
     error_format: 'This is not a valid GitHub account name.',
     error_unknown: 'GitHub does not know this account.',
     error_network: 'GitHub could not be reached. Try again.',

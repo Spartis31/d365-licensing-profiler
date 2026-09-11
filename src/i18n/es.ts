@@ -222,11 +222,10 @@ export const es: Translation = {
     signOut: 'Cerrar sesión',
     button: 'Ser colaborador',
     signedInAs: 'Sesión iniciada como {{alias}}',
-    displayName: 'Nombre y apellidos',
     githubLogin: 'Cuenta de GitHub',
     checking: 'Comprobando…',
     publicWarning:
-      'Su cuenta de GitHub aparece públicamente en cada solicitud que envía y en la lista de colaboradores del repositorio. Su nombre permanece en este navegador y nunca se publica.',
+      'Su cuenta de GitHub aparece públicamente en cada solicitud que envía y en la lista de colaboradores del repositorio. No se recopila nada más.',
     error_format: 'Este no es un nombre de cuenta de GitHub válido.',
     error_unknown: 'GitHub no conoce esta cuenta.',
     error_network: 'No se ha podido contactar con GitHub. Inténtelo de nuevo.',

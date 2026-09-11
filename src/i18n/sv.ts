@@ -222,11 +222,10 @@ export const sv: Translation = {
     signOut: 'Logga ut',
     button: 'Bli bidragsgivare',
     signedInAs: 'Inloggad som {{alias}}',
-    displayName: 'För- och efternamn',
     githubLogin: 'GitHub-konto',
     checking: 'Kontrollerar…',
     publicWarning:
-      'Ditt GitHub-konto visas offentligt på varje begäran du skickar in och i lagringsplatsens lista över bidragsgivare. Ditt namn stannar i den här webbläsaren och publiceras aldrig.',
+      'Ditt GitHub-konto visas offentligt på varje begäran du skickar in och i lagringsplatsens lista över bidragsgivare. Inget annat samlas in.',
     error_format: 'Detta är inte ett giltigt GitHub-kontonamn.',
     error_unknown: 'GitHub känner inte till det här kontot.',
     error_network: 'Det gick inte att nå GitHub. Försök igen.',

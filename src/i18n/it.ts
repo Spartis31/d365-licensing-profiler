@@ -222,11 +222,10 @@ export const it: Translation = {
     signOut: 'Disconnetti',
     button: 'Diventa collaboratore',
     signedInAs: 'Connesso come {{alias}}',
-    displayName: 'Nome e cognome',
     githubLogin: 'Account GitHub',
     checking: 'Verifica in corso…',
     publicWarning:
-      "Il suo account GitHub compare pubblicamente su ogni richiesta che invia e nell'elenco dei collaboratori del repository. Il suo nome resta in questo browser e non viene mai pubblicato.",
+      "Il suo account GitHub compare pubblicamente su ogni richiesta che invia e nell'elenco dei collaboratori del repository. Non viene raccolto nient'altro.",
     error_format: 'Questo non è un nome di account GitHub valido.',
     error_unknown: 'GitHub non conosce questo account.',
     error_network: 'Impossibile contattare GitHub. Riprovi.',

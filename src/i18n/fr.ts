@@ -221,11 +221,10 @@ export const fr: Translation = {
     signOut: 'Se déconnecter',
     button: 'Devenir contributeur',
     signedInAs: 'Connecté en tant que {{alias}}',
-    displayName: 'Prénom et nom',
     githubLogin: 'Compte GitHub',
     checking: 'Vérification…',
     publicWarning:
-      "Votre compte GitHub apparaît publiquement sur chaque demande que vous soumettez et dans la liste des contributeurs du dépôt. Votre nom reste dans ce navigateur et n'est jamais publié.",
+      'Votre compte GitHub apparaît publiquement sur chaque demande que vous soumettez et dans la liste des contributeurs du dépôt. Rien d’autre n’est collecté.',
     error_format: "Ce n'est pas un nom de compte GitHub valide.",
     error_unknown: 'GitHub ne connaît pas ce compte.',
     error_network: 'Impossible de joindre GitHub. Réessayez.',

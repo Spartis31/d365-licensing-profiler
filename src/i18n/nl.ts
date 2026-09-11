@@ -222,11 +222,10 @@ export const nl: Translation = {
     signOut: 'Afmelden',
     button: 'Bijdrager worden',
     signedInAs: 'Aangemeld als {{alias}}',
-    displayName: 'Voor- en achternaam',
     githubLogin: 'GitHub-account',
     checking: 'Controleren…',
     publicWarning:
-      'Uw GitHub-account verschijnt openbaar bij elk verzoek dat u indient en in de lijst met bijdragers van de repository. Uw naam blijft in deze browser en wordt nooit gepubliceerd.',
+      'Uw GitHub-account verschijnt openbaar bij elk verzoek dat u indient en in de lijst met bijdragers van de repository. Er wordt niets anders verzameld.',
     error_format: 'Dit is geen geldige GitHub-accountnaam.',
     error_unknown: 'GitHub kent dit account niet.',
     error_network: 'GitHub kon niet worden bereikt. Probeer het opnieuw.',
