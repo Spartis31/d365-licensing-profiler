@@ -264,6 +264,8 @@ export const fr: Translation = {
     pendingBody:
       "Vous pouvez utiliser tout l'outil. Proposer un processus au catalogue partagé exige l'approbation d'un modérateur. Demandez-la ci-dessous : une connexion ne laisse aucune trace, c'est donc cette demande qui vous rend visible auprès d'un administrateur.",
     requestApproval: "Demander l'approbation",
+    approvalSent: 'Demande envoyée le {{date}}. Un administrateur va l’examiner.',
+    askedOn: 'demandé le {{date}}',
     notYourself: 'Vous ne pouvez pas vous retirer vous-même.',
     lastAdmin: 'Le dernier administrateur ne peut être ni modifié ni retiré.',
     level_approved: 'Contributeur approuvé',

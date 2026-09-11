@@ -262,6 +262,8 @@ export const en = {
     pendingBody:
       'You can use the whole tool. Proposing a process for the shared catalog needs an approval from a moderator. Ask for it below: signing in leaves no trace, so this request is what makes you visible to an administrator.',
     requestApproval: 'Ask to be approved',
+    approvalSent: 'Request sent on {{date}}. An administrator will review it.',
+    askedOn: 'asked on {{date}}',
     notYourself: 'You cannot remove yourself.',
     lastAdmin: 'The last administrator cannot be changed or removed.',
     level_approved: 'Approved contributor',

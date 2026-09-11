@@ -265,6 +265,8 @@ export const nl: Translation = {
     pendingBody:
       'U kunt het hele hulpmiddel gebruiken. Een proces voorstellen voor de gedeelde catalogus vereist goedkeuring. Vraag die hieronder aan: aanmelden laat geen spoor na, dus pas dit verzoek maakt u zichtbaar voor een beheerder.',
     requestApproval: 'Goedkeuring aanvragen',
+    approvalSent: 'Verzoek verzonden op {{date}}. Een beheerder bekijkt het.',
+    askedOn: 'aangevraagd op {{date}}',
     notYourself: 'U kunt uzelf niet verwijderen.',
     lastAdmin: 'De laatste beheerder kan niet worden gewijzigd of verwijderd.',
     level_approved: 'Goedgekeurde bijdrager',

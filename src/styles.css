@@ -1233,6 +1233,13 @@ td.cell button {
   color: var(--blue-70);
 }
 
+button.button-link:disabled {
+  opacity: 0.5;
+  cursor: default;
+  border-color: var(--line);
+  color: var(--ink);
+}
+
 .warn-text {
   color: var(--amber);
   font-weight: 600;

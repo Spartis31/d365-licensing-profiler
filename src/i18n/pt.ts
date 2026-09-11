@@ -265,6 +265,8 @@ export const pt: Translation = {
     pendingBody:
       'Pode usar toda a ferramenta. Propor um processo para o catálogo partilhado exige a aprovação de um moderador. Peça-a abaixo: iniciar sessão não deixa rasto, por isso é este pedido que o torna visível para um administrador.',
     requestApproval: 'Pedir a aprovação',
+    approvalSent: 'Pedido enviado a {{date}}. Um administrador irá analisá-lo.',
+    askedOn: 'pedido a {{date}}',
     notYourself: 'Não pode remover-se a si próprio.',
     lastAdmin: 'O último administrador não pode ser alterado nem removido.',
     level_approved: 'Colaborador aprovado',

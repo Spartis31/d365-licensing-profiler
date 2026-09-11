@@ -265,6 +265,8 @@ export const it: Translation = {
     pendingBody:
       "Può usare tutto lo strumento. Proporre un processo per il catalogo condiviso richiede l'approvazione di un moderatore. La chieda qui sotto: l'accesso non lascia tracce, quindi è questa richiesta a renderla visibile a un amministratore.",
     requestApproval: "Chiedi l'approvazione",
+    approvalSent: 'Richiesta inviata il {{date}}. Un amministratore la esaminerà.',
+    askedOn: 'richiesto il {{date}}',
     notYourself: 'Non può rimuovere se stesso.',
     lastAdmin: "L'ultimo amministratore non può essere modificato né rimosso.",
     level_approved: 'Collaboratore approvato',

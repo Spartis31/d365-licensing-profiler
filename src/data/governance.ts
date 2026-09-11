@@ -92,6 +92,8 @@ export interface ProcessRequest {
   status: RequestStatus;
   createdAt: string;
   needsTranslation: boolean;
+  /** Set when the issue is someone asking to be approved, not proposing a process. */
+  isApproval: boolean;
 }
 
 interface RawIssue {
@@ -215,6 +217,7 @@ export async function fetchRequests(force = false): Promise<RequestsResult> {
         needsTranslation:
           issue.labels.some((l) => l.name.toLowerCase() === TRANSLATION_LABEL) ||
           (issue.body ?? '').includes('AI translation requested'),
+        isApproval: issue.labels.some((l) => l.name.toLowerCase() === APPROVAL_LABEL),
       }));
 
     localStorage.setItem(CACHE_KEY, JSON.stringify({ at: Date.now(), requests }));

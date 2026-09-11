@@ -265,6 +265,8 @@ export const de: Translation = {
     pendingBody:
       'Sie können das gesamte Werkzeug nutzen. Einen Prozess für den gemeinsamen Katalog vorzuschlagen erfordert eine Bestätigung. Bitten Sie unten darum: Eine Anmeldung hinterlässt keine Spur, erst diese Anfrage macht Sie für eine Administratorin sichtbar.',
     requestApproval: 'Um Bestätigung bitten',
+    approvalSent: 'Anfrage am {{date}} gesendet. Eine Administratorin wird sie prüfen.',
+    askedOn: 'angefragt am {{date}}',
     notYourself: 'Sie können sich nicht selbst entfernen.',
     lastAdmin: 'Der letzte Administrator kann weder geändert noch entfernt werden.',
     level_approved: 'Bestätigter Mitwirkender',

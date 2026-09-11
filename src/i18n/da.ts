@@ -265,6 +265,8 @@ export const da: Translation = {
     pendingBody:
       'Du kan bruge hele værktøjet. At foreslå en proces til det fælles katalog kræver godkendelse. Bed om den nedenfor: at logge ind efterlader ingen spor, så det er denne anmodning, der gør dig synlig for en administrator.',
     requestApproval: 'Bed om godkendelse',
+    approvalSent: 'Anmodning sendt den {{date}}. En administrator gennemgår den.',
+    askedOn: 'anmodet den {{date}}',
     notYourself: 'Du kan ikke fjerne dig selv.',
     lastAdmin: 'Den sidste administrator kan hverken ændres eller fjernes.',
     level_approved: 'Godkendt bidragyder',

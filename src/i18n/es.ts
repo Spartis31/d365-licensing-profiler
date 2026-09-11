@@ -265,6 +265,8 @@ export const es: Translation = {
     pendingBody:
       'Puede usar toda la herramienta. Proponer un proceso para el catálogo compartido requiere la aprobación de un moderador. Pídala abajo: iniciar sesión no deja ningún rastro, así que es esta solicitud la que le hace visible para un administrador.',
     requestApproval: 'Solicitar la aprobación',
+    approvalSent: 'Solicitud enviada el {{date}}. Un administrador la revisará.',
+    askedOn: 'solicitado el {{date}}',
     notYourself: 'No puede eliminarse a sí mismo.',
     lastAdmin: 'El último administrador no puede modificarse ni eliminarse.',
     level_approved: 'Colaborador aprobado',

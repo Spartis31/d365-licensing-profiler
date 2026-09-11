@@ -265,6 +265,8 @@ export const sv: Translation = {
     pendingBody:
       'Du kan använda hela verktyget. Att föreslå en process till den gemensamma katalogen kräver godkännande. Be om det nedan: att logga in lämnar inga spår, så det är denna begäran som gör dig synlig för en administratör.',
     requestApproval: 'Be om godkännande',
+    approvalSent: 'Begäran skickad den {{date}}. En administratör granskar den.',
+    askedOn: 'begärt den {{date}}',
     notYourself: 'Du kan inte ta bort dig själv.',
     lastAdmin: 'Den sista administratören kan varken ändras eller tas bort.',
     level_approved: 'Godkänd bidragsgivare',

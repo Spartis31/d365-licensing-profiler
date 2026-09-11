@@ -220,8 +220,8 @@ function PeopleCard({
   levels: Record<string, GovernanceLevel>;
   requireWrite: RequireWrite;
   onSaved: (next: Record<string, GovernanceLevel>) => void;
-  /** GitHub accounts that posted a request; anyone signing in is a contributor by default. */
-  seen: string[];
+  /** GitHub accounts that posted a request, with when they first asked. */
+  seen: Array<{ login: string; requestedAt: string }>;
   currentLogin: string;
 }) {
   const { t } = useTranslation();
@@ -229,7 +229,7 @@ function PeopleCard({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
-  const names = useGitHubNames([...Object.keys(levels), ...seen]);
+  const names = useGitHubNames([...Object.keys(levels), ...seen.map((s) => s.login)]);
   const label = (login: string) => (names[login] ? `${login} | ${names[login]}` : login);
   const adminCount = Object.values(levels).filter((value) => value === 'admin').length;
 
@@ -302,7 +302,7 @@ function PeopleCard({
         })}
       </ul>
 
-      {seen.filter((alias) => !(alias in levels)).length > 0 && (
+      {seen.filter(({ login }) => !(login in levels)).length > 0 && (
         <>
           <h4 style={{ margin: '18px 0 4px' }}>{t('admin.seenPeople')}</h4>
           <p className="hint" style={{ marginBottom: 10 }}>
@@ -310,15 +310,18 @@ function PeopleCard({
           </p>
           <ul className="people-list">
             {seen
-              .filter((alias) => !(alias in levels))
-              .map((alias) => (
-                <li key={alias}>
-                  <span className="identity-chip">{label(alias)}</span>
+              .filter(({ login }) => !(login in levels))
+              .map(({ login, requestedAt }) => (
+                <li key={login}>
+                  <span className="identity-chip">{label(login)}</span>
+                  <span className="hint">
+                    {t('admin.askedOn', { date: new Date(requestedAt).toLocaleString() })}
+                  </span>
                   <button
                     type="button"
                     disabled={busy}
                     onClick={() =>
-                      save({ ...levels, [alias]: 'approved' }, `Governance: approve ${alias}`)
+                      save({ ...levels, [login]: 'approved' }, `Governance: approve ${login}`)
                     }
                   >
                     {t('admin.approveContributor')}
@@ -353,6 +356,19 @@ function PeopleCard({
       {error && <p className="error-text">{error}</p>}
     </div>
   );
+}
+
+/** An explicit approval request dates someone best; otherwise their first request does. */
+function seenPeople(all: ProcessRequest[]): Array<{ login: string; requestedAt: string }> {
+  const first = new Map<string, string>();
+  for (const request of all) {
+    if (!request.author) continue;
+    const known = first.get(request.author);
+    if (!known || request.isApproval || request.createdAt < known) {
+      first.set(request.author, request.createdAt);
+    }
+  }
+  return [...first].map(([login, requestedAt]) => ({ login, requestedAt }));
 }
 
 function FreeRequestCard({ identity }: { identity: ContributorIdentity }) {
@@ -421,6 +437,7 @@ export function AdminView() {
   }, [load]);
 
   const level = levelIn(levels, identity);
+  const all = result?.status === 'ok' ? result.requests : [];
 
   if (!identity || !canOpenConsole(level)) {
     return (
@@ -437,6 +454,7 @@ export function AdminView() {
 
   // An unapproved user sees their status, and nothing else.
   if (!canRequest(level)) {
+    const sent = all.find((r) => r.isApproval && r.author === identity.login);
     return (
       <section className="view">
         <header>
@@ -455,14 +473,25 @@ export function AdminView() {
           <p className="hint" style={{ marginBottom: 12 }}>
             {t('admin.pendingBody')}
           </p>
-          <a
-            className="button-link"
-            href={approvalRequestUrl(identity)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t('admin.requestApproval')}
-          </a>
+          {sent ? (
+            <>
+              <button type="button" className="button-link" disabled>
+                {t('admin.requestApproval')}
+              </button>
+              <p className="hint" style={{ margin: '10px 0 0' }}>
+                {t('admin.approvalSent', { date: new Date(sent.createdAt).toLocaleString() })}
+              </p>
+            </>
+          ) : (
+            <a
+              className="button-link"
+              href={approvalRequestUrl(identity)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t('admin.requestApproval')}
+            </a>
+          )}
         </div>
 
         <FreeRequestCard identity={identity} />
@@ -470,7 +499,6 @@ export function AdminView() {
     );
   }
 
-  const all = result?.status === 'ok' ? result.requests : [];
   const visible = canModerate(level) ? all : all.filter((r) => r.author === identity.login);
 
   return (
@@ -561,11 +589,7 @@ export function AdminView() {
           requireWrite={requireWrite}
           onSaved={(next) => setLevels(applyGovernance(next))}
           currentLogin={identity.login}
-          seen={[
-            ...new Set(
-              all.map((request) => request.author).filter((login): login is string => Boolean(login)),
-            ),
-          ]}
+          seen={seenPeople(all)}
         />
       )}
 
