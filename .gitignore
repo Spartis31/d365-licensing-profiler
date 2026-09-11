@@ -1,0 +1,9 @@
+node_modules/
+dist/
+tools/out_*.txt
+tools/*.log
+tools/sample-export.xlsx
+tools/ref/
+*.local
+*.d365lic
+.DS_Store
