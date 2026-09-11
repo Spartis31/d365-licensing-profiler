@@ -4,7 +4,7 @@ import { PROFILING_MODES } from '../types';
 import type { ProjectApi } from '../state/useProject';
 import { signOut, useIdentity } from '../auth/identity';
 import { SignInModal } from '../components/SignInModal';
-import { CATALOG_GUIDE_EDITION, GUIDE_PERMALINK, checkLatestEdition } from '../data/guide';
+import { CATALOG_GUIDE_EDITION, GUIDE_PERMALINK, UPDATE_ROLES_WORKFLOW, checkLatestEdition } from '../data/guide';
 import type { GuideCheck } from '../data/guide';
 
 export function SetupView({
@@ -68,6 +68,19 @@ export function SetupView({
           <button type="button" disabled={checking} onClick={() => void runCheck()}>
             {checking ? t('guide.checking') : t('guide.check')}
           </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (!identity) {
+                setShowSignIn(true);
+                return;
+              }
+              window.open(UPDATE_ROLES_WORKFLOW, '_blank', 'noopener');
+            }}
+          >
+            {t('guide.updateRoles')}
+          </button>
+          {!identity && <span className="lock-hint">{t('auth.restricted')}</span>}
           <span className="spacer" />
           {check && (
             <span className={check.status === 'outdated' ? 'hint warn-text' : 'hint'}>
@@ -77,6 +90,9 @@ export function SetupView({
             </span>
           )}
         </div>
+        <p className="hint" style={{ marginTop: 12 }}>
+          {t('guide.updateHint')}
+        </p>
       </div>
 
       <div className="card">

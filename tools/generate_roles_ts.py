@@ -1,8 +1,12 @@
 """Genere src/data/standardRoles.ts a partir des roles extraits du Licensing Guide."""
 import json
+import os
 import re
 
 ROLES = json.load(open("tools/ref/standard_roles.json", encoding="utf-8"))
+
+# Injectee par le workflow depuis le nom du PDF telecharge.
+EDITION = os.environ.get("GUIDE_EDITION", "September 2026")
 
 APP_BY_PAGE = {
     13: "commerce",
@@ -132,7 +136,7 @@ def main():
         " * Les noms de roles sont conserves en anglais : ce sont les noms des roles de",
         " * securite du produit, pas des libelles traduisibles.",
         " */",
-        f"export const ROLES_GUIDE_EDITION = '{ROLES and 'September 2026'}';",
+        f"export const ROLES_GUIDE_EDITION = '{EDITION}';",
         "",
         "export type RoleApp = 'finance' | 'supplyChain' | 'commerce' | 'humanResources' | 'projectOperations';",
         "",

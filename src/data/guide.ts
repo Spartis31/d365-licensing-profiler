@@ -9,6 +9,14 @@ export const GUIDE_PERMALINK = 'https://go.microsoft.com/fwlink/?LinkId=866544&c
 /** Edition the shipped catalogue and standard roles were extracted from. */
 export const CATALOG_GUIDE_EDITION = ROLES_GUIDE_EDITION;
 
+/**
+ * Page "Run workflow" of the role update job. Opening it rather than calling the
+ * API keeps the action gated by GitHub repository permissions, with no token in
+ * the browser.
+ */
+export const UPDATE_ROLES_WORKFLOW =
+  'https://github.com/Spartis31/d365-licensing-profiler/actions/workflows/update-roles.yml';
+
 const FILENAME_EDITION = /Dynamics365LicensingGuide([A-Za-z]+)(\d{4})\.pdf/i;
 
 /** Reads the edition out of the redirect target, e.g. `...GuideSeptember2026.pdf`. */

@@ -237,6 +237,8 @@ export const fr: Translation = {
     outdated: 'Une édition plus récente est disponible : {{edition}}.',
     unknown: 'Impossible de joindre le site Microsoft.',
     updateRoles: 'Mise à jour des rôles standards',
+    updateHint:
+      "La mise à jour s'exécute sur GitHub : téléchargement du guide publié, réextraction des 143 rôles standards, contrôle du résultat et ouverture d'une pull request. La fusionner met le catalogue à jour pour tout le monde.",
     updateUnavailable:
       "Mettre à jour le catalogue de rôles partagé suppose la version en ligne : l'écriture vaut pour tous les utilisateurs. Disponible hors ligne pour l'instant : la vérification de l'édition publiée.",
   },

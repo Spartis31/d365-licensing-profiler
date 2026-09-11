@@ -235,6 +235,8 @@ export const en = {
     outdated: 'A newer edition is available: {{edition}}.',
     unknown: 'Unable to reach the Microsoft site.',
     updateRoles: 'Update standard roles',
+    updateHint:
+      'The update runs on GitHub: it downloads the published guide, re-extracts the 143 standard roles, checks the result and opens a pull request. Merging it updates the catalogue for everyone.',
     updateUnavailable:
       'Updating the shared role catalogue requires the online version: it writes for every user. Currently available offline: checking the published edition.',
   },

@@ -1,0 +1,105 @@
+name: Update standard roles
+
+# Declenche depuis l'application (bouton "Mise a jour des roles standards") ou
+# automatiquement le 3 de chaque mois, le guide etant publie mensuellement.
+on:
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Regenerer meme si l'edition n'a pas change"
+        type: boolean
+        default: false
+  schedule:
+    - cron: "0 6 3 * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-roles
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pdfplumber
+
+      - name: Telecharger le Licensing Guide
+        id: guide
+        run: python tools/fetch_guide.py
+
+      - name: Comparer avec l'edition embarquee
+        id: compare
+        env:
+          NEW_EDITION: ${{ steps.guide.outputs.edition }}
+          FORCE: ${{ inputs.force }}
+        run: |
+          CURRENT=$(grep -oP "ROLES_GUIDE_EDITION = '\K[^']+" src/data/standardRoles.ts)
+          echo "embarquee : $CURRENT"
+          echo "publiee   : $NEW_EDITION"
+          if [ "$CURRENT" = "$NEW_EDITION" ] && [ "$FORCE" != "true" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Catalogue deja a jour ($CURRENT)."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Extraire et regenerer
+        if: steps.compare.outputs.changed == 'true'
+        env:
+          GUIDE_EDITION: ${{ steps.guide.outputs.edition }}
+        run: |
+          python tools/extract_roles_plumber.py
+          python tools/generate_roles_ts.py
+
+      # Barriere qualite : une extraction degradee ne doit jamais ouvrir de PR.
+      - name: Controle qualite
+        if: steps.compare.outputs.changed == 'true'
+        run: python tools/check_generated.py
+
+      - uses: actions/setup-node@v4
+        if: steps.compare.outputs.changed == 'true'
+        with:
+          node-version: 20
+          cache: npm
+      - name: Tests de non-regression
+        if: steps.compare.outputs.changed == 'true'
+        run: |
+          npm ci
+          npm test
+
+      - name: Ouvrir la pull request
+        if: steps.compare.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEW_EDITION: ${{ steps.guide.outputs.edition }}
+        run: |
+          if git diff --quiet -- src/data/standardRoles.ts; then
+            echo "::notice::Aucun changement dans le catalogue de roles."
+            exit 0
+          fi
+          BRANCH="roles/${NEW_EDITION// /-}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add src/data/standardRoles.ts
+          git commit -m "Roles standards: edition $NEW_EDITION"
+          git push -u origin "$BRANCH" --force
+          gh pr create \
+            --title "Roles standards : edition $NEW_EDITION" \
+            --body "Regenere automatiquement depuis le Licensing Guide publie.
+
+          - Edition : **$NEW_EDITION**
+          - Source : permalien \`go.microsoft.com/fwlink/?LinkId=866544\`
+          - Controle qualite et tests de non-regression passes
+
+          Relire le diff de \`src/data/standardRoles.ts\` avant de fusionner : un changement
+          de mise en page du PDF peut decaler l'extraction sans declencher d'erreur." \
+            --base main --head "$BRANCH" || echo "::notice::PR deja ouverte pour $BRANCH"
