@@ -257,10 +257,15 @@ export const it: Translation = {
     submit: 'Invia la richiesta',
   },
   admin: {
-    seenPeople: 'Visti nelle richieste',
+    seenPeople: 'Collaboratori non approvati',
     seenPeopleHint:
-      "Queste persone hanno già inviato una richiesta. Chi accede è collaboratore per impostazione predefinita: le aggiunga qui per renderlo esplicito o per promuoverle.",
+      "Questi account hanno effettuato l'accesso o hanno chiesto l'approvazione. Finché non li approva possono profilare le licenze, ma non possono inviare nulla.",
     approveContributor: 'Approva questo collaboratore',
+    decline: 'Metti da parte questo account',
+    pendingTitle: "In attesa di approvazione",
+    pendingBody:
+      "Ha effettuato l'accesso e può usare tutto lo strumento. Inviare un processo o una richiesta richiede l'approvazione di un moderatore. La chieda qui sotto: riceverà la notifica su GitHub.",
+    requestApproval: "Chiedi l'approvazione",
     notYourself: 'Non può rimuovere se stesso.',
     lastAdmin: "L'ultimo amministratore non può essere modificato né rimosso.",
     level_approved: 'Collaboratore approvato',

@@ -8,6 +8,7 @@ const ALIAS_MARKER = 'GitHub account:';
 const LEGACY_MARKER = 'Microsoft alias:';
 const REQUEST_LABEL = 'process-request';
 const TRANSLATION_LABEL = 'ai-translation';
+const APPROVAL_LABEL = 'approval-request';
 
 export type GovernanceLevel = 'contributor' | 'approved' | 'moderator' | 'admin';
 
@@ -16,8 +17,13 @@ export function canModerate(level: GovernanceLevel | null): boolean {
   return level === 'moderator' || level === 'admin';
 }
 
-/** A plain contributor contributes; the console opens once someone approved them. */
+/** Anyone signed in reaches the console; a plain contributor only sees their status there. */
 export function canOpenConsole(level: GovernanceLevel | null): boolean {
+  return level !== null;
+}
+
+/** Submitting is reserved for contributors someone has approved. */
+export function canRequest(level: GovernanceLevel | null): boolean {
   return level !== null && level !== 'contributor';
 }
 
@@ -44,7 +50,9 @@ export function applyGovernance(next: Record<string, GovernanceLevel>): Record<s
  */
 export async function loadGovernance(): Promise<Record<string, GovernanceLevel>> {
   try {
-    const response = await fetch(`${import.meta.env.BASE_URL}governance.json`, { cache: 'no-store' });
+    // The query defeats the CDN cache, so a fresh approval is seen without a hard reload.
+    const url = `${import.meta.env.BASE_URL}governance.json?t=${Date.now()}`;
+    const response = await fetch(url, { cache: 'no-store' });
     if (response.ok) levels = (await response.json()) as Record<string, GovernanceLevel>;
   } catch {
     // Keep the seed: the console stays usable for the default administrator.
@@ -145,6 +153,23 @@ export function newRequestUrl(options: {
     title: processes.length === 0 ? 'Open request' : title,
     body: lines.join('\n'),
     labels: labels.join(','),
+  });
+  return `https://github.com/${REPO}/issues/new?${params.toString()}`;
+}
+
+/**
+ * The one request a contributor may open before approval, so a newcomer is not
+ * stuck outside a system that only lists people who have already posted.
+ */
+export function approvalRequestUrl(identity: ContributorIdentity): string {
+  const params = new URLSearchParams({
+    title: `Approval request: ${identity.login}`,
+    body: [
+      `${ALIAS_MARKER} \`${identity.login}\``,
+      '',
+      'I would like to be approved as a contributor.',
+    ].join('\n'),
+    labels: APPROVAL_LABEL,
   });
   return `https://github.com/${REPO}/issues/new?${params.toString()}`;
 }

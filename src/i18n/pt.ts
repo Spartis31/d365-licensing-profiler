@@ -257,10 +257,15 @@ export const pt: Translation = {
     submit: 'Enviar o pedido',
   },
   admin: {
-    seenPeople: 'Vistos nos pedidos',
+    seenPeople: 'Colaboradores não aprovados',
     seenPeopleHint:
-      'Estas pessoas já submeteram um pedido. Quem inicia sessão é colaborador por predefinição; adicione-as aqui para o tornar explícito ou para as promover.',
+      'Estas contas iniciaram sessão ou pediram a sua aprovação. Enquanto não as aprovar, podem traçar o perfil de licenças, mas não podem submeter nada.',
     approveContributor: 'Aprovar este colaborador',
+    decline: 'Pôr esta conta de parte',
+    pendingTitle: 'À espera de aprovação',
+    pendingBody:
+      'A sua sessão está iniciada e pode usar toda a ferramenta. Submeter um processo ou um pedido exige a aprovação de um moderador. Peça-a abaixo: será avisado no GitHub.',
+    requestApproval: 'Pedir a aprovação',
     notYourself: 'Não pode remover-se a si próprio.',
     lastAdmin: 'O último administrador não pode ser alterado nem removido.',
     level_approved: 'Colaborador aprovado',

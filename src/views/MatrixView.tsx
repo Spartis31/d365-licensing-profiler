@@ -8,7 +8,7 @@ import { currentLanguage } from '../i18n';
 import { LicenceTag } from '../components/LicenceTag';
 import { useIdentity } from '../auth/identity';
 import { SignInModal } from '../components/SignInModal';
-import { newRequestUrl } from '../data/governance';
+import { canRequest, levelOf, newRequestUrl } from '../data/governance';
 
 interface ProcessRow {
   id: string;
@@ -32,6 +32,7 @@ export function MatrixView({ project, toggleSelection, addCustomProcess, removeC
   const { t } = useTranslation();
   const lang = currentLanguage();
   const identity = useIdentity();
+  const approved = canRequest(levelOf(identity));
   const [showSignIn, setShowSignIn] = useState(false);
   const [showRequest, setShowRequest] = useState(false);
   const [picked, setPicked] = useState<Record<string, boolean>>({});
@@ -330,8 +331,16 @@ export function MatrixView({ project, toggleSelection, addCustomProcess, removeC
           {showRequest ? '−' : '+'} {t('request.button')}
         </button>
         {!identity && <span className="lock-hint">{t('auth.restricted')}</span>}
+        {identity && !approved && <span className="lock-hint">{t('admin.pendingTitle')}</span>}
       </h3>
-      {showRequest && identity && (
+      {showRequest && identity && !approved && (
+        <div className="card">
+          <p className="hint" style={{ marginTop: 0 }}>
+            {t('admin.pendingBody')}
+          </p>
+        </div>
+      )}
+      {showRequest && identity && approved && (
         <div className="card">
           <p className="hint" style={{ marginTop: 0 }}>
             {t('request.intro')}

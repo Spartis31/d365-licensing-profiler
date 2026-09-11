@@ -257,10 +257,15 @@ export const sv: Translation = {
     submit: 'Skicka begäran',
   },
   admin: {
-    seenPeople: 'Sedda i begäranden',
+    seenPeople: 'Ej godkända bidragsgivare',
     seenPeopleHint:
-      'Dessa personer har redan skickat in en begäran. Alla som loggar in är bidragsgivare som standard – lägg till dem här för att göra det tydligt eller för att befordra dem.',
+      'Dessa konton har loggat in eller bett om godkännande. Tills du godkänner dem kan de profilera licenser, men de kan inte skicka in något.',
     approveContributor: 'Godkänn denna bidragsgivare',
+    decline: 'Lägg detta konto åt sidan',
+    pendingTitle: 'Väntar på godkännande',
+    pendingBody:
+      'Du är inloggad och kan använda hela verktyget. Att skicka in en process eller en begäran kräver godkännande av en moderator. Be om det nedan – du får besked på GitHub.',
+    requestApproval: 'Be om godkännande',
     notYourself: 'Du kan inte ta bort dig själv.',
     lastAdmin: 'Den sista administratören kan varken ändras eller tas bort.',
     level_approved: 'Godkänd bidragsgivare',

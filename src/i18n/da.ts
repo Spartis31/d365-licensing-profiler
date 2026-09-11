@@ -257,10 +257,15 @@ export const da: Translation = {
     submit: 'Send anmodningen',
   },
   admin: {
-    seenPeople: 'Set i anmodninger',
+    seenPeople: 'Ikke-godkendte bidragydere',
     seenPeopleHint:
-      'Disse personer har allerede sendt en anmodning. Alle, der logger ind, er bidragyder som standard; tilføj dem her for at gøre det tydeligt eller for at forfremme dem.',
+      'Disse konti har logget ind eller bedt om godkendelse. Indtil du godkender dem, kan de profilere licenser, men de kan ikke sende noget ind.',
     approveContributor: 'Godkend denne bidragyder',
+    decline: 'Sæt denne konto til side',
+    pendingTitle: 'Afventer godkendelse',
+    pendingBody:
+      'Du er logget ind og kan bruge hele værktøjet. At sende en proces eller en anmodning kræver godkendelse fra en moderator. Bed om den nedenfor; du får besked på GitHub.',
+    requestApproval: 'Bed om godkendelse',
     notYourself: 'Du kan ikke fjerne dig selv.',
     lastAdmin: 'Den sidste administrator kan hverken ændres eller fjernes.',
     level_approved: 'Godkendt bidragyder',

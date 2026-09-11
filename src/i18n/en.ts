@@ -254,10 +254,15 @@ export const en = {
     submit: 'Submit the request',
   },
   admin: {
-    seenPeople: 'Seen in requests',
+    seenPeople: 'Unapproved contributors',
     seenPeopleHint:
-      'These people have already submitted a request. Anyone who signs in is a contributor by default; add them here to make that explicit, or to promote them.',
+      'These accounts have signed in or asked to be approved. Until you approve them they can profile licences, but they cannot submit anything.',
     approveContributor: 'Approve this contributor',
+    decline: 'Set aside this account',
+    pendingTitle: 'Waiting for approval',
+    pendingBody:
+      'Your account is signed in and you can use the whole tool. Submitting a process or a request needs an approval from a moderator. Ask for it below; you will be notified on GitHub.',
+    requestApproval: 'Ask to be approved',
     notYourself: 'You cannot remove yourself.',
     lastAdmin: 'The last administrator cannot be changed or removed.',
     level_approved: 'Approved contributor',

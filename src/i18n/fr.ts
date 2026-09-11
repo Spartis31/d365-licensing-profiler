@@ -256,10 +256,15 @@ export const fr: Translation = {
     submit: 'Soumettre la demande',
   },
   admin: {
-    seenPeople: 'Vus dans les demandes',
+    seenPeople: 'Contributeurs non approuvés',
     seenPeopleHint:
-      "Ces personnes ont déjà soumis une demande. Toute personne connectée est contributeur par défaut : ajoutez-la ici pour le rendre explicite, ou pour la promouvoir.",
+      "Ces comptes se sont connectés ou ont demandé leur approbation. Tant que vous ne les approuvez pas, ils peuvent profiler des licences mais ne peuvent rien soumettre.",
     approveContributor: 'Approuver ce contributeur',
+    decline: 'Écarter ce compte',
+    pendingTitle: "En attente d'approbation",
+    pendingBody:
+      "Vous êtes connecté et vous pouvez utiliser tout l'outil. Soumettre un processus ou une demande exige l'approbation d'un modérateur. Demandez-la ci-dessous : vous serez prévenu sur GitHub.",
+    requestApproval: "Demander l'approbation",
     notYourself: 'Vous ne pouvez pas vous retirer vous-même.',
     lastAdmin: 'Le dernier administrateur ne peut être ni modifié ni retiré.',
     level_approved: 'Contributeur approuvé',

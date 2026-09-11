@@ -257,10 +257,15 @@ export const de: Translation = {
     submit: 'Anfrage absenden',
   },
   admin: {
-    seenPeople: 'In Anfragen gesehen',
+    seenPeople: 'Nicht bestätigte Mitwirkende',
     seenPeopleHint:
-      'Diese Personen haben bereits eine Anfrage eingereicht. Wer sich anmeldet, ist standardmäßig Mitwirkender; fügen Sie sie hier hinzu, um das festzuhalten oder sie höherzustufen.',
+      'Diese Konten haben sich angemeldet oder um Bestätigung gebeten. Bis Sie sie bestätigen, können sie Lizenzen profilieren, aber nichts einreichen.',
     approveContributor: 'Diesen Mitwirkenden bestätigen',
+    decline: 'Dieses Konto zurückstellen',
+    pendingTitle: 'Warten auf Bestätigung',
+    pendingBody:
+      'Sie sind angemeldet und können das gesamte Werkzeug nutzen. Das Einreichen eines Prozesses oder einer Anfrage erfordert die Bestätigung einer Moderatorin oder eines Moderators. Fragen Sie unten danach; Sie werden auf GitHub benachrichtigt.',
+    requestApproval: 'Um Bestätigung bitten',
     notYourself: 'Sie können sich nicht selbst entfernen.',
     lastAdmin: 'Der letzte Administrator kann weder geändert noch entfernt werden.',
     level_approved: 'Bestätigter Mitwirkender',

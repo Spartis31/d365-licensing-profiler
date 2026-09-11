@@ -42,13 +42,13 @@ export default function App() {
   const [levels, setLevels] = useState(governanceLevels());
   const fileInput = useRef<HTMLInputElement>(null);
 
-  // Loaded here, not in the console: the console is only reachable once we know the level.
+  // Reloaded on every sign-in: a level granted a minute ago must not need a manual refresh.
   useEffect(() => {
     void loadGovernance().then(setLevels);
-  }, []);
+  }, [identity?.login]);
 
   const hiddenTab = HIDDEN_BY_MODE[api.project.profilingMode];
-  // Administration only exists for contributors someone has approved.
+  // Administration opens for anyone signed in; the level decides what it contains.
   const visibleTabs = TABS.filter(
     (name) => name !== hiddenTab && (name !== 'admin' || canOpenConsole(levelIn(levels, identity))),
   );

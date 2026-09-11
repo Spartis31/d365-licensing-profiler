@@ -257,10 +257,15 @@ export const nl: Translation = {
     submit: 'De aanvraag indienen',
   },
   admin: {
-    seenPeople: 'Gezien in verzoeken',
+    seenPeople: 'Niet-goedgekeurde bijdragers',
     seenPeopleHint:
-      'Deze personen hebben al een verzoek ingediend. Iedereen die zich aanmeldt is standaard bijdrager; voeg ze hier toe om dat vast te leggen of om ze te promoveren.',
+      'Deze accounts hebben zich aangemeld of om goedkeuring gevraagd. Zolang u ze niet goedkeurt kunnen ze licenties profileren, maar niets indienen.',
     approveContributor: 'Deze bijdrager goedkeuren',
+    decline: 'Dit account terzijde leggen',
+    pendingTitle: 'Wacht op goedkeuring',
+    pendingBody:
+      'U bent aangemeld en kunt het hele hulpmiddel gebruiken. Een proces of verzoek indienen vereist de goedkeuring van een moderator. Vraag die hieronder aan; u krijgt bericht op GitHub.',
+    requestApproval: 'Goedkeuring aanvragen',
     notYourself: 'U kunt uzelf niet verwijderen.',
     lastAdmin: 'De laatste beheerder kan niet worden gewijzigd of verwijderd.',
     level_approved: 'Goedgekeurde bijdrager',

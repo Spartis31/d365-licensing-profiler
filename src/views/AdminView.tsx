@@ -7,8 +7,10 @@ import {
   REQUEST_LABEL_NAME,
   STATUS_LABELS,
   applyGovernance,
+  approvalRequestUrl,
   canModerate,
   canOpenConsole,
+  canRequest,
   fetchRequests,
   governanceLevels,
   levelIn,
@@ -38,7 +40,9 @@ const STATUS_TONE: Record<RequestStatus, string> = {
   rejected: 'tag-lic-projectOperations',
 };
 
-const LEVELS: GovernanceLevel[] = ['contributor', 'approved', 'moderator', 'admin'];
+/** Plain contributor is never assigned: it is what everyone is until approved. */
+const ASSIGNABLE: GovernanceLevel[] = ['approved', 'moderator', 'admin'];
+const LEVELS: GovernanceLevel[] = ['contributor', ...ASSIGNABLE];
 
 /** Runs an action, asking for write access first if it has never been granted. */
 type RequireWrite = (action: () => void) => void;
@@ -274,7 +278,7 @@ function PeopleCard({
                   )
                 }
               >
-                {LEVELS.map((value) => (
+                {(level === 'contributor' ? LEVELS : ASSIGNABLE).map((value) => (
                   <option key={value} value={value}>
                     {t(`admin.level_${value}`)}
                   </option>
@@ -317,6 +321,17 @@ function PeopleCard({
                     }
                   >
                     {t('admin.approveContributor')}
+                  </button>
+                  <button
+                    type="button"
+                    className="ghost danger icon"
+                    title={t('admin.decline')}
+                    disabled={busy}
+                    onClick={() =>
+                      save({ ...levels, [alias]: 'contributor' }, `Governance: decline ${alias}`)
+                    }
+                  >
+                    ✕
                   </button>
                 </li>
               ))}
@@ -389,6 +404,39 @@ export function AdminView() {
         </header>
         <div className="empty">
           <strong>{t('auth.restricted')}</strong>
+        </div>
+      </section>
+    );
+  }
+
+  // A contributor waiting for approval sees their status, and nothing else.
+  if (!canRequest(level)) {
+    return (
+      <section className="view">
+        <header>
+          <h2>{t('admin.heading')}</h2>
+        </header>
+
+        <div className="card">
+          <div className="toolbar" style={{ marginBottom: 0 }}>
+            <span className="identity-chip">{t(`admin.level_${level}`)}</span>
+            <span className="hint">{t('admin.levelHint')}</span>
+          </div>
+        </div>
+
+        <div className="card">
+          <h3 style={{ marginTop: 0 }}>{t('admin.pendingTitle')}</h3>
+          <p className="hint" style={{ marginBottom: 12 }}>
+            {t('admin.pendingBody')}
+          </p>
+          <a
+            className="button-link"
+            href={approvalRequestUrl(identity)}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t('admin.requestApproval')}
+          </a>
         </div>
       </section>
     );
@@ -525,26 +573,28 @@ export function AdminView() {
         />
       )}
 
-      <div className="card">
-        <h3 style={{ marginTop: 0 }}>{t('admin.moderation')}</h3>
-        <p className="hint">{t('admin.moderationHint')}</p>
-        <a
-          className="button-link"
-          href={`https://github.com/${REPO}/issues?q=is%3Aissue`}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {t('admin.openInGitHub')}
-        </a>
-        {ghUser && (
-          <p className="hint" style={{ marginTop: 12 }}>
-            {t('admin.signedInAs', { login: ghUser.login })}{' '}
-            <button type="button" className="link" onClick={signOutGitHub}>
-              {t('admin.disconnect')}
-            </button>
-          </p>
-        )}
-      </div>
+      {canModerate(level) && (
+        <div className="card">
+          <h3 style={{ marginTop: 0 }}>{t('admin.moderation')}</h3>
+          <p className="hint">{t('admin.moderationHint')}</p>
+          <a
+            className="button-link"
+            href={`https://github.com/${REPO}/issues?q=is%3Aissue`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {t('admin.openInGitHub')}
+          </a>
+          {ghUser && (
+            <p className="hint" style={{ marginTop: 12 }}>
+              {t('admin.signedInAs', { login: ghUser.login })}{' '}
+              <button type="button" className="link" onClick={signOutGitHub}>
+                {t('admin.disconnect')}
+              </button>
+            </p>
+          )}
+        </div>
+      )}
 
       {pending && (
         <GitHubTokenModal
