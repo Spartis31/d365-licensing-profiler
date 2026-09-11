@@ -257,11 +257,10 @@ export const sv: Translation = {
     submit: 'Skicka begäran',
   },
   admin: {
-    seenPeople: 'Ej godkända bidragsgivare',
+    seenPeople: 'Ej godkända användare',
     seenPeopleHint:
       'Dessa konton har öppnat en begäran i förrådet. Att logga in lämnar inga spår – den som bara har loggat in visas inte här.',
-    approveContributor: 'Godkänn denna bidragsgivare',
-    decline: 'Lägg detta konto åt sidan',
+    approveContributor: 'Godkänn denna användare',
     pendingTitle: 'Väntar på godkännande',
     pendingBody:
       'Du är inloggad och kan använda hela verktyget. Att skicka in en process eller en begäran kräver godkännande av en moderator. Be om det nedan – du får besked på GitHub.',
@@ -299,7 +298,7 @@ export const sv: Translation = {
     decide: 'Beslut:',
     addPerson: 'Lägg till',
     addAliasPlaceholder: 'GitHub-konto',
-    level_contributor: 'Bidragsgivare',
+    level_user: 'Ej godkänd användare',
     level_moderator: 'Moderator',
     level_admin: 'Administratör',
     levelHint: 'Din nivå avgör vad du ser och vad du kan göra.',

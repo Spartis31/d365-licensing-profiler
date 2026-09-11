@@ -256,11 +256,10 @@ export const fr: Translation = {
     submit: 'Soumettre la demande',
   },
   admin: {
-    seenPeople: 'Contributeurs non approuvés',
+    seenPeople: 'Utilisateurs non approuvés',
     seenPeopleHint:
       "Ces comptes ont ouvert une demande sur le dépôt. Une connexion ne laisse aucune trace : quelqu'un qui s'est seulement connecté n'apparaît pas ici.",
-    approveContributor: 'Approuver ce contributeur',
-    decline: 'Écarter ce compte',
+    approveContributor: 'Approuver cet utilisateur',
     pendingTitle: "En attente d'approbation",
     pendingBody:
       "Vous êtes connecté et vous pouvez utiliser tout l'outil. Soumettre un processus ou une demande exige l'approbation d'un modérateur. Demandez-la ci-dessous : vous serez prévenu sur GitHub.",
@@ -298,7 +297,7 @@ export const fr: Translation = {
     decide: 'Décision :',
     addPerson: 'Ajouter',
     addAliasPlaceholder: 'compte GitHub',
-    level_contributor: 'Contributeur',
+    level_user: 'Utilisateur non approuvé',
     level_moderator: 'Modérateur',
     level_admin: 'Administrateur',
     levelHint: 'Votre niveau détermine ce que vous voyez et ce que vous pouvez faire.',

@@ -40,9 +40,9 @@ const STATUS_TONE: Record<RequestStatus, string> = {
   rejected: 'tag-lic-projectOperations',
 };
 
-/** Plain contributor is never assigned: it is what everyone is until approved. */
+/** The base level is never assigned: it is what everyone is until approved. */
 const ASSIGNABLE: GovernanceLevel[] = ['approved', 'moderator', 'admin'];
-const LEVELS: GovernanceLevel[] = ['contributor', ...ASSIGNABLE];
+const LEVELS: GovernanceLevel[] = ['user', ...ASSIGNABLE];
 
 /** Runs an action, asking for write access first if it has never been granted. */
 type RequireWrite = (action: () => void) => void;
@@ -278,7 +278,7 @@ function PeopleCard({
                   )
                 }
               >
-                {(level === 'contributor' ? LEVELS : ASSIGNABLE).map((value) => (
+                {(level === 'user' ? LEVELS : ASSIGNABLE).map((value) => (
                   <option key={value} value={value}>
                     {t(`admin.level_${value}`)}
                   </option>
@@ -321,17 +321,6 @@ function PeopleCard({
                     }
                   >
                     {t('admin.approveContributor')}
-                  </button>
-                  <button
-                    type="button"
-                    className="ghost danger icon"
-                    title={t('admin.decline')}
-                    disabled={busy}
-                    onClick={() =>
-                      save({ ...levels, [alias]: 'contributor' }, `Governance: decline ${alias}`)
-                    }
-                  >
-                    ✕
                   </button>
                 </li>
               ))}
@@ -409,7 +398,7 @@ export function AdminView() {
     );
   }
 
-  // A contributor waiting for approval sees their status, and nothing else.
+  // An unapproved user sees their status, and nothing else.
   if (!canRequest(level)) {
     return (
       <section className="view">

@@ -257,11 +257,10 @@ export const nl: Translation = {
     submit: 'De aanvraag indienen',
   },
   admin: {
-    seenPeople: 'Niet-goedgekeurde bijdragers',
+    seenPeople: 'Niet-goedgekeurde gebruikers',
     seenPeopleHint:
       'Deze accounts hebben een verzoek in de repository geopend. Aanmelden laat nergens een spoor na: wie zich alleen heeft aangemeld, verschijnt hier niet.',
-    approveContributor: 'Deze bijdrager goedkeuren',
-    decline: 'Dit account terzijde leggen',
+    approveContributor: 'Deze gebruiker goedkeuren',
     pendingTitle: 'Wacht op goedkeuring',
     pendingBody:
       'U bent aangemeld en kunt het hele hulpmiddel gebruiken. Een proces of verzoek indienen vereist de goedkeuring van een moderator. Vraag die hieronder aan; u krijgt bericht op GitHub.',
@@ -299,7 +298,7 @@ export const nl: Translation = {
     decide: 'Beslissing:',
     addPerson: 'Toevoegen',
     addAliasPlaceholder: 'GitHub-account',
-    level_contributor: 'Bijdrager',
+    level_user: 'Niet-goedgekeurde gebruiker',
     level_moderator: 'Moderator',
     level_admin: 'Beheerder',
     levelHint: 'Uw niveau bepaalt wat u ziet en wat u kunt doen.',

@@ -257,11 +257,10 @@ export const da: Translation = {
     submit: 'Send anmodningen',
   },
   admin: {
-    seenPeople: 'Ikke-godkendte bidragydere',
+    seenPeople: 'Ikke-godkendte brugere',
     seenPeopleHint:
       'Disse konti har åbnet en anmodning i depotet. At logge ind efterlader ingen spor – den, der blot har logget ind, vises ikke her.',
-    approveContributor: 'Godkend denne bidragyder',
-    decline: 'Sæt denne konto til side',
+    approveContributor: 'Godkend denne bruger',
     pendingTitle: 'Afventer godkendelse',
     pendingBody:
       'Du er logget ind og kan bruge hele værktøjet. At sende en proces eller en anmodning kræver godkendelse fra en moderator. Bed om den nedenfor; du får besked på GitHub.',
@@ -299,7 +298,7 @@ export const da: Translation = {
     decide: 'Beslutning:',
     addPerson: 'Tilføj',
     addAliasPlaceholder: 'GitHub-konto',
-    level_contributor: 'Bidragyder',
+    level_user: 'Ikke-godkendt bruger',
     level_moderator: 'Moderator',
     level_admin: 'Administrator',
     levelHint: 'Dit niveau bestemmer, hvad du ser, og hvad du kan gøre.',

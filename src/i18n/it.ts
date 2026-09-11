@@ -257,11 +257,10 @@ export const it: Translation = {
     submit: 'Invia la richiesta',
   },
   admin: {
-    seenPeople: 'Collaboratori non approvati',
+    seenPeople: 'Utenti non approvati',
     seenPeopleHint:
       "Questi account hanno aperto una richiesta nel repository. L'accesso non lascia alcuna traccia: chi si è soltanto connesso non compare qui.",
-    approveContributor: 'Approva questo collaboratore',
-    decline: 'Metti da parte questo account',
+    approveContributor: 'Approva questo utente',
     pendingTitle: "In attesa di approvazione",
     pendingBody:
       "Ha effettuato l'accesso e può usare tutto lo strumento. Inviare un processo o una richiesta richiede l'approvazione di un moderatore. La chieda qui sotto: riceverà la notifica su GitHub.",
@@ -299,7 +298,7 @@ export const it: Translation = {
     decide: 'Decisione:',
     addPerson: 'Aggiungi',
     addAliasPlaceholder: 'account GitHub',
-    level_contributor: 'Collaboratore',
+    level_user: 'Utente non approvato',
     level_moderator: 'Moderatore',
     level_admin: 'Amministratore',
     levelHint: 'Il suo livello determina ciò che vede e ciò che può fare.',

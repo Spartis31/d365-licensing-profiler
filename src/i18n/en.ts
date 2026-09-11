@@ -254,11 +254,10 @@ export const en = {
     submit: 'Submit the request',
   },
   admin: {
-    seenPeople: 'Unapproved contributors',
+    seenPeople: 'Unapproved users',
     seenPeopleHint:
       'These accounts have opened a request on the repository. Signing in leaves no trace anywhere, so someone who has only signed in does not appear here.',
-    approveContributor: 'Approve this contributor',
-    decline: 'Set aside this account',
+    approveContributor: 'Approve this user',
     pendingTitle: 'Waiting for approval',
     pendingBody:
       'Your account is signed in and you can use the whole tool. Submitting a process or a request needs an approval from a moderator. Ask for it below; you will be notified on GitHub.',
@@ -296,7 +295,7 @@ export const en = {
     decide: 'Decision:',
     addPerson: 'Add',
     addAliasPlaceholder: 'GitHub account',
-    level_contributor: 'Contributor',
+    level_user: 'Unapproved user',
     level_moderator: 'Moderator',
     level_admin: 'Administrator',
     levelHint: 'Your level determines what you see and what you can do.',

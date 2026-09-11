@@ -8,21 +8,21 @@ const REQUEST_LABEL = 'process-request';
 const TRANSLATION_LABEL = 'ai-translation';
 const APPROVAL_LABEL = 'approval-request';
 
-export type GovernanceLevel = 'contributor' | 'approved' | 'moderator' | 'admin';
+export type GovernanceLevel = 'user' | 'approved' | 'moderator' | 'admin';
 
 /** Approval is recognition, not permission: only these two levels may decide. */
 export function canModerate(level: GovernanceLevel | null): boolean {
   return level === 'moderator' || level === 'admin';
 }
 
-/** Anyone signed in reaches the console; a plain contributor only sees their status there. */
+/** Anyone signed in reaches the console; an unapproved user only sees their status there. */
 export function canOpenConsole(level: GovernanceLevel | null): boolean {
   return level !== null;
 }
 
-/** Submitting is reserved for contributors someone has approved. */
+/** Submitting is reserved for users someone has approved. */
 export function canRequest(level: GovernanceLevel | null): boolean {
-  return level !== null && level !== 'contributor';
+  return level !== null && level !== 'user';
 }
 
 export const GOVERNANCE_PATH = 'public/governance.json';
@@ -64,8 +64,8 @@ export function levelIn(
   identity: ContributorIdentity | null,
 ): GovernanceLevel | null {
   if (!identity) return null;
-  // Signing in is enough to contribute; the file only records exceptions.
-  return source[identity.login] ?? 'contributor';
+  // Signing in is enough to be a user; the file only records approvals and roles.
+  return source[identity.login] ?? 'user';
 }
 
 export function levelOf(identity: ContributorIdentity | null): GovernanceLevel | null {
@@ -148,8 +148,8 @@ export function newRequestUrl(options: {
 }
 
 /**
- * The one request a contributor may open before approval, so a newcomer is not
- * stuck outside a system that only lists people who have already posted.
+ * The one request an unapproved user may open, so a newcomer is not stuck outside
+ * a system that only lists people who have already posted.
  */
 export function approvalRequestUrl(identity: ContributorIdentity): string {
   const params = new URLSearchParams({
