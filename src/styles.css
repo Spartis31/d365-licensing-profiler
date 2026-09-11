@@ -411,6 +411,17 @@ main {
   margin: 0 auto;
 }
 
+/* Rythme vertical entre les blocs d'une vue. Une regle par paires laissait sans
+   marge les combinaisons non prevues, par exemple une carte suivant un tableau. */
+.view > * + * {
+  margin-top: 20px;
+}
+
+/* Un grand tableau a besoin de plus d'air avant la section suivante. */
+.view > .table-wrap + * {
+  margin-top: 32px;
+}
+
 .view > header {
   margin-bottom: 18px;
 }
@@ -447,7 +458,7 @@ main {
 }
 
 .card + .card {
-  margin-top: 16px;
+  margin-top: 20px;
 }
 
 .empty {
