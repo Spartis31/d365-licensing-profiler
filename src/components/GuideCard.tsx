@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIdentity } from '../auth/identity';
-import { SignInModal } from './SignInModal';
+import { canModerate, levelOf } from '../data/governance';
 import { CATALOG_GUIDE_EDITION, GUIDE_PERMALINK, UPDATE_ROLES_WORKFLOW, checkLatestEdition } from '../data/guide';
 import type { GuideCheck } from '../data/guide';
 
 export function GuideCard() {
   const { t } = useTranslation();
   const identity = useIdentity();
-  const [showSignIn, setShowSignIn] = useState(false);
   const [check, setCheck] = useState<GuideCheck | null>(null);
   const [checking, setChecking] = useState(false);
+
+  // Updating the roles rebuilds the shared catalogue for everyone: moderators only.
+  if (!canModerate(levelOf(identity))) return null;
 
   const runCheck = async () => {
     setChecking(true);
@@ -33,17 +35,10 @@ export function GuideCard() {
         </button>
         <button
           type="button"
-          onClick={() => {
-            if (!identity) {
-              setShowSignIn(true);
-              return;
-            }
-            window.open(UPDATE_ROLES_WORKFLOW, '_blank', 'noopener');
-          }}
+          onClick={() => window.open(UPDATE_ROLES_WORKFLOW, '_blank', 'noopener')}
         >
           {t('guide.updateRoles')}
         </button>
-        {!identity && <span className="lock-hint">{t('auth.restricted')}</span>}
         <span className="spacer" />
         {check && (
           <span className={check.status === 'outdated' ? 'hint warn-text' : 'hint'}>
@@ -56,8 +51,6 @@ export function GuideCard() {
       <p className="hint" style={{ marginTop: 12 }}>
         {t('guide.updateHint')}
       </p>
-
-      {showSignIn && <SignInModal onClose={() => setShowSignIn(false)} />}
     </div>
   );
 }
