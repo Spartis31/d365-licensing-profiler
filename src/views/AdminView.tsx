@@ -478,7 +478,10 @@ export function AdminView() {
 
   // An unapproved user sees their status, and nothing else.
   if (!canRequest(level)) {
-    const sent = all.find((r) => r.isApproval && r.author === identity.login);
+    // Only a request still awaiting a decision blocks: a handled one must not trap anyone.
+    const sent = all.find(
+      (r) => r.isApproval && r.author === identity.login && r.status === 'pending',
+    );
     return (
       <section className="view">
         <header>
