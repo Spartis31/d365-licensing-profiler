@@ -263,8 +263,7 @@ export const de: Translation = {
     approveContributor: 'Diesen Benutzer bestätigen',
     pendingTitle: 'Warten auf Bestätigung',
     pendingBody:
-      'Sie sind angemeldet und können das gesamte Werkzeug nutzen. Das Einreichen eines Prozesses oder einer Anfrage erfordert die Bestätigung einer Moderatorin oder eines Moderators. Fragen Sie unten danach; Sie werden auf GitHub benachrichtigt.',
-    requestApproval: 'Um Bestätigung bitten',
+      'Sie können das gesamte Werkzeug nutzen und unten eine Freitextanfrage senden. Einen Prozess für den gemeinsamen Katalog vorzuschlagen erfordert die Bestätigung einer Moderatorin oder eines Moderators.',
     notYourself: 'Sie können sich nicht selbst entfernen.',
     lastAdmin: 'Der letzte Administrator kann weder geändert noch entfernt werden.',
     level_approved: 'Bestätigter Mitwirkender',

@@ -263,8 +263,7 @@ export const it: Translation = {
     approveContributor: 'Approva questo utente',
     pendingTitle: "In attesa di approvazione",
     pendingBody:
-      "Ha effettuato l'accesso e può usare tutto lo strumento. Inviare un processo o una richiesta richiede l'approvazione di un moderatore. La chieda qui sotto: riceverà la notifica su GitHub.",
-    requestApproval: "Chiedi l'approvazione",
+      "Può usare tutto lo strumento e inviare una richiesta in testo libero qui sotto. Proporre un processo per il catalogo condiviso richiede l'approvazione di un moderatore.",
     notYourself: 'Non può rimuovere se stesso.',
     lastAdmin: "L'ultimo amministratore non può essere modificato né rimosso.",
     level_approved: 'Collaboratore approvato',

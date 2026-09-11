@@ -263,8 +263,7 @@ export const sv: Translation = {
     approveContributor: 'Godkänn denna användare',
     pendingTitle: 'Väntar på godkännande',
     pendingBody:
-      'Du är inloggad och kan använda hela verktyget. Att skicka in en process eller en begäran kräver godkännande av en moderator. Be om det nedan – du får besked på GitHub.',
-    requestApproval: 'Be om godkännande',
+      'Du kan använda hela verktyget och skicka en fritextbegäran nedan. Att föreslå en process till den gemensamma katalogen kräver godkännande av en moderator.',
     notYourself: 'Du kan inte ta bort dig själv.',
     lastAdmin: 'Den sista administratören kan varken ändras eller tas bort.',
     level_approved: 'Godkänd bidragsgivare',

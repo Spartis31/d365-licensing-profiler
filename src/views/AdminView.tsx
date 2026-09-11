@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useState, useSyncExternalStore } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useIdentity } from '../auth/identity';
+import type { ContributorIdentity } from '../auth/identity';
 import {
   GOVERNANCE_PATH,
   REPO,
   REQUEST_LABEL_NAME,
   STATUS_LABELS,
   applyGovernance,
-  approvalRequestUrl,
   canModerate,
   canOpenConsole,
   canRequest,
@@ -354,6 +354,43 @@ function PeopleCard({
   );
 }
 
+function FreeRequestCard({ identity }: { identity: ContributorIdentity }) {
+  const { t } = useTranslation();
+  const [freeText, setFreeText] = useState('');
+
+  return (
+    <div className="card">
+      <h3 style={{ marginTop: 0 }}>{t('admin.freeRequest')}</h3>
+      <p className="hint" style={{ marginBottom: 12 }}>
+        {t('admin.freeRequestHint')}
+      </p>
+      <div className="compose-row">
+        <textarea
+          rows={3}
+          value={freeText}
+          placeholder={t('admin.freeRequestPlaceholder')}
+          onChange={(e) => setFreeText(e.target.value)}
+        />
+        <button
+          type="button"
+          className="primary"
+          disabled={freeText.trim().length === 0}
+          onClick={() => {
+            window.open(
+              newRequestUrl({ identity, processes: [], freeText, wantsTranslation: false }),
+              '_blank',
+              'noopener',
+            );
+            setFreeText('');
+          }}
+        >
+          {t('admin.submit')}
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function AdminView() {
   const { t } = useTranslation();
   const identity = useIdentity();
@@ -362,7 +399,6 @@ export function AdminView() {
   const [result, setResult] = useState<RequestsResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [openRequest, setOpenRequest] = useState<number | null>(null);
-  const [freeText, setFreeText] = useState('');
   const [pending, setPending] = useState<(() => void) | null>(null);
 
   // Write access is requested at the moment it is needed, never up front.
@@ -415,18 +451,12 @@ export function AdminView() {
 
         <div className="card">
           <h3 style={{ marginTop: 0 }}>{t('admin.pendingTitle')}</h3>
-          <p className="hint" style={{ marginBottom: 12 }}>
+          <p className="hint" style={{ marginBottom: 0 }}>
             {t('admin.pendingBody')}
           </p>
-          <a
-            className="button-link"
-            href={approvalRequestUrl(identity)}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t('admin.requestApproval')}
-          </a>
         </div>
+
+        <FreeRequestCard identity={identity} />
       </section>
     );
   }
@@ -514,35 +544,7 @@ export function AdminView() {
         </table>
       </div>
 
-      <div className="card">
-        <h3 style={{ marginTop: 0 }}>{t('admin.freeRequest')}</h3>
-        <p className="hint" style={{ marginBottom: 12 }}>
-          {t('admin.freeRequestHint')}
-        </p>
-        <div className="compose-row">
-          <textarea
-            rows={3}
-            value={freeText}
-            placeholder={t('admin.freeRequestPlaceholder')}
-            onChange={(e) => setFreeText(e.target.value)}
-          />
-          <button
-            type="button"
-            className="primary"
-            disabled={freeText.trim().length === 0}
-            onClick={() => {
-              window.open(
-                newRequestUrl({ identity, processes: [], freeText, wantsTranslation: false }),
-                '_blank',
-                'noopener',
-              );
-              setFreeText('');
-            }}
-          >
-            {t('admin.submit')}
-          </button>
-        </div>
-      </div>
+      <FreeRequestCard identity={identity} />
 
       {level === 'admin' && (
         <PeopleCard

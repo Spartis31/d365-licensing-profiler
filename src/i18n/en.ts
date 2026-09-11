@@ -260,8 +260,7 @@ export const en = {
     approveContributor: 'Approve this user',
     pendingTitle: 'Waiting for approval',
     pendingBody:
-      'Your account is signed in and you can use the whole tool. Submitting a process or a request needs an approval from a moderator. Ask for it below; you will be notified on GitHub.',
-    requestApproval: 'Ask to be approved',
+      'You can use the whole tool, and send a free-text request below. Proposing a process for the shared catalog needs an approval from a moderator.',
     notYourself: 'You cannot remove yourself.',
     lastAdmin: 'The last administrator cannot be changed or removed.',
     level_approved: 'Approved contributor',

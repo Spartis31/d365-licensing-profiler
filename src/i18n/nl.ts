@@ -263,8 +263,7 @@ export const nl: Translation = {
     approveContributor: 'Deze gebruiker goedkeuren',
     pendingTitle: 'Wacht op goedkeuring',
     pendingBody:
-      'U bent aangemeld en kunt het hele hulpmiddel gebruiken. Een proces of verzoek indienen vereist de goedkeuring van een moderator. Vraag die hieronder aan; u krijgt bericht op GitHub.',
-    requestApproval: 'Goedkeuring aanvragen',
+      'U kunt het hele hulpmiddel gebruiken en hieronder een vrije-tekstverzoek sturen. Een proces voorstellen voor de gedeelde catalogus vereist de goedkeuring van een moderator.',
     notYourself: 'U kunt uzelf niet verwijderen.',
     lastAdmin: 'De laatste beheerder kan niet worden gewijzigd of verwijderd.',
     level_approved: 'Goedgekeurde bijdrager',

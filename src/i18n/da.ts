@@ -263,8 +263,7 @@ export const da: Translation = {
     approveContributor: 'Godkend denne bruger',
     pendingTitle: 'Afventer godkendelse',
     pendingBody:
-      'Du er logget ind og kan bruge hele værktøjet. At sende en proces eller en anmodning kræver godkendelse fra en moderator. Bed om den nedenfor; du får besked på GitHub.',
-    requestApproval: 'Bed om godkendelse',
+      'Du kan bruge hele værktøjet og sende en fritekstanmodning nedenfor. At foreslå en proces til det fælles katalog kræver godkendelse fra en moderator.',
     notYourself: 'Du kan ikke fjerne dig selv.',
     lastAdmin: 'Den sidste administrator kan hverken ændres eller fjernes.',
     level_approved: 'Godkendt bidragyder',
