@@ -259,7 +259,7 @@ export const sv: Translation = {
   admin: {
     seenPeople: 'Ej godkända bidragsgivare',
     seenPeopleHint:
-      'Dessa konton har loggat in eller bett om godkännande. Tills du godkänner dem kan de profilera licenser, men de kan inte skicka in något.',
+      'Dessa konton har öppnat en begäran i förrådet. Att logga in lämnar inga spår – den som bara har loggat in visas inte här.',
     approveContributor: 'Godkänn denna bidragsgivare',
     decline: 'Lägg detta konto åt sidan',
     pendingTitle: 'Väntar på godkännande',

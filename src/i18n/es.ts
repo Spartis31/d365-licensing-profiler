@@ -259,7 +259,7 @@ export const es: Translation = {
   admin: {
     seenPeople: 'Colaboradores no aprobados',
     seenPeopleHint:
-      'Estas cuentas han iniciado sesión o han pedido su aprobación. Hasta que las apruebe pueden perfilar licencias, pero no pueden enviar nada.',
+      'Estas cuentas han abierto una solicitud en el repositorio. Iniciar sesión no deja ningún rastro: quien solo ha iniciado sesión no aparece aquí.',
     approveContributor: 'Aprobar a este colaborador',
     decline: 'Apartar esta cuenta',
     pendingTitle: 'A la espera de aprobación',

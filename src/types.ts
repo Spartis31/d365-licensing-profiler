@@ -79,7 +79,7 @@ export interface CustomProcess {
   domainId: string;
   label: string;
   licence: LicenceRequirement;
-  /** Microsoft alias of the author; informational, never required to reimport. */
+  /** GitHub account of the author; informational, never required to reimport. */
   author?: string;
   createdAt?: string;
 }

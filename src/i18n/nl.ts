@@ -259,7 +259,7 @@ export const nl: Translation = {
   admin: {
     seenPeople: 'Niet-goedgekeurde bijdragers',
     seenPeopleHint:
-      'Deze accounts hebben zich aangemeld of om goedkeuring gevraagd. Zolang u ze niet goedkeurt kunnen ze licenties profileren, maar niets indienen.',
+      'Deze accounts hebben een verzoek in de repository geopend. Aanmelden laat nergens een spoor na: wie zich alleen heeft aangemeld, verschijnt hier niet.',
     approveContributor: 'Deze bijdrager goedkeuren',
     decline: 'Dit account terzijde leggen',
     pendingTitle: 'Wacht op goedkeuring',

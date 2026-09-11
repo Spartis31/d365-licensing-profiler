@@ -256,7 +256,7 @@ export const en = {
   admin: {
     seenPeople: 'Unapproved contributors',
     seenPeopleHint:
-      'These accounts have signed in or asked to be approved. Until you approve them they can profile licences, but they cannot submit anything.',
+      'These accounts have opened a request on the repository. Signing in leaves no trace anywhere, so someone who has only signed in does not appear here.',
     approveContributor: 'Approve this contributor',
     decline: 'Set aside this account',
     pendingTitle: 'Waiting for approval',

@@ -259,7 +259,7 @@ export const da: Translation = {
   admin: {
     seenPeople: 'Ikke-godkendte bidragydere',
     seenPeopleHint:
-      'Disse konti har logget ind eller bedt om godkendelse. Indtil du godkender dem, kan de profilere licenser, men de kan ikke sende noget ind.',
+      'Disse konti har åbnet en anmodning i depotet. At logge ind efterlader ingen spor – den, der blot har logget ind, vises ikke her.',
     approveContributor: 'Godkend denne bidragyder',
     decline: 'Sæt denne konto til side',
     pendingTitle: 'Afventer godkendelse',

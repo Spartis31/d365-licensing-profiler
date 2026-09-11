@@ -259,7 +259,7 @@ export const de: Translation = {
   admin: {
     seenPeople: 'Nicht bestätigte Mitwirkende',
     seenPeopleHint:
-      'Diese Konten haben sich angemeldet oder um Bestätigung gebeten. Bis Sie sie bestätigen, können sie Lizenzen profilieren, aber nichts einreichen.',
+      'Diese Konten haben eine Anfrage im Repository eröffnet. Eine Anmeldung hinterlässt nirgends eine Spur – wer sich nur angemeldet hat, erscheint hier nicht.',
     approveContributor: 'Diesen Mitwirkenden bestätigen',
     decline: 'Dieses Konto zurückstellen',
     pendingTitle: 'Warten auf Bestätigung',

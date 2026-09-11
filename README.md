@@ -93,10 +93,11 @@ python tools/check_generated.py
 
 ## Catalog extension requests
 
-Signed-in Microsoft employees can add **custom processes**, which stay in their own project
-and travel with the `.d365lic` file. They can also submit them as a request to extend the
-shared catalog: the application opens a prefilled GitHub issue labelled `process-request`,
-carrying the author's alias.
+Signed-in contributors can add **custom processes**, which stay in their own project
+and travel with the `.d365lic` file. Approved contributors can also submit them as a request
+to extend the shared catalog: the application opens a prefilled GitHub issue labelled
+`process-request`. The requester is the GitHub account that opened it, authenticated by
+GitHub and never self-declared.
 
 Moderators handle those requests inside the application, in the administration console —
 reading, commenting and deciding without leaving the tool. Levels (`contributor`,

@@ -219,7 +219,7 @@ function PeopleCard({
   levels: Record<string, GovernanceLevel>;
   requireWrite: RequireWrite;
   onSaved: (next: Record<string, GovernanceLevel>) => void;
-  /** Aliases that appear in requests; anyone signing in is a contributor by default. */
+  /** GitHub accounts that posted a request; anyone signing in is a contributor by default. */
   seen: string[];
   currentLogin: string;
 }) {
@@ -350,8 +350,8 @@ function PeopleCard({
           type="button"
           disabled={busy || draft.trim().length === 0}
           onClick={() => {
-            const alias = draft.trim().toLowerCase().replace(/@microsoft\.com$/, '');
-            save({ ...levels, [alias]: 'approved' }, `Governance: approve ${alias}`);
+            const login = draft.trim();
+            save({ ...levels, [login]: 'approved' }, `Governance: approve ${login}`);
             setDraft('');
           }}
         >
@@ -443,9 +443,7 @@ export function AdminView() {
   }
 
   const all = result?.status === 'ok' ? result.requests : [];
-  const visible = canModerate(level)
-    ? all
-    : all.filter((r) => r.author === identity.login || r.alias === identity.login);
+  const visible = canModerate(level) ? all : all.filter((r) => r.author === identity.login);
 
   return (
     <section className="view">
@@ -516,7 +514,7 @@ export function AdminView() {
                     />
                   )}
                 </td>
-                {canModerate(level) && <td>{request.author ?? request.alias ?? '—'}</td>}
+                {canModerate(level) && <td>{request.author ?? '—'}</td>}
                 <td>
                   <span className={`tag ${STATUS_TONE[request.status]}`}>{t(`admin.status_${request.status}`)}</span>
                 </td>
@@ -565,9 +563,7 @@ export function AdminView() {
           currentLogin={identity.login}
           seen={[
             ...new Set(
-              all
-                .flatMap((request) => [request.author, request.alias])
-                .filter((login): login is string => Boolean(login)),
+              all.map((request) => request.author).filter((login): login is string => Boolean(login)),
             ),
           ]}
         />

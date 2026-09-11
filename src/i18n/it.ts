@@ -259,7 +259,7 @@ export const it: Translation = {
   admin: {
     seenPeople: 'Collaboratori non approvati',
     seenPeopleHint:
-      "Questi account hanno effettuato l'accesso o hanno chiesto l'approvazione. Finché non li approva possono profilare le licenze, ma non possono inviare nulla.",
+      "Questi account hanno aperto una richiesta nel repository. L'accesso non lascia alcuna traccia: chi si è soltanto connesso non compare qui.",
     approveContributor: 'Approva questo collaboratore',
     decline: 'Metti da parte questo account',
     pendingTitle: "In attesa di approvazione",

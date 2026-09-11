@@ -258,7 +258,7 @@ export const fr: Translation = {
   admin: {
     seenPeople: 'Contributeurs non approuvés',
     seenPeopleHint:
-      "Ces comptes se sont connectés ou ont demandé leur approbation. Tant que vous ne les approuvez pas, ils peuvent profiler des licences mais ne peuvent rien soumettre.",
+      "Ces comptes ont ouvert une demande sur le dépôt. Une connexion ne laisse aucune trace : quelqu'un qui s'est seulement connecté n'apparaît pas ici.",
     approveContributor: 'Approuver ce contributeur',
     decline: 'Écarter ce compte',
     pendingTitle: "En attente d'approbation",

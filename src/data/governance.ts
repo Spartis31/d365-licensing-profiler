@@ -2,10 +2,8 @@ import type { ContributorIdentity } from '../auth/identity';
 
 export const REPO = 'Spartis31/d365-licensing-profiler';
 
-/** Marker written in every issue body so requests can be attributed. */
-const ALIAS_MARKER = 'GitHub account:';
-/** Requests opened before contributors moved to GitHub carried a corporate alias. */
-const LEGACY_MARKER = 'Microsoft alias:';
+/** Written in every issue body so a request stays recognisable if its label is lost. */
+const REQUEST_MARKER = 'Submitted from the D365 Licensing Profiler.';
 const REQUEST_LABEL = 'process-request';
 const TRANSLATION_LABEL = 'ai-translation';
 const APPROVAL_LABEL = 'approval-request';
@@ -89,9 +87,7 @@ export interface ProcessRequest {
   title: string;
   url: string;
   body: string;
-  /** Declared in the issue body; may be missing or stale. */
-  alias: string | null;
-  /** GitHub account that actually posted, authenticated by GitHub itself. */
+  /** GitHub account that posted, authenticated by GitHub itself. */
   author: string | null;
   status: RequestStatus;
   createdAt: string;
@@ -118,12 +114,6 @@ function statusOf(issue: RawIssue): RequestStatus {
   return 'pending';
 }
 
-function aliasOf(body: string | null): string | null {
-  if (!body) return null;
-  const match = new RegExp(`(?:${ALIAS_MARKER}|${LEGACY_MARKER})\\s*\`?([A-Za-z0-9._-]+)\`?`, 'i').exec(body);
-  return match ? match[1] : null;
-}
-
 /** Pre-filled issue URL: no token in the browser, GitHub authenticates the author. */
 export function newRequestUrl(options: {
   identity: ContributorIdentity;
@@ -131,9 +121,9 @@ export function newRequestUrl(options: {
   freeText: string;
   wantsTranslation: boolean;
 }): string {
-  const { identity, processes, freeText, wantsTranslation } = options;
+  const { processes, freeText, wantsTranslation } = options;
   const lines = [
-    `${ALIAS_MARKER} \`${identity.login}\``,
+    REQUEST_MARKER,
     '',
     processes.length > 0 ? '## Proposed processes' : '',
     ...processes.map((p) => `- **${p.label}** — domain: ${p.domain} — minimum licence: ${p.licence}`),
@@ -164,11 +154,7 @@ export function newRequestUrl(options: {
 export function approvalRequestUrl(identity: ContributorIdentity): string {
   const params = new URLSearchParams({
     title: `Approval request: ${identity.login}`,
-    body: [
-      `${ALIAS_MARKER} \`${identity.login}\``,
-      '',
-      'I would like to be approved as a contributor.',
-    ].join('\n'),
+    body: [REQUEST_MARKER, '', 'I would like to be approved as a contributor.'].join('\n'),
     labels: APPROVAL_LABEL,
   });
   return `https://github.com/${REPO}/issues/new?${params.toString()}`;
@@ -203,7 +189,7 @@ export async function fetchRequests(force = false): Promise<RequestsResult> {
 
   try {
     // No label filter: GitHub silently drops unknown labels from a prefilled issue
-    // URL, so a request is recognised by its alias marker as well as by its label.
+    // URL, so a request is recognised by its body marker as well as by its label.
     const response = await fetch(`https://api.github.com/repos/${REPO}/issues?state=all&per_page=100`, {
       headers: { Accept: 'application/vnd.github+json' },
     });
@@ -215,14 +201,14 @@ export async function fetchRequests(force = false): Promise<RequestsResult> {
       .filter((issue) => !issue.pull_request)
       .filter(
         (issue) =>
-          issue.labels.some((l) => l.name.toLowerCase() === REQUEST_LABEL) || aliasOf(issue.body) !== null,
+          issue.labels.some((l) => l.name.toLowerCase() === REQUEST_LABEL) ||
+          (issue.body ?? '').includes(REQUEST_MARKER),
       )
       .map((issue) => ({
         number: issue.number,
         title: issue.title,
         url: issue.html_url,
         body: issue.body ?? '',
-        alias: aliasOf(issue.body),
         author: issue.user?.login ?? null,
         status: statusOf(issue),
         createdAt: issue.created_at,
