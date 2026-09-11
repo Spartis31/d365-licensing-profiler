@@ -14,6 +14,7 @@ import { currentLanguage } from './i18n';
 import { download, projectFileName, readProjectFile, saveProjectFile } from './export/projectFile';
 
 const DISCLAIMER_KEY = 'd365lic.disclaimerAccepted';
+const TAB_KEY = 'd365lic.tab';
 const TABS = ['setup', 'profiles', 'matrix', 'roles', 'results', 'admin'] as const;
 type Tab = (typeof TABS)[number];
 
@@ -24,7 +25,10 @@ export default function App() {
   const { t } = useTranslation();
   const api = useProject();
   const identity = useIdentity();
-  const [tab, setTab] = useState<Tab>('setup');
+  const [tab, setTab] = useState<Tab>(() => {
+    const saved = localStorage.getItem(TAB_KEY);
+    return (TABS as readonly string[]).includes(saved ?? '') ? (saved as Tab) : 'setup';
+  });
   const [accepted, setAccepted] = useState(() => localStorage.getItem(DISCLAIMER_KEY) === 'true');
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [busy, setBusy] = useState(false);
@@ -34,8 +38,15 @@ export default function App() {
   const hiddenTab = HIDDEN_BY_MODE[api.project.profilingMode];
   // Administration only exists for signed-in Microsoft employees.
   const visibleTabs = TABS.filter((name) => name !== hiddenTab && (name !== 'admin' || identity));
-  // Changing mode in Setup must not leave the user stranded on a hidden step.
-  const activeTab = tab === hiddenTab ? (api.project.profilingMode === 'roles' ? 'roles' : 'matrix') : tab;
+  // Changing mode in Setup, or reloading on a tab that no longer exists, must not strand the user.
+  const fallbackTab: Tab =
+    tab === hiddenTab ? (api.project.profilingMode === 'roles' ? 'roles' : 'matrix') : 'setup';
+  const activeTab = visibleTabs.includes(tab) ? tab : fallbackTab;
+
+  const selectTab = (name: Tab) => {
+    localStorage.setItem(TAB_KEY, name);
+    setTab(name);
+  };
 
   const acceptDisclaimer = () => {
     localStorage.setItem(DISCLAIMER_KEY, 'true');
@@ -48,7 +59,7 @@ export default function App() {
     setError(null);
     try {
       api.replace(await readProjectFile(file));
-      setTab('profiles');
+      selectTab('profiles');
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : String(cause));
     }
@@ -139,7 +150,7 @@ export default function App() {
             role="tab"
             aria-selected={activeTab === name}
             className={`${activeTab === name ? 'active' : ''} ${done[name] ? 'done' : ''}`}
-            onClick={() => setTab(name)}
+            onClick={() => selectTab(name)}
           >
             <span className="step-num">{done[name] && activeTab !== name ? '✓' : index + 1}</span>
             {t(`nav.${name}`)}
