@@ -210,12 +210,14 @@ function PeopleCard({
   requireWrite,
   onSaved,
   seen,
+  currentLogin,
 }: {
   levels: Record<string, GovernanceLevel>;
   requireWrite: RequireWrite;
   onSaved: (next: Record<string, GovernanceLevel>) => void;
   /** Aliases that appear in requests; anyone signing in is a contributor by default. */
   seen: string[];
+  currentLogin: string;
 }) {
   const { t } = useTranslation();
   const [draft, setDraft] = useState('');
@@ -224,6 +226,7 @@ function PeopleCard({
   const [done, setDone] = useState(false);
   const names = useGitHubNames([...Object.keys(levels), ...seen]);
   const label = (login: string) => (names[login] ? `${login} | ${names[login]}` : login);
+  const adminCount = Object.values(levels).filter((value) => value === 'admin').length;
 
   const save = (next: Record<string, GovernanceLevel>, message: string) =>
     requireWrite(() => {
@@ -252,39 +255,46 @@ function PeopleCard({
       </p>
 
       <ul className="people-list">
-        {Object.entries(levels).map(([alias, level]) => (
-          <li key={alias}>
-            <span className="identity-chip">{label(alias)}</span>
-            <select
-              value={level}
-              disabled={busy}
-              onChange={(e) =>
-                save(
-                  { ...levels, [alias]: e.target.value as GovernanceLevel },
-                  `Governance: ${alias} becomes ${e.target.value}`,
-                )
-              }
-            >
-              {LEVELS.map((value) => (
-                <option key={value} value={value}>
-                  {t(`admin.level_${value}`)}
-                </option>
-              ))}
-            </select>
-            <button
-              type="button"
-              className="ghost danger icon"
-              title={t('actions.remove')}
-              disabled={busy || Object.keys(levels).length <= 1}
-              onClick={() => {
-                const { [alias]: _removed, ...rest } = levels;
-                save(rest, `Governance: remove ${alias}`);
-              }}
-            >
-              ✕
-            </button>
-          </li>
-        ))}
+        {Object.entries(levels).map(([alias, level]) => {
+          const isSelf = alias === currentLogin;
+          // Demoting or removing the last administrator would lock everyone out.
+          const isLastAdmin = level === 'admin' && adminCount <= 1;
+          const blocked = isLastAdmin ? t('admin.lastAdmin') : isSelf ? t('admin.notYourself') : '';
+          return (
+            <li key={alias}>
+              <span className="identity-chip">{label(alias)}</span>
+              <select
+                value={level}
+                disabled={busy || isLastAdmin}
+                title={isLastAdmin ? blocked : undefined}
+                onChange={(e) =>
+                  save(
+                    { ...levels, [alias]: e.target.value as GovernanceLevel },
+                    `Governance: ${alias} becomes ${e.target.value}`,
+                  )
+                }
+              >
+                {LEVELS.map((value) => (
+                  <option key={value} value={value}>
+                    {t(`admin.level_${value}`)}
+                  </option>
+                ))}
+              </select>
+              <button
+                type="button"
+                className="ghost danger icon"
+                title={blocked || t('actions.remove')}
+                disabled={busy || isSelf || isLastAdmin}
+                onClick={() => {
+                  const { [alias]: _removed, ...rest } = levels;
+                  save(rest, `Governance: remove ${alias}`);
+                }}
+              >
+                ✕
+              </button>
+            </li>
+          );
+        })}
       </ul>
 
       {seen.filter((alias) => !(alias in levels)).length > 0 && (
@@ -385,7 +395,9 @@ export function AdminView() {
   }
 
   const all = result?.status === 'ok' ? result.requests : [];
-  const visible = canModerate(level) ? all : all.filter((r) => r.alias === identity.login);
+  const visible = canModerate(level)
+    ? all
+    : all.filter((r) => r.author === identity.login || r.alias === identity.login);
 
   return (
     <section className="view">
@@ -456,7 +468,7 @@ export function AdminView() {
                     />
                   )}
                 </td>
-                {canModerate(level) && <td>{request.alias ?? '—'}</td>}
+                {canModerate(level) && <td>{request.author ?? request.alias ?? '—'}</td>}
                 <td>
                   <span className={`tag ${STATUS_TONE[request.status]}`}>{t(`admin.status_${request.status}`)}</span>
                 </td>
@@ -502,7 +514,14 @@ export function AdminView() {
           levels={levels}
           requireWrite={requireWrite}
           onSaved={(next) => setLevels(applyGovernance(next))}
-          seen={[...new Set(all.map((request) => request.alias).filter((alias): alias is string => Boolean(alias)))]}
+          currentLogin={identity.login}
+          seen={[
+            ...new Set(
+              all
+                .flatMap((request) => [request.author, request.alias])
+                .filter((login): login is string => Boolean(login)),
+            ),
+          ]}
         />
       )}
 

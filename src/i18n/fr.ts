@@ -260,6 +260,8 @@ export const fr: Translation = {
     seenPeopleHint:
       "Ces personnes ont déjà soumis une demande. Toute personne connectée est contributeur par défaut : ajoutez-la ici pour le rendre explicite, ou pour la promouvoir.",
     approveContributor: 'Approuver ce contributeur',
+    notYourself: 'Vous ne pouvez pas vous retirer vous-même.',
+    lastAdmin: 'Le dernier administrateur ne peut être ni modifié ni retiré.',
     level_approved: 'Contributeur approuvé',
     copyPrompt: 'Copier la demande de traduction',
     promptCopied: 'Copié — collez-le dans Copilot, puis recollez le tableau ici',

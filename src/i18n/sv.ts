@@ -261,6 +261,8 @@ export const sv: Translation = {
     seenPeopleHint:
       'Dessa personer har redan skickat in en begäran. Alla som loggar in är bidragsgivare som standard – lägg till dem här för att göra det tydligt eller för att befordra dem.',
     approveContributor: 'Godkänn denna bidragsgivare',
+    notYourself: 'Du kan inte ta bort dig själv.',
+    lastAdmin: 'Den sista administratören kan varken ändras eller tas bort.',
     level_approved: 'Godkänd bidragsgivare',
     copyPrompt: 'Kopiera översättningsbegäran',
     promptCopied: 'Kopierat – klistra in i Copilot och klistra sedan in tabellen här',

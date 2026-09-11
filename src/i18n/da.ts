@@ -261,6 +261,8 @@ export const da: Translation = {
     seenPeopleHint:
       'Disse personer har allerede sendt en anmodning. Alle, der logger ind, er bidragyder som standard; tilføj dem her for at gøre det tydeligt eller for at forfremme dem.',
     approveContributor: 'Godkend denne bidragyder',
+    notYourself: 'Du kan ikke fjerne dig selv.',
+    lastAdmin: 'Den sidste administrator kan hverken ændres eller fjernes.',
     level_approved: 'Godkendt bidragyder',
     copyPrompt: 'Kopiér oversættelsesanmodningen',
     promptCopied: 'Kopieret — indsæt den i Copilot, og indsæt derefter tabellen her',

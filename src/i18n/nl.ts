@@ -261,6 +261,8 @@ export const nl: Translation = {
     seenPeopleHint:
       'Deze personen hebben al een verzoek ingediend. Iedereen die zich aanmeldt is standaard bijdrager; voeg ze hier toe om dat vast te leggen of om ze te promoveren.',
     approveContributor: 'Deze bijdrager goedkeuren',
+    notYourself: 'U kunt uzelf niet verwijderen.',
+    lastAdmin: 'De laatste beheerder kan niet worden gewijzigd of verwijderd.',
     level_approved: 'Goedgekeurde bijdrager',
     copyPrompt: 'Vertaalverzoek kopiëren',
     promptCopied: 'Gekopieerd — plak het in Copilot en plak de tabel daarna hier',

@@ -261,6 +261,8 @@ export const es: Translation = {
     seenPeopleHint:
       'Estas personas ya han enviado una solicitud. Quien inicia sesión es colaborador de forma predeterminada; añádalas aquí para dejarlo explícito o para promocionarlas.',
     approveContributor: 'Aprobar a este colaborador',
+    notYourself: 'No puede eliminarse a sí mismo.',
+    lastAdmin: 'El último administrador no puede modificarse ni eliminarse.',
     level_approved: 'Colaborador aprobado',
     copyPrompt: 'Copiar la solicitud de traducción',
     promptCopied: 'Copiado: péguelo en Copilot y luego pegue aquí la tabla',

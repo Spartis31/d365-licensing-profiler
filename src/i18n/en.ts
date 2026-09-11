@@ -258,6 +258,8 @@ export const en = {
     seenPeopleHint:
       'These people have already submitted a request. Anyone who signs in is a contributor by default; add them here to make that explicit, or to promote them.',
     approveContributor: 'Approve this contributor',
+    notYourself: 'You cannot remove yourself.',
+    lastAdmin: 'The last administrator cannot be changed or removed.',
     level_approved: 'Approved contributor',
     copyPrompt: 'Copy the translation request',
     promptCopied: 'Copied — paste it into Copilot, then paste the table back here',

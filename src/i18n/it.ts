@@ -261,6 +261,8 @@ export const it: Translation = {
     seenPeopleHint:
       "Queste persone hanno già inviato una richiesta. Chi accede è collaboratore per impostazione predefinita: le aggiunga qui per renderlo esplicito o per promuoverle.",
     approveContributor: 'Approva questo collaboratore',
+    notYourself: 'Non può rimuovere se stesso.',
+    lastAdmin: "L'ultimo amministratore non può essere modificato né rimosso.",
     level_approved: 'Collaboratore approvato',
     copyPrompt: 'Copia la richiesta di traduzione',
     promptCopied: 'Copiato: lo incolli in Copilot, poi incolli qui la tabella',

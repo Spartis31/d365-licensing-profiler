@@ -261,6 +261,8 @@ export const de: Translation = {
     seenPeopleHint:
       'Diese Personen haben bereits eine Anfrage eingereicht. Wer sich anmeldet, ist standardmäßig Mitwirkender; fügen Sie sie hier hinzu, um das festzuhalten oder sie höherzustufen.',
     approveContributor: 'Diesen Mitwirkenden bestätigen',
+    notYourself: 'Sie können sich nicht selbst entfernen.',
+    lastAdmin: 'Der letzte Administrator kann weder geändert noch entfernt werden.',
     level_approved: 'Bestätigter Mitwirkender',
     copyPrompt: 'Übersetzungsanfrage kopieren',
     promptCopied: 'Kopiert — in Copilot einfügen und die Tabelle anschließend hier einfügen',

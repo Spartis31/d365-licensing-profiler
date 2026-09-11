@@ -261,6 +261,8 @@ export const pt: Translation = {
     seenPeopleHint:
       'Estas pessoas já submeteram um pedido. Quem inicia sessão é colaborador por predefinição; adicione-as aqui para o tornar explícito ou para as promover.',
     approveContributor: 'Aprovar este colaborador',
+    notYourself: 'Não pode remover-se a si próprio.',
+    lastAdmin: 'O último administrador não pode ser alterado nem removido.',
     level_approved: 'Colaborador aprovado',
     copyPrompt: 'Copiar o pedido de tradução',
     promptCopied: 'Copiado — cole-o no Copilot e depois cole aqui a tabela',

@@ -81,7 +81,10 @@ export interface ProcessRequest {
   title: string;
   url: string;
   body: string;
+  /** Declared in the issue body; may be missing or stale. */
   alias: string | null;
+  /** GitHub account that actually posted, authenticated by GitHub itself. */
+  author: string | null;
   status: RequestStatus;
   createdAt: string;
   needsTranslation: boolean;
@@ -94,6 +97,7 @@ interface RawIssue {
   body: string | null;
   state: string;
   created_at: string;
+  user?: { login: string } | null;
   labels: Array<{ name: string }>;
   pull_request?: unknown;
 }
@@ -194,6 +198,7 @@ export async function fetchRequests(force = false): Promise<RequestsResult> {
         url: issue.html_url,
         body: issue.body ?? '',
         alias: aliasOf(issue.body),
+        author: issue.user?.login ?? null,
         status: statusOf(issue),
         createdAt: issue.created_at,
         needsTranslation:
